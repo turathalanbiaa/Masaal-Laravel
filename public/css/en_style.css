@@ -1,0 +1,77 @@
+@font-face {
+    font-family: JF-Flat;
+    src: url('fonts/JF-Flat.ttf');
+}
+
+.page-header
+{
+    background-color:#00b5ad;
+    width:100%;
+    height:150px;
+    border-radius:0 0 5px 5px;
+}
+#vertical-center
+ {
+    vertical-align: middle;
+    line-height: 150px;
+    font-family: JF-Flat; 
+}
+body
+{
+    background-color: #eeeeee;
+    font-family: JF-Flat; 
+}
+body h3
+{
+    font-family: JF-Flat;
+}
+h3.ui.header
+{
+    font-family: JF-Flat;
+}
+
+#sidebar
+{
+    display: none;
+}
+
+@media all and (max-width:767px)
+{
+
+    #nav
+    {
+        display: none;
+    }
+
+    #sidebar
+    {
+        display: block;
+    }
+
+    .page-header
+    {
+        display: none;
+    }
+    .ui.menu
+    {
+        background: #00b5ad;
+        border-radius: 0px;
+    }
+    .mobile-header
+    {
+        min-height: 2.85714286em;
+        border-radius:0 0 5px 5px;
+    }
+    #mobile-vertical-center
+    {
+        margin-top: 5px;
+        margin-left: 50px;
+        vertical-align: middle;
+        font-family: JF-Flat; 
+    }
+    i.icon, i.icons 
+    {
+        font-size: 20px;
+    }
+
+}
