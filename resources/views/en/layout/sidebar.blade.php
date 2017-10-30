@@ -8,14 +8,14 @@
         </div>
     </div>
     <div class="ui sidebar left inverted vertical borderless menu">
-        <a class="active item" href="index.html">Home</a>
-        <a class="item" href="posts.html">Posts</a>
-        <a class="item" href="Q-A.html">Q&A</a>
-        <a class="item" href="my-question.html">My Question</a>
-        <a class="item" href="send-question.html">Send Qeustion</a>
-        <a class="item" href="App.html">App</a>
-        <a class="item" href="/">عربي</a>
-        <a class="item" href="/">French</a>
-        <a class="item" href="/">Logout</a>
+        <a class="item" href="/en/index">Home</a>
+        <a class="item" href="/en/send-question">Send Question</a>
+        <a class="item" href="/en/posts">Posts</a>
+        <a class="item" href="/en/q-a">Q & A</a>
+        <a class="item" href="/en/my-questions">My Question</a>
+        <a class="item" href="/en/app">App</a>
+        <a class="item" href="/ar/">عربي</a>
+        <a class="item" href="/fr/">French</a>
+        <a class="item" href="/logout/">Logout</a>
     </div>
 </div>

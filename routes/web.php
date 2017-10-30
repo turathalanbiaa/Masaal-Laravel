@@ -11,23 +11,24 @@
 |
 */
 
-Route::get("/en" , "QuestionController@index");
-Route::get("/en/" , "QuestionController@index");
-Route::get("/en/index" , "QuestionController@index");
-Route::get("/en/my-questions" , "QuestionController@my");
-Route::post("/en/search" , "QuestionController@search");
-Route::get("/en/search" , "QuestionController@searchBy");
-Route::get("/en/q-a" , "QuestionController@q_a");
-Route::get("/en/categories" , "QuestionController@showCategories");
+Route::get("/" , function(){return redirect("/ar/");});
+Route::get("/{lang}" , "QuestionController@index")->where("lang" , "en|ar|fr");
+Route::get("/{lang}/" , "QuestionController@index")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/index" , "QuestionController@index")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/my-questions" , "QuestionController@my")->where("lang" , "en|ar|fr");;
+Route::post("/{lang}/search" , "QuestionController@search")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/search" , "QuestionController@searchBy")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/q-a" , "QuestionController@q_a")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/categories" , "QuestionController@showCategories")->where("lang" , "en|ar|fr");;
 
-Route::get("/en/posts" , "PostController@index");
-Route::get("/en/send-question" , "QuestionController@showSendQuestion");
+Route::get("/{lang}/posts" , "PostController@index")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/send-question" , "QuestionController@showSendQuestion")->where("lang" , "en|ar|fr");;
 
 
-Route::get("/en/app" , "OtherController@showApp");
+Route::get("/{lang}/app" , "OtherController@showApp")->where("lang" , "en|ar|fr");;
 
-Route::get("/en/login" , "UserController@showLogin");
-Route::get("/en/register" , "UserController@showLogin");
-Route::post("/en/login" , "UserController@login");
-Route::post("/en/register" , "UserController@register");
+Route::get("/{lang}/login" , "UserController@showLogin")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/register" , "UserController@showLogin")->where("lang" , "en|ar|fr");;
+Route::post("/{lang}/login" , "UserController@login")->where("lang" , "en|ar|fr");;
+Route::post("/{lang}/register" , "UserController@register")->where("lang" , "en|ar|fr");;
 
