@@ -34,6 +34,10 @@ h3.ui.header
 {
     display: none;
 }
+#mobile-page-header
+{
+    display: none;
+}
 
 @media all and (max-width:767px)
 {
@@ -72,6 +76,11 @@ h3.ui.header
     i.icon, i.icons 
     {
         font-size: 20px;
+    }
+
+    #mobile-page-header
+    {
+        display: block;
     }
 
 }

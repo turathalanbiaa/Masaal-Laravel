@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 
-@include("en.layout.head")
+@include("ar.layout.head")
 
 <body>
 <div class="ui container">
 
-    @include("en.layout.page_header")
+    @include("ar.layout.page_header")
 
     <div class="ui hidden divider"></div>
 
@@ -20,7 +20,7 @@
 
             <div class="column">
 
-                <form method="post" action="/en/login" class="ui form">
+                <form method="post" action="/ar/login" class="ui form">
                     <h1 class="ui medium header">Log In</h1>
                     <div class="field">
                         <label>Username</label>
@@ -45,7 +45,7 @@
 
             <div class="column">
 
-                <form method="post" action="/en/register" class="ui form">
+                <form method="post" action="/ar/register" class="ui form">
                     <h1 class="ui medium header">Sign Up</h1>
 
                     <div class="field">

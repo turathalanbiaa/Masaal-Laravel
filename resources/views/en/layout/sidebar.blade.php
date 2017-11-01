@@ -13,6 +13,7 @@
         <a class="item" href="/en/posts">Posts</a>
         <a class="item" href="/en/q-a">Q & A</a>
         <a class="item" href="/en/my-questions">My Question</a>
+        <a class="item" href="/en/categories">Categories</a>
         <a class="item" href="/en/app">App</a>
         <a class="item" href="/ar/">عربي</a>
         <a class="item" href="/fr/">French</a>

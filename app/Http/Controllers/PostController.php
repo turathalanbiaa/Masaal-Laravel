@@ -12,9 +12,9 @@ namespace App\Http\Controllers;
 class PostController extends Controller
 {
 
-    public function index()
+    public function index($lang)
     {
-        return view("en.post.posts" , ["posts" => []]);
+        return view("$lang.post.posts" , ["posts" => []]);
     }
 
 }

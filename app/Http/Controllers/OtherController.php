@@ -12,9 +12,9 @@ namespace App\Http\Controllers;
 class OtherController extends Controller
 {
 
-    public function showApp()
+    public function showApp($lang)
     {
-        return view("en.other.app");
+        return view("$lang.other.app");
     }
 
 }

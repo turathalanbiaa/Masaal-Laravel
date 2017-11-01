@@ -12,39 +12,39 @@ namespace App\Http\Controllers;
 class QuestionController extends Controller
 {
 
-    public function index()
+    public function index($lang)
     {
-        return view("en.question.questions" , ["page_title" => "Home" , "questions" => [] , "announcement" => true]);
+        return view("$lang.question.questions" , ["page_title" => "Home" , "questions" => [] , "announcement" => true]);
     }
 
-    public function my()
+    public function my($lang)
     {
-        return view("en.question.questions" , ["page_title" => "My Questions" , "questions" => []]);
+        return view("$lang.question.questions" , ["page_title" => "My Questions" , "questions" => []]);
     }
 
-    public function search()
+    public function search($lang)
     {
-        return view("en.question.questions" , ["page_title" => "My Questions" , "questions" => []]);
+        return view("$lang.question.questions" , ["page_title" => "My Questions" , "questions" => []]);
     }
 
-    public function searchBy()
+    public function searchBy($lang)
     {
-        return view("en.question.questions" , ["page_title" => "My Questions" , "questions" => []]);
+        return view("$lang.question.questions" , ["page_title" => "My Questions" , "questions" => []]);
     }
 
-    public function showSendQuestion()
+    public function showSendQuestion($lang)
     {
-        return view("en.question.send_question");
+        return view("$lang.question.send_question");
     }
 
-    public function q_a()
+    public function q_a($lang)
     {
-        return view("en.question.q_a" , ["items" => []]);
+        return view("$lang.question.q_a" , ["items" => []]);
     }
 
-    public function showCategories()
+    public function showCategories($lang)
     {
-        return view("en.question.categories");
+        return view("$lang.question.categories");
     }
 
 }

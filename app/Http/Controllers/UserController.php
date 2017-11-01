@@ -12,19 +12,19 @@ namespace App\Http\Controllers;
 class UserController extends Controller
 {
 
-    public function showLogin()
+    public function showLogin($lang)
     {
-        return view("en.user.login_and_create");
+        return view("$lang.user.login_and_create");
     }
 
-    public function login()
+    public function login($lang)
     {
-        return redirect("/en/");
+        return redirect("/$lang/");
     }
 
-    public function register()
+    public function register($lang)
     {
-        return redirect("/en/");
+        return redirect("/$lang/");
     }
 
 }
