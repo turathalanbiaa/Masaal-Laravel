@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 
-        @include("en.layout.head")
+    @include("fr.layout.head")
 
-        @if(isset($page_title))
-                <title>{{$page_title}}</title>
-        @endif
+    @if(isset($page_title))
+        <title>{{$page_title}}</title>
+    @endif
 
 </head>
 <body class="pushable">
@@ -14,13 +14,13 @@
 
 <div class="pusher">
 
-        @include("en.layout.sidebar")
+        @include("fr.layout.sidebar")
 
         <div class="ui container">
 
-                @include("en.layout.page_header")
+                @include("fr.layout.page_header")
 
-                @include("en.layout.nav_bar")
+                @include("fr.layout.nav_bar")
 
                 @yield("content")
 

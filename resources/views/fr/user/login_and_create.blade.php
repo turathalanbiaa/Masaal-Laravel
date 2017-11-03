@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="fr">
 
-@include("ar.layout.head")
+@include("fr.layout.head")
 
 <body>
 <div class="ui container">
 
-    @include("ar.layout.page_header")
+    @include("fr.layout.page_header")
 
     <div class="ui hidden divider"></div>
 
@@ -20,12 +20,12 @@
 
             <div class="column">
 
-                <form method="post" action="/ar/login" class="ui form">
+                <form method="post" action="/fr/login" class="ui form">
                     <h1 class="ui medium header">Log In</h1>
                     <div class="field">
                         <label>Username</label>
                         <div class="ui left icon input">
-                            <input name="username" type="text" placeholder="Username" required style="text-align: left">
+                            <input name="username" type="text" placeholder="Username" required>
                             <i class="user icon"></i>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="field">
                         <label>Password</label>
                         <div class="ui left icon input">
-                            <input name="password" type="password" placeholder="Password" required style="text-align: left">
+                            <input name="password" type="password" placeholder="Password" required>
                             <i class="lock icon"></i>
                         </div>
                     </div>
@@ -45,13 +45,13 @@
 
             <div class="column">
 
-                <form method="post" action="/ar/register" class="ui form">
+                <form method="post" action="/fr/register" class="ui form">
                     <h1 class="ui medium header">Sign Up</h1>
 
                     <div class="field">
                         <label>Name</label>
                         <div class="ui left icon input">
-                            <input name="name" type="text" placeholder="Name" required style="text-align: left">
+                            <input name="name" type="text" placeholder="Name" required>
                             <i class="user icon"></i>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                     <div class="field">
                         <label>Email Or Phone Number</label>
                         <div class="ui left icon input">
-                            <input name="emailOrPhone" placeholder="Email Or Phone" type="text" required style="text-align: left">
+                            <input name="emailOrPhone" placeholder="Email Or Phone" type="text" required>
                             <i class="text telephone icon"></i>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                     <div class="field">
                         <label>Password</label>
                         <div class="ui left icon input">
-                            <input name="password" placeholder="Password" type="password" style="text-align: left">
+                            <input name="password" placeholder="Password" type="password">
                             <i class="lock icon"></i>
                         </div>
                     </div>

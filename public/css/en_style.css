@@ -3,6 +3,11 @@
     src: url('fonts/JF-Flat.ttf');
 }
 
+.ui.menu
+{
+    font-family : JF-Flat;
+}
+
 .page-header
 {
     background-color:#00b5ad;
@@ -18,9 +23,18 @@
 }
 body
 {
-    background-color: #eeeeee;
-    font-family: JF-Flat; 
+    font-family: JF-Flat;
 }
+
+body.pushable{
+    background-color: #EEEEEE !important;
+}
+
+.pusher
+{
+    background-color: #EEEEEE !important;
+}
+
 body h3
 {
     font-family: JF-Flat;

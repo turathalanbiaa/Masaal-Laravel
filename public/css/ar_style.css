@@ -37,7 +37,8 @@
     font-family: JF-Flat;
 }
 
-.ui.right.sidebar {
+.ui.right.sidebar
+{
     right: auto!important;
     left: 0!important;
 }
@@ -60,6 +61,15 @@ body
     direction: rtl;
     background-color: #eeeeee;
     font-family: JF-Flat; 
+}
+
+body.pushable{
+    background-color: #EEEEEE !important;
+}
+
+.pusher
+{
+    background-color: #EEEEEE !important;
 }
 body h3
 {
@@ -116,6 +126,10 @@ h3.ui.header
     #mobile-page-header
     {
         display: block;
+    }
+    i.icon, i.icons
+    {
+        font-size: 20px;
     }
 
 
