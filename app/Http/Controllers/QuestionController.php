@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Enums\QuestionStatus;
 use App\Models\Announcement;
 use App\Models\Question;
 
@@ -18,7 +19,7 @@ class QuestionController extends Controller
     public function index($lang)
     {
         $type = "1";
-        $questions  = Question::where("lang",$lang)->get();
+        $questions  = Question::where("lang",$lang)->where("type",$type)->where("status",QuestionStatus::APPROVED)->get();
         $announcements = Announcement::where("lang",$lang)->where("type",$type)->get();
 
         return view("$lang.Question.questions" , ["page_title" => "Home" , "questions" => [$questions] , "announcements" => [$announcements]]);
@@ -26,7 +27,11 @@ class QuestionController extends Controller
 
     public function my($lang)
     {
-        return view("$lang.Question.questions" , ["page_title" => "My Questions" , "questions" => []]);
+        $type = "1";
+        $userId = 1;
+        $questions  = Question::where("lang",$lang)->where("type",$type)->where("userId",$userId)->where("status",QuestionStatus::APPROVED)->get();
+
+        return view("$lang.Question.questions" , ["page_title" => "My Questions" , "questions" => [$questions]]);
     }
 
     public function search($lang)

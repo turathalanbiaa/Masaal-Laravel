@@ -5,7 +5,7 @@
     </h3>
     <p> {{$post->content}}</p>
     @if($post->image !="")
-        <img class="ui large image" src="{{\App\Enums\ImagePath::path_post . $post->image}}">
+        <img class="ui centered large image" src="{{\App\Enums\ImagePath::path_post . $post->image}}">
     @endif
 
 </div>

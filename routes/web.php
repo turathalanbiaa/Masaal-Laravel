@@ -22,7 +22,7 @@ Route::get("/{lang}/q-a" , "QuestionController@q_a")->where("lang" , "en|ar|fr")
 Route::get("/{lang}/categories" , "QuestionController@showCategories")->where("lang" , "en|ar|fr");;
 
 Route::get("/{lang}/posts" , "PostController@index")->where("lang" , "en|ar|fr");;
-Route::get("/{lang}/send-Question" , "QuestionController@showSendQuestion")->where("lang" , "en|ar|fr");;
+Route::get("/{lang}/send-question" , "QuestionController@showSendQuestion")->where("lang" , "en|ar|fr");;
 
 
 Route::get("/{lang}/app" , "OtherController@showApp")->where("lang" , "en|ar|fr");;

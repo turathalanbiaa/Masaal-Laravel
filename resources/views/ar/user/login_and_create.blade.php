@@ -21,60 +21,72 @@
             <div class="column">
 
                 <form method="post" action="/ar/login" class="ui form">
-                    <h1 class="ui medium header">Log In</h1>
+                    <h1 class="ui centered medium header">تسجيل الدخول</h1>
                     <div class="field">
-                        <label>Username</label>
-                        <div class="ui left icon input">
-                            <input name="username" type="text" placeholder="Username" required style="text-align: left">
+                        <label>رقم الهاتف او الايميل</label>
+                        <div class="ui right icon input">
+                            <input  name="username" type="text" placeholder="رقم الهاتف او الايميل" required style="text-align: right">
                             <i class="user icon"></i>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Password</label>
+                        <label>رمز المرور</label>
                         <div class="ui left icon input">
-                            <input name="password" type="password" placeholder="Password" required style="text-align: left">
+                            <input name="password" type="password" placeholder="ادخل رمز المرور هنا" required style="text-align: right">
                             <i class="lock icon"></i>
                         </div>
                     </div>
                     {{ csrf_field()}}
-                    <button type="submit" class="ui large blue button">Login</button>
+                    <button type="submit" class="ui large blue button">دخول</button>
                 </form>
 
             </div>
 
+
+
+        </div>
+    </div>
+    <h4>اذا كنت لاتمتلك حساب - انشأه الان</h4>
+
+    <div class="ui green segment">
+
+        <div class="ui stackable two column very relaxed left aligned grid">
+
+
+
             <div class="column">
+                <h1 class="ui centered medium header">انشاء حساب جديد</h1>
 
                 <form method="post" action="/ar/register" class="ui form">
-                    <h1 class="ui medium header">Sign Up</h1>
 
                     <div class="field">
-                        <label>Name</label>
+                        <label >الاسم</label>
                         <div class="ui left icon input">
-                            <input name="name" type="text" placeholder="Name" required style="text-align: left">
+                            <input name="name" type="text" placeholder="الاسم" required style="text-align: right">
                             <i class="user icon"></i>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Email Or Phone Number</label>
+                        <label>رقم الهاتف او الايميل</label>
                         <div class="ui left icon input">
-                            <input name="emailOrPhone" placeholder="Email Or Phone" type="text" required style="text-align: left">
+                            <input name="emailOrPhone" placeholder="رقم الهاتف او الايميل" type="text" required style="text-align: right">
                             <i class="text telephone icon"></i>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Password</label>
+                        <label>رمز المرور</label>
                         <div class="ui left icon input">
-                            <input name="password" placeholder="Password" type="password" style="text-align: left">
+                            <input name="password" placeholder="رمز المرور" type="password" style="text-align: right">
                             <i class="lock icon"></i>
                         </div>
                     </div>
 
                     {{ csrf_field()}}
 
-                    <button type="submit" class="ui large blue button">Create Account</button>
+                    <button type="submit" class="ui large blue button">انشاء الحساب</button>
                 </form>
 
             </div>
@@ -86,5 +98,9 @@
 
 </div>
 </body>
-
+<style>
+    label{
+        text-align: right;
+    }
+</style>
 </html>

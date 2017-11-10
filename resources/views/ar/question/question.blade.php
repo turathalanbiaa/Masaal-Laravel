@@ -4,51 +4,64 @@
 
 
     <div class="ui green segment">
+        <p>سؤال رقم : {{$one_question->id}}</p>
         <h3 class="ui header">
             <img src="/img/man.jpg">
-            <div class="content">
-                كرار حساني
-                <div class="sub header">2017-10-13 07:30</div>
+            <div class="content ">
+
+                <div class="sub header">كرار حساني</div>
+                <div class="sub header">{{$one_question->time}}</div>
             </div>
 
 
         </h3>
 
-        <p>{{$one_question->content}}</p>
+        <h3>{{$one_question->content}}</h3>
         <div class="ui divider"></div>
-        <h3>الجواب :</h3>
-        <p>{{$one_question->answer}}</p>
+        <p>الجواب :</p>
+        <h3>{{$one_question->answer}}</h3>
 
 
         <div class="ui hidden divider"></div>
 
-        <div class="ui icon">
+        @if($one_question->image !="")
+            <div class="ui  icon ">
 
-            <i class="image icon"></i>
-            <label>الصورة</label>
-            <br>
-            <img class="ui large image" src="/img/image.jpg">
-        </div>
+                <i class="centered image icon"></i>
+                <label>الصورة</label>
+                <br>
+                <img class="ui centered bordered large image" src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
+            </div>
+            @endif
+
+
         <div class="ui hidden divider"></div>
 
+
+        @if($one_question->videoLink !="")
         <div class="ui icon">
             <i class="video icon"></i>
             <label>الفيديو</label>
             <br>
 
-            <iframe  width="100%" height="100%"
-                    src="https://www.youtube.com/embed/f9tXknh3ZZs?list=PLKxikzZNxA6F3rvb-vJdoB_5mV03VTiw1"
+            <iframe width="100%" height="100%"
+                    src="{{$one_question->videoLink}}"
                     frameborder="0" gesture="media" allowfullscreen></iframe>
         </div>
+        @endif
+
         <div class="ui hidden divider"></div>
 
+        @if($one_question->externalLink !="")
         <div class="ui icon">
 
             <i class="linkify icon"></i>
             <label>المصدر : </label>
-            <a href="https://stackoverflow.com/questions/37790166/how-to-add-youtube-video-as-video-instead-of-an-embedded-iframe">اضفط
+            <a href="{{$one_question->externalLink}}">اضفط
                 هنا لزيارة المصدر</a>
         </div>
+        @endif
+
         <div class="ui hidden divider"></div>
 
         <button class="ui icon button">
