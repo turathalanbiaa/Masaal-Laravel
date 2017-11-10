@@ -35,10 +35,12 @@ class QuestionController extends Controller
 
     public function recentQuestionsWithAnnouncements()
     {
-        $limit = 3;
+        sleep(2);
+        $limit = 5;
         $offset = Input::get("offset" , 0);
+        $lang = Input::get("lang" , "ar");
         $announcements = AnnouncementRepository::recentActiveAnnouncements();
-        $questions = QuestionRepository::getRecentQuestions($limit , $offset);
+        $questions = QuestionRepository::getRecentQuestions($lang , $limit , $offset);
         return ["questions" => $questions , "announcements" => $announcements];
     }
 
