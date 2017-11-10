@@ -9,12 +9,17 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Post;
+
 class PostController extends Controller
 {
 
     public function index($lang)
     {
-        return view("$lang.post.posts" , ["posts" => []]);
+        $type = "1";
+        $posts = Post::where("lang" ,$lang)->where("type" ,$type)->get();
+
+        return view("$lang.post.posts" , ["posts" => [$posts]]);
     }
 
 }

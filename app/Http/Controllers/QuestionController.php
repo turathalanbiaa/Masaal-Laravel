@@ -9,12 +9,19 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Announcement;
+use App\Models\Question;
+
 class QuestionController extends Controller
 {
 
     public function index($lang)
     {
-        return view("$lang.Question.questions" , ["page_title" => "Home" , "questions" => [] , "announcement" => true]);
+        $type = "1";
+        $questions  = Question::all();
+        $announcements = Announcement::where("lang",$lang)->where("type",$type)->get();
+
+        return view("$lang.Question.questions" , ["page_title" => "Home" , "questions" => [$questions] , "announcements" => [$announcements]]);
     }
 
     public function my($lang)

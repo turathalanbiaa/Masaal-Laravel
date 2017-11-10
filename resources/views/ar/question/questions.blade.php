@@ -4,16 +4,14 @@
 
 @section("content")
 
-    @if(isset($announcement))
-        @include("ar.other.announcement" , ["announcement" => $announcement])
+    @if(isset($announcements))
+        @include("ar.other.announcement" , ["announcements" => $announcements])
     @endif
-
+    @foreach($questions as $question)
     <div id="questions">
-        @include("ar.question.question" , ["question" => null])
-        @include("ar.question.question" , ["question" => null])
-        @include("ar.question.question" , ["question" => null])
-        @include("ar.question.question" , ["question" => null])
-    </div>
+        @include("ar.question.question" , ["question" => $question])
 
+    </div>
+    @endforeach
 
 @endsection

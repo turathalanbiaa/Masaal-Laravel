@@ -4,13 +4,7 @@
 
     <div class="ui green segment">
         @include("ar.question.q_a_section" , ["item" => null])
-        @include("ar.question.q_a_section" , ["item" => null])
-        @include("ar.question.q_a_section" , ["item" => null])
-        @include("ar.question.q_a_section" , ["item" => null])
-        @include("ar.question.q_a_section" , ["item" => null])
-        @include("ar.question.q_a_section" , ["item" => null])
-        @include("ar.question.q_a_section" , ["item" => null])
-        
+
         
     </div>
     

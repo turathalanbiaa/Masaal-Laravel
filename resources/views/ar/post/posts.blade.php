@@ -1,13 +1,17 @@
-@extends("ar.layout.main")
+`@extends("ar.layout.main")
 @section("content")
 
     <div id="posts">
-        @include("ar.post.post" , ["post" => null])
-        @include("ar.post.post" , ["post" => null])
-        @include("ar.post.post" , ["post" => null])
-        @include("ar.post.post" , ["post" => null])
-        @include("ar.post.post" , ["post" => null])
-        @include("ar.post.post" , ["post" => null])
+
+        @foreach($posts as $post)
+
+            @foreach($post as $ar_post)
+                @include("ar.post.post" , ["post" => $ar_post])
+            @endforeach
+
+        @endforeach
+
+
     </div>
 
 
