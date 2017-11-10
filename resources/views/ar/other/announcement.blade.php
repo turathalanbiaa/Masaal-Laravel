@@ -2,7 +2,6 @@
 
     @foreach($ar_announcement as $one_announcement )
         <div class="ui green segment">
-
             <div class="ui grid">
                 <div style="direction: ltr" class="column">
                     <div class="ui teal left ribbon label">أعلان مثبت</div>

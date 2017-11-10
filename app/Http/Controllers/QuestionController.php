@@ -18,7 +18,7 @@ class QuestionController extends Controller
     public function index($lang)
     {
         $type = "1";
-        $questions  = Question::all();
+        $questions  = Question::where("lang",$lang)->get();
         $announcements = Announcement::where("lang",$lang)->where("type",$type)->get();
 
         return view("$lang.Question.questions" , ["page_title" => "Home" , "questions" => [$questions] , "announcements" => [$announcements]]);

@@ -35,7 +35,8 @@
             <i class="video icon"></i>
             <label>الفيديو</label>
             <br>
-            <iframe width="100%" height="100%"
+
+            <iframe  width="100%" height="100%"
                     src="https://www.youtube.com/embed/f9tXknh3ZZs?list=PLKxikzZNxA6F3rvb-vJdoB_5mV03VTiw1"
                     frameborder="0" gesture="media" allowfullscreen></iframe>
         </div>
