@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 11, 2017 at 07:08 AM
+-- Generation Time: Nov 11, 2017 at 08:36 AM
 -- Server version: 5.7.19
 -- PHP Version: 7.1.9
 
@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS `announcement` (
   `content` text NOT NULL,
   `time` datetime NOT NULL,
   `active` tinyint(4) NOT NULL,
+  `type` int(11) NOT NULL,
+  `lang` tinytext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -64,9 +66,9 @@ CREATE TABLE IF NOT EXISTS `announcement` (
 -- Dumping data for table `announcement`
 --
 
-INSERT INTO `announcement` (`id`, `content`, `time`, `active`) VALUES
-(1, 'testing annoucement', '2017-11-06 00:00:00', 1),
-(2, 'testing annoucement', '2017-11-06 00:00:00', 0);
+INSERT INTO `announcement` (`id`, `content`, `time`, `active`, `type`, `lang`) VALUES
+(1, 'testing annoucement', '2017-11-06 00:00:00', 1, 1, 'ar'),
+(2, 'testing annoucement', '2017-11-06 00:00:00', 1, 1, 'ar');
 
 -- --------------------------------------------------------
 
@@ -96,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `content` text NOT NULL,
   `lang` varchar(2) NOT NULL,
   `image` varchar(255) NOT NULL,
+  `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -128,8 +131,8 @@ CREATE TABLE IF NOT EXISTS `question` (
 --
 
 INSERT INTO `question` (`id`, `content`, `time`, `userId`, `type`, `categoryId`, `lang`, `status`, `answer`, `image`, `videoLink`, `externalLink`, `adminId`) VALUES
-(6, 'Testing_Question', '2017-11-06 08:41:35', 1, 1, NULL, 'en', 0, NULL, NULL, NULL, NULL, NULL),
-(7, 'Testing_Question', '2017-11-06 08:41:37', 1, 1, NULL, 'en', 0, NULL, NULL, NULL, NULL, NULL),
+(6, 'Testing_Question', '2017-11-06 08:41:35', 1, 1, NULL, 'en', 2, NULL, NULL, NULL, NULL, NULL),
+(7, 'Testing_Question', '2017-11-06 08:41:37', 1, 1, NULL, 'en', 2, NULL, NULL, NULL, NULL, NULL),
 (8, 'Testing_Question', '2017-11-06 08:41:39', 1, 1, NULL, 'en', 0, NULL, NULL, NULL, NULL, NULL),
 (9, 'Testing_Question', '2017-11-06 08:41:41', 1, 1, NULL, 'en', 0, NULL, NULL, NULL, NULL, NULL),
 (10, 'Testing_Question', '2017-11-06 08:41:43', 1, 1, NULL, 'en', 0, NULL, NULL, NULL, NULL, NULL),
