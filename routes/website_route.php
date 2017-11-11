@@ -26,3 +26,5 @@ Route::get("/{lang}/login" , "UserController@showLogin")->where("lang" , "en|ar|
 Route::get("/{lang}/register" , "UserController@showLogin")->where("lang" , "en|ar|fr");
 Route::post("/{lang}/login" , "UserController@login")->where("lang" , "en|ar|fr");
 Route::post("/{lang}/register" , "UserController@register")->where("lang" , "en|ar|fr");
+Route::get("/{lang}/single-question/{id}" , "QuestionController@showQuestion")->where("lang" , "en|ar|fr")->where("id" ,"[0-9]+");
+

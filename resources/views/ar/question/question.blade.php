@@ -4,7 +4,7 @@
 
 
     <div class="ui green segment">
-        <p>سؤال رقم : {{$one_question->id}}</p>
+        <h3>سؤال رقم : {{$one_question->id}}</h3>
         <h3 class="ui header">
             <img src="/img/man.jpg">
             <div class="content ">
@@ -16,10 +16,10 @@
 
         </h3>
 
-        <h3>{{$one_question->content}}</h3>
+        <p>{{$one_question->content}}</p>
         <div class="ui divider"></div>
         <p>الجواب :</p>
-        <h3>{{$one_question->answer}}</h3>
+        <p>{{$one_question->answer}}</p>
 
 
         <div class="ui hidden divider"></div>
@@ -30,45 +30,52 @@
                 <i class="centered image icon"></i>
                 <label>الصورة</label>
                 <br>
-                <img class="ui centered bordered large image" src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
+                <img class="ui centered bordered large image"
+                     src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
             </div>
-            @endif
+        @endif
 
 
         <div class="ui hidden divider"></div>
 
 
         @if($one_question->videoLink !="")
-        <div class="ui icon">
-            <i class="video icon"></i>
-            <label>الفيديو</label>
-            <br>
+            <div class="ui icon">
+                <i class="video icon"></i>
+                <label>الفيديو</label>
+                <br>
 
-            <iframe width="100%" height="100%"
-                    src="{{$one_question->videoLink}}"
-                    frameborder="0" gesture="media" allowfullscreen></iframe>
-        </div>
+
+                <div class="ui embed" data-source="youtube" data-id="{{$one_question->videoLink}}" data-icon="play"
+                     data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>
+
+
+            </div>
         @endif
 
         <div class="ui hidden divider"></div>
 
         @if($one_question->externalLink !="")
-        <div class="ui icon">
+            <div class="ui icon">
 
-            <i class="linkify icon"></i>
-            <label>المصدر : </label>
-            <a href="{{$one_question->externalLink}}">اضفط
-                هنا لزيارة المصدر</a>
-        </div>
+                <i class="linkify icon"></i>
+                <label>المصدر : </label>
+                <a target="_blank" href="{{$one_question->externalLink}}">اضفط
+                    هنا لزيارة المصدر</a>
+            </div>
         @endif
 
-        <div class="ui hidden divider"></div>
+        <div class="ui hidden divider">
 
-        <button class="ui icon button">
+        </div>
+
+        <a href="/ar/single-question/{{$one_question->id}}" class="ui icon button">
             <i class="share icon"></i>
-            <label>مشاركة</label>
-        </button>
+            <label>فتح المنشور</label>
+        </a>
 
     </div>
-
+    <script>
+        $('.ui.embed').embed();
+    </script>
 @endforeach
