@@ -1,0 +1,13 @@
+body
+{
+    direction: rtl;
+    text-align: right;
+    background: #f1f1f1;
+    font-family: JF-Flat;
+}
+/******************** Add JS-Flat Fount ********************/
+@font-face {
+    font-family: JF-Flat;
+    src: url('fonts/JF-Flat.ttf');
+    font-size: 14px;
+}

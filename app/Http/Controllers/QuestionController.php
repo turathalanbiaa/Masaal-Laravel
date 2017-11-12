@@ -59,4 +59,11 @@ class QuestionController extends Controller
         return view("$lang.Question.categories");
     }
 
+    public function showQuestion($lang , $id)
+    {
+
+        $question  = Question::find($id);
+
+        return view("$lang.Question.single_question" ,["question"=>$question]);
+    }
 }
