@@ -13,4 +13,4 @@
 
 @include("website_route.php");
 
-@include("controlpanel_route.php");
+@include("controlPanel_route.php");
