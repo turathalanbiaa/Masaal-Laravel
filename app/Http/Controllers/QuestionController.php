@@ -16,9 +16,9 @@ use App\Models\Question;
 class QuestionController extends Controller
 {
 
-    public function index($lang)
+    public function index($lang ,$type)
     {
-        $type = "1";
+
         $questions  = Question::where("lang",$lang)->where("type",$type)->where("status",QuestionStatus::APPROVED)->get();
         $announcements = Announcement::where("lang",$lang)->where("type",$type)->get();
 

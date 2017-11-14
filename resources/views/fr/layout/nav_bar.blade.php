@@ -37,9 +37,9 @@
             Language
             <i class="dropdown icon"></i>
             <div class="menu">
-                <a href="/en/index" class="item">English</a>
-                <a href="/ar/index" class="item">عربي</a>
-                <a href="/fr/index" class="item">French</a>
+                <a href="/en/index/1" class="item">English</a>
+                <a href="/ar/index/1" class="item">عربي</a>
+                <a href="/fr/index/1" class="item">French</a>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ body
 @font-face {
     font-family: JF-Flat;
     src: url('fonts/JF-Flat.ttf');
+<<<<<<< HEAD
     font-size: 14px;
 }
 
@@ -30,4 +31,7 @@ body
 {
     right: 0;
     left: auto;
+=======
+    font-size: 16px;
+>>>>>>> c4834910741881bb0a665dccaa67f72bded4fc1d
 }

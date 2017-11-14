@@ -14,9 +14,9 @@ use App\Models\Post;
 class PostController extends Controller
 {
 
-    public function index($lang)
+    public function index($lang , $type)
     {
-        $type = "1";
+
         $posts = Post::where("lang" ,$lang)->where("type" ,$type)->get();
 
         return view("$lang.post.posts" , ["posts" => [$posts]]);

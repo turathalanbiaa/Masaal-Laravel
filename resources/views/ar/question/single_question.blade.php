@@ -4,42 +4,6 @@
 @section("content")
     <div class="ui green segment">
 
-        <div class="ui centered statistics">
-            <div class="statistic">
-                <div class="value">
-
-                    <a class="facebook"
-                       href="https://www.facebook.com/sharer.php?u={{Request::url()}}&amp;title={{$question->title}}"
-                       rel="nofollow" target="_blank"><i class="facebook icon"></i></a>
-
-                </div>
-                <div class="label">
-                    facebook
-                </div>
-            </div>
-            <div class="statistic">
-                <div class="value">
-                    <a class="twitter"
-                       href="https://twitter.com/share?url={{Request::url()}}&amp;title={{$question->title}}"
-                       rel="nofollow" target="_blank"><i class="twitter icon"></i></a>
-                </div>
-                <div class="label">
-                    twitter
-                </div>
-            </div>
-            <div class="statistic">
-                <div class="value">
-                    <a class="centered g-puls" href="https://plus.google.com/u/0/share?url={{Request::url()}}"
-                       rel="nofollow"
-                       target="_blank">
-                        <i class="centered google icon"></i></a>
-
-                </div>
-                <div class="label">
-                    google-plus
-                </div>
-            </div>
-        </div>
 
 
         <h3>سؤال رقم : {{$question->id}}</h3>
