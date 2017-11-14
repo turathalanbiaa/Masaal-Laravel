@@ -14,9 +14,9 @@
         </div>
     @endforeach
 
-    <div class="ui modal">
+    <div class="ui small modal">
         <i class="close icon"></i>
-        <div class="header">
+        <div class=" header">
             مشاركة السؤال على
         </div>
         <br><br>
