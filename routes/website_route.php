@@ -6,9 +6,9 @@
  * Time: 2:12 PM
  */
 
-Route::get("/" , function(){return redirect("/ar/");});
-Route::get("/{lang}" , "QuestionController@index")->where("lang" , "en|ar|fr");
-Route::get("/{lang}/" , "QuestionController@index")->where("lang" , "en|ar|fr");
+Route::get("/" , function(){return redirect("/ar/1");});
+Route::get("/{lang}/{type}" , "QuestionController@index")->where("lang" , "en|ar|fr")->where("type" , "1|2");
+Route::get("/{lang}/{type}" , "QuestionController@index")->where("lang" , "en|ar|fr")->where("type" , "1|2");
 Route::get("/{lang}/index/{type}" , "QuestionController@index")->where("lang" , "en|ar|fr")->where("type" , "1|2");
 Route::get("/{lang}/my-questions" , "QuestionController@my")->where("lang" , "en|ar|fr");
 Route::post("/{lang}/search" , "QuestionController@search")->where("lang" , "en|ar|fr");

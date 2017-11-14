@@ -27,8 +27,8 @@
             اللغة
         </div>
         <a class="item" href="/ar/app"><i class="circle icon"></i>عربي</a>
-        <a class="item" href="/en/"><i class="circle icon"></i>English</a>
-        <a class="item" href="/fr/"><i class="circle icon"></i>French</a>
+        <a class="item" href="/en/1"><i class="circle icon"></i>English</a>
+        <a class="item" href="/fr/1"><i class="circle icon"></i>French</a>
         <div class="ui horizontal inverted divider">
             اخرى
         </div>

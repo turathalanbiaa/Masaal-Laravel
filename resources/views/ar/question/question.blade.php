@@ -3,8 +3,32 @@
 
 
 
-    <div class="ui green segment">
-        <h3>سؤال رقم : {{$one_question->id}}</h3>
+    <div class="ui  segment">
+        <a class="ui large left corner label" data-action="share_question" data-id="{{$one_question->id}}">
+            <i style="color: #00b5ad" class="share icon"></i>
+        </a>
+        <div class="ui grid">
+            <div style="direction: ltr" class="column">
+                @if($one_question->type == 1)
+                    <a class="ui right ribbon label">
+
+                        الفقه->
+
+                        #الصلاه->
+
+                        سؤال :{{$one_question->id}}
+
+                    </a>
+
+                @else
+
+                @endif
+
+            </div>
+
+        </div>
+
+
         <h3 class="ui header">
             <img src="/img/man.jpg">
             <div class="content ">
@@ -34,7 +58,6 @@
                      src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
             </div>
         @endif
-
 
 
         <div class="ui hidden divider"></div>
@@ -69,11 +92,10 @@
         <div class="ui hidden divider">
 
         </div>
-
-        <a href="/ar/single-question/{{$one_question->id}}" class="ui icon button">
-            <i class="share icon"></i>
-            <label>فتح المنشور</label>
+        <a style="color: #00b5ad" href="/ar/single-question/{{$one_question->id}}" class="ui horizontal divider">
+            تفاصيل اكثر
         </a>
+
 
     </div>
     <script>

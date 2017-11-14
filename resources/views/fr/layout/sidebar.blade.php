@@ -15,8 +15,8 @@
         <a class="item" href="/fr/my-questions">My Question</a>
         <a class="item" href="/fr/categories">Categories</a>
         <a class="item" href="/fr/app">App</a>
-        <a class="item" href="/ar/">عربي</a>
-        <a class="item" href="/en/">English</a>
+        <a class="item" href="/ar/1">عربي</a>
+        <a class="item" href="/en/1">English</a>
         <a class="item" href="/logout/">Connectez_out</a>
     </div>
 </div>
