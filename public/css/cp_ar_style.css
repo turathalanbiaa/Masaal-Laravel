@@ -12,3 +12,22 @@ body
     src: url('fonts/JF-Flat.ttf');
     font-size: 14px;
 }
+
+.ui.checkbox input[type=checkbox], .ui.checkbox input[type=radio]
+{
+    right: 0;
+    left: auto;
+}
+
+.ui.checkbox label
+{
+    padding-right: 1.85714em;
+    padding-left: 0;
+}
+
+.ui.checkbox label:before,
+.ui.checkbox label:after
+{
+    right: 0;
+    left: auto;
+}
