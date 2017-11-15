@@ -1,7 +1,7 @@
 @extends("cPanel.ar.layout.main_layout")
 
 @section("title")
-    <title>ادارة المستخدمين</title>
+    <title>ادارة الحسابات</title>
 @endsection
 
 @section("content")
@@ -9,6 +9,31 @@
         <div class="column">
             @include("cPanel.ar.layout.welcome")
         </div>
+
+        @if(session("InfoManagerMessage"))
+            <div class="column">
+                <div class="ui success large message">
+                    <h2 style="text-align: center;">{{session("InfoManagerMessage")}}</h2>
+                </div>
+            </div>
+        @endif
+
+        @if(session("DeleteManagerMessage"))
+            <div class="column">
+                <div class="ui success large message">
+                    <h2 style="text-align: center;">{{session("DeleteManagerMessage")}}</h2>
+                </div>
+            </div>
+        @endif
+
+        @if(session("UpdateManagerMessage"))
+            <div class="column">
+                <div class="ui success large message">
+                    <h2 style="text-align: center;">{{session("UpdateManagerMessage")}}</h2>
+                </div>
+            </div>
+        @endif
+
         <div class="column">
             <div class="ui right aligned segment">
                 <div class="ui grid">
@@ -22,7 +47,7 @@
                             </form>
                         </div>
                         <div class="sixteen wide mobile four wide tablet two wide computer column">
-                            <a href="" class="ui fluid green button">أضافة مسؤول</a>
+                            <a href="/control-panel/{{$lang}}/admin/create" class="ui fluid green button">أضافة مسؤول</a>
                         </div>
                     </div>
 
