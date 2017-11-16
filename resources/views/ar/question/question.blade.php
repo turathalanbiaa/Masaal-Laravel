@@ -9,18 +9,48 @@
         </a>
         <div class="ui grid">
             <div style="direction: ltr" class="column">
-                @if($one_question->type == 1)
-                    <a style="color: #00b5ad" class="ui right ribbon label">
+                @if($one_question->type == 2)
+                    <a style="color: #000000" class="ui right ribbon label">
 
-                        الفقه->
 
-                        الصلاه->
+                        العقائد->
+                        @switch($one_question->categoryId)
+                            @case(1)التوحيد->
+                            @break;لهف 
+                            @case(2)العدل->
+                            @break;
+                            @case(3)النبوّة->
+                            @break;
+                            @case(4)الامامة->
+                            @break;
+                            @case(5)المعاد->
 
-                        سؤال :{{$one_question->id}}
+                        @endswitch
+                        سؤال رقم{{$one_question->id}}
 
                     </a>
 
-                @else
+
+                @elseif($one_question->type == 1)
+                    <a style="color: #000000" class="ui right ribbon label">
+                        الفقه->
+                        @switch($one_question->categoryId)
+                            @case(6)الصوم->
+                            @case(7)الصلاة->
+                            @case(8)الزكاة->
+                            @case(9)الحج->
+                            @case(10)الخمس->
+                            @case(11)الامر بالمعروف->
+                            @case(12)النهي عن المنكر->
+                            @case(13)التولي لأولياء الله->
+                            @case(14)التبري من اعداء الله->
+
+                        @endswitch
+
+
+                        سؤال رقم{{$one_question->id}}
+
+                    </a>
 
                 @endif
 
@@ -54,8 +84,8 @@
         @if($one_question->image !="")
 
 
-                <img class="ui centered bordered large image"
-                     src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
+            <img class="ui centered bordered large image"
+                 src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
 
         @endif
 
