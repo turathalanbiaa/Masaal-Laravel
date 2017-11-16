@@ -19,7 +19,7 @@
            فرز حسب
         </div>
         <a class="item" href="/ar/categories">الاقسام</a>
-        <a class="item" href="/ar/q-a">المواضيع</a>
+        <a class="item" href="/ar/tags">المواضيع</a>
 
 
 

@@ -11,7 +11,7 @@
         <a class="item" href="/en/index/1">Home</a>
         <a class="item" href="/en/send-question">Send Question</a>
         <a class="item" href="/en/posts">Posts</a>
-        <a class="item" href="/en/q-a">Q & A</a>
+        <a class="item" href="/en/tags">Q & A</a>
         <a class="item" href="/en/my-questions">My Question</a>
         <a class="item" href="/en/categories">Categories</a>
         <a class="item" href="/en/app">App</a>

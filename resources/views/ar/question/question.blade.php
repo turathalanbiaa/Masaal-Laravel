@@ -53,7 +53,7 @@
 
         @if($one_question->image !="")
 
-            
+
                 <img class="ui centered bordered large image"
                      src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
 
