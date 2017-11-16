@@ -46,36 +46,8 @@
                 </div>
             </div>
         </form>
-        <div class="ui form">
-            <div class="grouped fields">
-                <label>سؤال فقهي</label>
-                <div class="field">
-                    <div class="ui left slider checkbox">
-                        <input type="radio" name="throughput" checked="checked">
-                        <label>سؤال عقائدي</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui slider checkbox">
-                        <input type="radio" name="throughput">
-                        <label>لا اعرف</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui slider checkbox">
-                        <input type="radio" name="throughput">
-                        <label>5mbps max</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui slider checkbox checked">
-                        <input type="radio" name="throughput">
-                        <label>Unmetered</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="ui large button">ارسال</button>
+
+        <button class="ui green large button">ارسال</button>
 
     </div>
 

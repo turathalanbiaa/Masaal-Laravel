@@ -7,56 +7,50 @@
         <a class="ui large left corner label" data-action="share_question" data-id="{{$one_question->id}}">
             <i style="color: #00b5ad" class="share icon"></i>
         </a>
-        <div class="ui grid">
-            <div style="direction: ltr" class="column">
-                @if($one_question->type == 2)
-                    <a style="color: #000000" class="ui right ribbon label">
+
+        <a class="ui right teal tag label" href="/ar/index/2">
+            @if($one_question->type == 2)
+                العقائد
+            @elseif($one_question->type == 1)
+
+                الفقه
+
+        </a>
 
 
-                        العقائد->
-                        @switch($one_question->categoryId)
-                            @case(1)التوحيد->
-                            @break;لهف 
-                            @case(2)العدل->
-                            @break;
-                            @case(3)النبوّة->
-                            @break;
-                            @case(4)الامامة->
-                            @break;
-                            @case(5)المعاد->
+        <a class="ui right teal tag label" href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+            @switch($one_question->categoryId)
+                @case(6)الصوم->
+                @case(7)الصلاة->
+                @case(8)الزكاة->
+                @case(9)الحج->
+                @case(10)الخمس->
+                @case(11)الامر بالمعروف->
+                @case(12)النهي عن المنكر->
+                @case(13)التولي لأولياء الله->
+                @case(14)التبري من اعداء الله->
 
-                        @endswitch
-                        سؤال رقم{{$one_question->id}}
-
-                    </a>
+            @endswitch
 
 
-                @elseif($one_question->type == 1)
-                    <a style="color: #000000" class="ui right ribbon label">
-                        الفقه->
-                        @switch($one_question->categoryId)
-                            @case(6)الصوم->
-                            @case(7)الصلاة->
-                            @case(8)الزكاة->
-                            @case(9)الحج->
-                            @case(10)الخمس->
-                            @case(11)الامر بالمعروف->
-                            @case(12)النهي عن المنكر->
-                            @case(13)التولي لأولياء الله->
-                            @case(14)التبري من اعداء الله->
-
-                        @endswitch
+            @endif
 
 
-                        سؤال رقم{{$one_question->id}}
 
-                    </a>
+            @switch($one_question->categoryId)
+                @case(1)التوحيد
+                @break;
+                @case(2)العدل
+                @break;
+                @case(3)النبوّة
+                @break;
+                @case(4)الامامة
+                @break;
+                @case(5)المعاد
 
-                @endif
-
-            </div>
-
-        </div>
+            @endswitch
+        </a>
+        <a class="ui right teal tag label"> سؤال رقم{{$one_question->id}}</a>
 
 
         <h3 class="ui header">
