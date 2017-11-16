@@ -119,6 +119,10 @@ class AdminController extends Controller
     public function adminUpdate(Request $request, $lang)
     {
         $id = Input::get("id");
+        $admin = Admin::find($id);
+
+        if (is_null($admin))
+            return redirect("/control-panel/$lang/managers")->with("UpdateManagerMessage","لا يوجد مثل هذا الحساب لكي يتم عملية التعديل.");
 
         $rules = [
             "name" => "required|min:6",
@@ -151,11 +155,88 @@ class AdminController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        $manager = Input::get("manager") ?: 0;
-        $manager = Input::get("manager") ?: 0;
-        $manager = Input::get("manager") ?: 0;
-        $manager = Input::get("manager") ?: 0;
-        $manager = Input::get("manager") ?: 0;
-        $manager = Input::get("manager") ?: 0;
+        $admin->manager = Input::get("manager") ?: 0;
+        $admin->reviewer = Input::get("reviewer") ?: 0;
+        $admin->distributor = Input::get("distributor") ?: 0;
+        $admin->respondent = Input::get("respondent") ?: 0;
+        $admin->post = Input::get("post") ?: 0;
+        $admin->announcement = Input::get("announcement") ?: 0;
+        $success = $admin->save();
+
+        if (!$success)
+            return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateManagerMessage","لم يتم التعديل، اعد المحاولة مرة اخرى.");
+
+        return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateManagerMessage","تم التعديل بنجاح.");
+    }
+
+    public function adminCreate($lang)
+    {
+        return view("cPanel.$lang.manager.admin_create")->with(["lang" => $lang]);
+    }
+
+    public function adminCreateValidation(Request $request, $lang)
+    {
+        $rules = [
+            "name" => "required|min:6",
+            "username" => "required|min:6|unique:admin,username",
+            'password' => "required|min:6|confirmed",
+            'password_confirmation' => "required|min:6",
+        ];
+
+        $rulesMessage = [
+            "ar"=>[
+                "name.required" => "الاسم الحقيقي فارغ.",
+                "name.min:6" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
+                "username.required" => "اسم المستخدم فارغ.",
+                "username.min:6" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
+                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
+                'password.required' => "كلمة المرور فارغة.",
+                'password_confirmation.required' => 'حقل اعد كتابة كلمة المرور فارغ.',
+                'password.min' => 'كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
+                'password_confirmation.min' => 'اعد كتابة كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
+                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
+            ],
+            "fr"=>[
+                "name.required" => "الاسم الحقيقي فارغ.",
+                "name.min:6" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
+                "username.required" => "اسم المستخدم فارغ.",
+                "username.min:6" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
+                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
+                'password.required' => "كلمة المرور فارغة.",
+                'password_confirmation.required' => 'حقل اعد كتابة كلمة المرور فارغ.',
+                'password.min' => 'كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
+                'password_confirmation.min' => 'اعد كتابة كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
+                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
+            ]
+        ];
+
+        if ($lang == "en")
+            $this->validate($request, $rules, []);
+
+        if ($lang == "ar")
+            $this->validate($request, $rules, $rulesMessage["ar"]);
+
+        if ($lang == "fr")
+            $this->validate($request, $rules, $rulesMessage["fr"]);
+
+        $admin = Admin;
+        $admin->name = Input::get("name");
+        $admin->username = Input::get("username");
+        $admin->password = md5(Input::get("password"));
+        $admin->type = $_SESSION["ADMIN_TYPE"];
+        $admin->lang = $_SESSION["ADMIN_LANG"];
+        $admin->date = date("Y-m-d");
+        $admin->manager = Input::get("manager") ?: 0;
+        $admin->reviewer = Input::get("reviewer") ?: 0;
+        $admin->distributor = Input::get("distributor") ?: 0;
+        $admin->respondent = Input::get("respondent") ?: 0;
+        $admin->post = Input::get("post") ?: 0;
+        $admin->announcement = Input::get("announcement") ?: 0;
+        $success = $admin->save();
+
+        if (!$success)
+            return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","لم يتم انشاء الحساب بصورة صحيحة، اعد المحاولة مرة اخرى.");
+
+        return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","تم انشاء الحساب بنجاح.");
     }
 }

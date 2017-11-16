@@ -6,15 +6,8 @@ body
     font-family: JF-Flat;
 }
 
-/******************** Add JS-Flat Fount ********************/
-@font-face {
-    font-family: JF-Flat;
-    src: url('fonts/JF-Flat.ttf');
-<<<<<<< HEAD
-    font-size: 14px;
-}
-
-.ui.checkbox input[type=checkbox], .ui.checkbox input[type=radio]
+.ui.checkbox input[type=checkbox],
+.ui.checkbox input[type=radio]
 {
     right: 0;
     left: auto;
@@ -31,7 +24,26 @@ body
 {
     right: 0;
     left: auto;
-=======
-    font-size: 16px;
->>>>>>> c4834910741881bb0a665dccaa67f72bded4fc1d
+}
+
+#message > ul.list {
+    text-align: right;
+}
+
+.ui.message#message .list:not(.ui) li
+{
+    margin: 0 1em .3em 0;
+}
+
+.ui.message#message .list:not(.ui) li:before
+{
+    right: -1em;
+    left: 0;
+}
+
+/******************** Add JS-Flat Fount ********************/
+@font-face {
+    font-family: JF-Flat;
+    src: url('fonts/JF-Flat.ttf');
+    font-size: 14px;
 }
