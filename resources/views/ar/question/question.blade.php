@@ -1,3 +1,9 @@
+@if(Count($question)<=0)
+
+    <div class="ui floating message">
+        <p>لاتوجد اسئلة</p>
+    </div>
+    @endif
 @foreach($question as $one_question)
 
 
@@ -8,7 +14,7 @@
             <i style="color: #00b5ad" class="share icon"></i>
         </a>
 
-        <a class="ui right teal tag label" href="/ar/index/2">
+        <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
             @if($one_question->type == 2)
                 العقائد
             @elseif($one_question->type == 1)
@@ -50,7 +56,7 @@
 
             @endswitch
         </a>
-        <a class="ui right teal tag label"> سؤال رقم{{$one_question->id}}</a>
+        <a  href="/ar/single-question/{{$one_question->id}}"  class="ui right teal tag label"> سؤال رقم{{$one_question->id}}</a>
 
 
         <h3 class="ui header">

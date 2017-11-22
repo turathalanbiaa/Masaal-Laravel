@@ -30,7 +30,7 @@
             <div class="ui  icon ">
 
                 <i class="centered image icon"></i>
-                <label>الصورة</label>
+                <label>صورة</label>
                 <br>
                 <img class="ui centered bordered large image"
                      src="{{\App\Enums\ImagePath::path_answer . $question->image}}">
@@ -44,7 +44,7 @@
         @if($question->videoLink !="")
             <div class="ui icon">
                 <i class="video icon"></i>
-                <label>الفيديو</label>
+                <label>فيديو</label>
                 <br>
 
 

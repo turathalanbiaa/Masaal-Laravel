@@ -30,9 +30,9 @@ class QuestionController extends Controller
 
     public function my($lang)
     {
-        $type = "1";
+
         $userId = 1;
-        $questions = Question::where("lang", $lang)->where("type", $type)->where("userId", $userId)->where("status", QuestionStatus::APPROVED)->get();
+        $questions = Question::where("lang", $lang)->where("userId", $userId)->where("status", QuestionStatus::APPROVED)->get();
 
         return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
     }
@@ -58,9 +58,32 @@ class QuestionController extends Controller
 
     public function showSendQuestion($lang)
     {
+
         return view("$lang.Question.send_question");
     }
 
+    public function send($lang)
+    {
+
+        $content = Input::get("message");
+        $categoryId = Input::get("category");
+        $time = date("Y-m-d h:m:s");
+
+        $userId = 1;
+        $type = Input::get("type");
+        $status = QuestionStatus::NO_ANSWER;
+        $question = new Question();
+        $question->content = $content;
+        $question->categoryId = $categoryId;
+        $question->time = $time;
+        $question->userId = $userId;
+        $question->type = $type;
+        $question->lang = $lang;
+        $question->status = $status;
+
+        $question->save();
+     return  $this->my($lang);
+    }
 
     public function showCategories($lang)
     {

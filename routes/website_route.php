@@ -29,3 +29,4 @@ Route::post("/{lang}/register" , "UserController@register")->where("lang" , "en|
 Route::get("/{lang}/single-question/{id}" , "QuestionController@showQuestion")->where("lang" , "en|ar|fr")->where("id" ,"[0-9]+");
 
 Route::get("/{lang}/tagQuestion/{tag}" , "QuestionController@tagQuestion")->where("lang" , "en|ar|fr");
+Route::post("/{lang}/send" , "QuestionController@send")->where("lang" , "en|ar|fr");

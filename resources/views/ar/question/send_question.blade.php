@@ -2,22 +2,24 @@
 
 @section("content")
     <div class="ui green segment">
-        <form method="post" action="/ar/send-question" class="ui form">
+        <form method="post" action="/ar/send" class="ui form">
+            {!! csrf_field() !!}
             <div class="field">
                 <label>الرجاء أدخال السؤال :</label>
                 <textarea rows="5" name="message"></textarea>
             </div>
+            <div class="ui centered error message"></div>
             <div class="grouped fields">
                 <label>ماهو نوع السؤال؟</label>
                 <div class="field">
                     <div class="ui radio checkbox">
-                        <input type="radio" name="type" checked="checked">
+                        <input value="1" type="radio" name="type" checked="checked">
                         <label>خاص</label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui radio checkbox">
-                        <input type="radio" name="type">
+                        <input value="2" type="radio" name="type">
                         <label>عام</label>
                     </div>
                 </div>
@@ -27,33 +29,50 @@
                     <label>ماهو صنف السؤال؟</label>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="category" checked="checked">
+                            <input value="1" type="radio" name="category" checked="checked">
                             <label>فقهي</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="category">
+                            <input value="2" type="radio" name="category">
                             <label>عقائدي</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="category">
+                            <input value="0" type="radio" name="category">
                             <label>لا اعرف</label>
                         </div>
                     </div>
                 </div>
             </div>
+            <button type="submit" class="ui green large button">ارسال</button>
+
         </form>
 
-        <button class="ui green large button">ارسال</button>
 
     </div>
 
-<script>
+    <script>
+        $('.ui.checkbox').checkbox();
+        $('.ui.form')
+            .form({
+                fields: {
+                    message: {
+                        identifier: 'message',
+                        rules: [
+                            {
+                                type: 'minLength[6]',
+                                prompt: 'يرجى كتابة سؤال كامل'
+                            }
+                        ]
+                    }
 
-</script>
+                }
+            })
+        ;
+    </script>
 
 
 
