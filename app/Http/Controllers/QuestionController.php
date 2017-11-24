@@ -22,8 +22,8 @@ class QuestionController extends Controller
     public function index($lang, $type)
     {
 
-        $questions = Question::where("lang", $lang)->where("type", $type)->where("status", QuestionStatus::APPROVED)->get();
-        $announcements = Announcement::where("lang", $lang)->where("type", $type)->get();
+        $questions = Question::where("lang", $lang)->where("type", $type)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
+        $announcements = Announcement::where("lang", $lang)->where("type", $type)->orderBy('id', 'DESC')->get();
 
         return view("$lang.Question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => [$announcements]]);
     }
@@ -32,7 +32,7 @@ class QuestionController extends Controller
     {
 
         $userId = 1;
-        $questions = Question::where("lang", $lang)->where("userId", $userId)->where("status", QuestionStatus::APPROVED)->get();
+        $questions = Question::where("lang", $lang)->where("userId", $userId)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
         return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
     }
@@ -50,7 +50,7 @@ class QuestionController extends Controller
         $id = Input::get("id");
 
 
-        $questions = Question::where("lang", $lang)->where("type", $type)->where("categoryId", $id)->where("status", QuestionStatus::APPROVED)->get();
+        $questions = Question::where("lang", $lang)->where("type", $type)->where("categoryId", $id)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
         return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
 

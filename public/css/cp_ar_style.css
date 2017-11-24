@@ -1,5 +1,4 @@
-body
-{
+body {
     direction: rtl;
     text-align: right;
     background: #f1f1f1;
@@ -7,21 +6,18 @@ body
 }
 
 .ui.checkbox input[type=checkbox],
-.ui.checkbox input[type=radio]
-{
+.ui.checkbox input[type=radio] {
     right: 0;
     left: auto;
 }
 
-.ui.checkbox label
-{
+.ui.checkbox label {
     padding-right: 1.85714em;
     padding-left: 0;
 }
 
 .ui.checkbox label:before,
-.ui.checkbox label:after
-{
+.ui.checkbox label:after {
     right: 0;
     left: auto;
 }
@@ -30,13 +26,11 @@ body
     text-align: right;
 }
 
-.ui.message#message .list:not(.ui) li
-{
+.ui.message#message .list:not(.ui) li {
     margin: 0 1em .3em 0;
 }
 
-.ui.message#message .list:not(.ui) li:before
-{
+.ui.message#message .list:not(.ui) li:before {
     right: -1em;
     left: 0;
 }

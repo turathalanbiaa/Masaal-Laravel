@@ -56,7 +56,7 @@
 
             @endswitch
         </a>
-        <a  href="/ar/single-question/{{$one_question->id}}"  class="ui right teal tag label"> سؤال رقم{{$one_question->id}}</a>
+        <a  href="/ar/single-question/{{$one_question->id}}"  class="ui right teal label">س \ {{$one_question->id}}</a>
 
 
         <h3 class="ui header">
