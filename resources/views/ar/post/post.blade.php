@@ -1,11 +1,27 @@
+
 <div class="ui green segment">
+
     <h3 class="ui medium header">
 
-        {{$post->title}}
+        <div class="ui grid">
+            <div style="direction: ltr" class="column">
+
+                <a style="color: #00b5ad" class="ui big right ribbon label">
+
+                    {{$post->title}}
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+
     </h3>
     <p> {{$post->content}}</p>
     @if($post->image !="")
-        <img class="ui centered large image" src="{{\App\Enums\ImagePath::path_post . $post->image}}">
+        <img class="ui centered large bordered image" src="{{\App\Enums\ImagePath::path_post . $post->image}}">
     @endif
 
 </div>

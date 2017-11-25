@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int type
  * @property string lang
  * @property int status
+ * @property int privacy
  */
 class Question extends Model
 {

@@ -15,7 +15,6 @@ class QuestionValidator
 {
     private $data;
 
-
     /**
      * QuestionValidator constructor.
      * @param $data
@@ -25,12 +24,12 @@ class QuestionValidator
         $this->data = $data;
     }
 
-
     public function pass()
     {
         $rules = [
             'content' => "required|string|min:10" ,
             'type' => "required|in:1,2" ,
+            'privacy' => "required|in:1,2" ,
             'lang' => "required|in:ar,en,fr" ,
         ];
 
@@ -45,7 +44,6 @@ class QuestionValidator
 
         return false;
     }
-
 
     private function validateUser()
     {
@@ -72,6 +70,5 @@ class QuestionValidator
         $validator = new QuestionValidator($data);
         return $validator->pass();
     }
-
 
 }

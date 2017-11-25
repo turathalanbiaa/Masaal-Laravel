@@ -8,7 +8,7 @@
     <a class="item" href="/fr/posts">
         Posts
     </a>
-    <a class="item" href="/fr/q-a">
+    <a class="item" href="/fr/tags">
         Q & A
     </a>
     <a class="item" href="/fr/my-questions">

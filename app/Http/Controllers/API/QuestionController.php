@@ -21,6 +21,7 @@ class QuestionController extends Controller
 
     public function createNewQuestion()
     {
+        sleep(2);
         if (QuestionValidator::validate(Input::all()))
         {
             $question = QuestionInitializer::initializeNewQuestionObjectFromInput();
@@ -36,12 +37,46 @@ class QuestionController extends Controller
     public function recentQuestionsWithAnnouncements()
     {
         sleep(2);
-        $limit = 5;
+        $limit = 10;
         $offset = Input::get("offset" , 0);
         $lang = Input::get("lang" , "ar");
+        $type = Input::get("type" , 1);
         $announcements = AnnouncementRepository::recentActiveAnnouncements();
-        $questions = QuestionRepository::getRecentQuestions($lang , $limit , $offset);
+        $questions = QuestionRepository::getRecentQuestions($lang , $type , $limit , $offset);
         return ["questions" => $questions , "announcements" => $announcements];
+    }
+
+    public function search()
+    {
+        sleep(2);
+        $lang = Input::get("lang" , "ar");
+        $text = Input::get("text" , "");
+        $category = Input::get("category" , "");
+
+        $questions = QuestionRepository::search($lang , $text , $category);
+        return ["questions" => $questions];
+    }
+
+    public function searchByTag()
+    {
+        sleep(2);
+        $tagId = Input::get("tagId" , null);
+
+        if (empty($tagId) || !is_numeric($tagId))
+        {
+            return ["questions" => []];
+        }
+
+        $questions = QuestionRepository::searchByTag($tagId);
+        return ["questions" => $questions];
+    }
+
+    public function myQuestions()
+    {
+        sleep(2);
+        $uuid = Input::get("deviceUUID" , null);
+        $questions = QuestionRepository::myQuestions($uuid);
+        return ["questions" => $questions];
     }
 
 

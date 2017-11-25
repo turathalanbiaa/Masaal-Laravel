@@ -1,7 +1,8 @@
-`@extends("ar.layout.main")
+@extends("ar.layout.main")
 @section("content")
 
     <div id="posts">
+
 
         @foreach($posts as $post)
 
