@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 25, 2017 at 07:58 AM
+-- Generation Time: Nov 25, 2017 at 09:43 AM
 -- Server version: 5.7.19
 -- PHP Version: 7.1.9
 
@@ -183,7 +183,7 @@ INSERT INTO `question` (`id`, `content`, `time`, `userId`, `type`, `privacy`, `c
 (32, 'سبسبشسب', '2017-11-22 08:11:48', 1, 1, 0, 1, 'ar', 0, NULL, NULL, NULL, NULL, NULL),
 (33, 'فغهمهع\r\nعنعغ\r\nن\r\nعغنعغ\r\nن\r\nعغن\r\nغع\r\nن\r\nعغن\r\nعغنعغنعغن\r\nنع\r\nن\r\nعغنع', '2017-11-22 11:11:05', 1, 1, 0, 1, 'ar', 2, NULL, NULL, NULL, NULL, NULL),
 (34, 'xvgsfgsgsdgsdgsdgsdgdsg', '2017-11-23 07:11:59', 1, 1, 0, 1, 'ar', 0, NULL, NULL, NULL, NULL, NULL),
-(35, 'dfjyurtyhrtyt', '2017-11-23 08:11:02', 1, 2, 0, 0, 'ar', 0, NULL, NULL, NULL, NULL, NULL);
+(35, 'dfjyurtyhrtyt', '2017-11-23 08:11:02', 1, 2, 0, 1, 'ar', 0, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -194,8 +194,8 @@ INSERT INTO `question` (`id`, `content`, `time`, `userId`, `type`, `privacy`, `c
 DROP TABLE IF EXISTS `question_tag`;
 CREATE TABLE IF NOT EXISTS `question_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `question_id` int(11) NOT NULL,
-  `tag_id` int(11) NOT NULL,
+  `questionId` int(11) NOT NULL,
+  `tagId` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `question_tag` (
 -- Dumping data for table `question_tag`
 --
 
-INSERT INTO `question_tag` (`id`, `question_id`, `tag_id`) VALUES
+INSERT INTO `question_tag` (`id`, `questionId`, `tagId`) VALUES
 (1, 6, 1),
 (2, 6, 2);
 
@@ -1318,7 +1318,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `deviceType`, `deviceUUID`, `firebaseToken`, `username`, `password`, `email`, `registrationDate`) VALUES
-(1, 'testing_user', 1, 'DD', NULL, '', '', '', '2017-11-06 00:00:00');
+(1, 'وليد عيدان', 1, 'DD', NULL, 'prog-karrar', '123456', 'domkarrar@gmail.com', '2017-11-06 00:00:00');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
