@@ -26,7 +26,7 @@ class QuestionController extends Controller
         //    $questions = Question::where("lang", $lang)->where("type", $type)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
         $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.type = ? 
+                WHERE question.lang = ? AND question.type = ? AND status = " . QuestionStatus::APPROVED . " 
                 ORDER BY ID DESC";
 
         $questions = DB::select($SQL, [$lang, $type]);
@@ -43,7 +43,7 @@ class QuestionController extends Controller
 
         $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.userId = ? 
+                WHERE question.lang = ? AND question.userId = ? AND status = " . QuestionStatus::APPROVED . "
                 ORDER BY ID DESC";
 
         $questions = DB::select($SQL, [$lang, $userId]);
@@ -53,17 +53,18 @@ class QuestionController extends Controller
     public function search($lang)
     {
         $searchtext = Input::get("searchtext");
+        $searchtext0 = $searchtext;
         $searchtext = "%" . $searchtext . "%";
         //   $questions = Question::where("lang", $lang)->where("content", 'like', "%" . $searchtext . "%")->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
         $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND content LIKE ?
+                WHERE question.lang = ? AND content LIKE ? AND status = " . QuestionStatus::APPROVED . "
                 ORDER BY ID DESC";
 
         $questions = DB::select($SQL, [$lang, $searchtext]);
 
-        return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions], "searchtext" => $searchtext]);
+        return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions], "searchtext" => $searchtext0]);
 
     }
 
@@ -73,15 +74,15 @@ class QuestionController extends Controller
         $id = Input::get("id");
 
 
-       // $questions = Question::where("lang", $lang)->where("type", $type)->where("categoryId", $id)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
+        // $questions = Question::where("lang", $lang)->where("type", $type)->where("categoryId", $id)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
 
         $SQL = "SELECT question.id ,question.type AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.`type` = ? AND categoryId = ?
+                WHERE question.lang = ? AND question.`type` = ? AND categoryId = ? AND status = " . QuestionStatus::APPROVED . "
                 ORDER BY ID DESC";
 
-        $questions = DB::select($SQL, [$lang, $type ,$id]);
+        $questions = DB::select($SQL, [$lang, $type, $id]);
 
         return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
 
@@ -143,7 +144,6 @@ class QuestionController extends Controller
 //                ORDER BY ID DESC";
 
 
-
 //        $questions = DB::table('question')
 //            ->join('question_tag', 'question.id', '=', 'question_tag.question_id')
 //            ->join('tag', 'tag.id', '=', 'question_tag.tag_id')
@@ -151,8 +151,7 @@ class QuestionController extends Controller
 //            ->get();
 //
 
-        $questions =  QuestionRepository::searchByTag($tag);
-
+        $questions = QuestionRepository::searchByTag($tag);
 
 
         return view("$lang.Question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => null]);
