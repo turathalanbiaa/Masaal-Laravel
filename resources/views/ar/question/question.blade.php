@@ -1,10 +1,72 @@
+@if(Count($question)<=0)
+
+    <div class="ui floating message">
+        <p>لاتوجد اسئلة</p>
+    </div>
+@endif
+<style>
+    mark {
+        background-color: yellow;
+        text-anchor: true;
+        color: black;
+    }
+</style>
 @foreach($question as $one_question)
 
 
 
 
-    <div class="ui green segment">
-        <h3>سؤال رقم : {{$one_question->id}}</h3>
+    <div style="margin-left: 10px ; margin-right: 10px" class="ui  segment">
+        <a class="ui large left corner label" data-action="share_question" data-id="{{$one_question->id}}">
+            <i style="color: #00b5ad" class="share icon"></i>
+        </a>
+
+        <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
+            @if($one_question->type == 2)
+                العقائد
+            @elseif($one_question->type == 1)
+
+                الفقه
+
+        </a>
+
+
+        <a class="ui right teal tag label"
+           href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+            @switch($one_question->categoryId)
+                @case(6)الصوم->
+                @case(7)الصلاة->
+                @case(8)الزكاة->
+                @case(9)الحج->
+                @case(10)الخمس->
+                @case(11)الامر بالمعروف->
+                @case(12)النهي عن المنكر->
+                @case(13)التولي لأولياء الله->
+                @case(14)التبري من اعداء الله->
+
+            @endswitch
+
+
+            @endif
+
+
+
+            @switch($one_question->categoryId)
+                @case(1)التوحيد
+                @break;
+                @case(2)العدل
+                @break;
+                @case(3)النبوّة
+                @break;
+                @case(4)الامامة
+                @break;
+                @case(5)المعاد
+
+            @endswitch
+        </a>
+        <a href="/ar/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
+
+
         <h3 class="ui header">
             <img src="/img/man.jpg">
             <div class="content ">
@@ -15,34 +77,37 @@
 
 
         </h3>
+        @if(isset($searchtext))
+            <?php
+            $questionContent = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->content);
+            ?>
+            {!! $questionContent !!}
+        @else
+            <p class="ellipsis"
+               style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;">{{$one_question->content}}</p>
 
-        <p>{{$one_question->content}}</p>
+        @endif
         <div class="ui divider"></div>
         <p>الجواب :</p>
-        <p>{{$one_question->answer}}</p>
+        <p class="ellipsis"
+           style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;">{{$one_question->answer}}</p>
 
+        <a style="color: #00b5ad" href="/ar/single-question/{{$one_question->id}}" class="ui horizontal divider">
+            تفاصيل اكثر
+        </a>
 
-        <div class="ui hidden divider"></div>
 
         @if($one_question->image !="")
-            <div class="ui  icon ">
 
-                <i class="centered image icon"></i>
-                <label>الصورة</label>
-                <br>
-                <img class="ui centered bordered large image"
-                     src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
-            </div>
+
+            <img class="ui centered bordered large image"
+                 src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
+
         @endif
 
 
-        <div class="ui hidden divider"></div>
-
-
         @if($one_question->videoLink !="")
-            <div class="ui icon">
-                <i class="video icon"></i>
-                <label>الفيديو</label>
+            <div>
                 <br>
 
 
@@ -69,10 +134,6 @@
 
         </div>
 
-        <a href="/ar/single-question/{{$one_question->id}}" class="ui icon button">
-            <i class="share icon"></i>
-            <label>فتح المنشور</label>
-        </a>
 
     </div>
     <script>

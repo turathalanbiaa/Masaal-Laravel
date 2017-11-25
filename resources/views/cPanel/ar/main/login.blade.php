@@ -5,9 +5,9 @@
 @endsection
 
 @section("content")
-    <div class="ui center aligned stackable grid">
-        <div class="eight wide computer ten wide table sixteen wide mobile column">
-            <div class="ui fluid right aligned teal segment">
+    <div class="ui centered grid">
+        <div class="sixteen wide mobile ten wide tablet eight wide computer column">
+            <div class="ui right aligned teal segment">
 
                 @if(count($errors))
                     <div class="ui error message" id="message">

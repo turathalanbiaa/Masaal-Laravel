@@ -89,7 +89,7 @@ h3.ui.header
     display: none;
 }
 
-@media all and (max-width:767px)
+@media all and (max-width:950px)
 {
 
     #nav

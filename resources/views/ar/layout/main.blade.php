@@ -31,4 +31,5 @@
 
 </body>
 <script>$(".ui.dropdown").dropdown();</script>
+@yield("script")
 </html>

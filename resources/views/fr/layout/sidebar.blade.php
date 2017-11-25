@@ -11,12 +11,12 @@
         <a class="item" href="/fr/index">Maison</a>
         <a class="item" href="/fr/send-question">Send Question</a>
         <a class="item" href="/fr/posts">Posts</a>
-        <a class="item" href="/fr/q-a">Q & A</a>
+        <a class="item" href="/fr/tags">Q & A</a>
         <a class="item" href="/fr/my-questions">My Question</a>
         <a class="item" href="/fr/categories">Categories</a>
         <a class="item" href="/fr/app">App</a>
-        <a class="item" href="/ar/">عربي</a>
-        <a class="item" href="/en/">English</a>
+        <a class="item" href="/ar/1">عربي</a>
+        <a class="item" href="/en/1">English</a>
         <a class="item" href="/logout/">Connectez_out</a>
     </div>
 </div>
