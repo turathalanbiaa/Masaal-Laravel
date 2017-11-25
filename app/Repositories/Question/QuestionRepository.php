@@ -56,7 +56,7 @@ class QuestionRepository
     public static function searchByTag($tagId)
     {
 
-        $SQL = "SELECT question.id , content , user.name AS userDisplayName , category.category AS category , time , answer , image , status , videoLink , externalLink 
+        $SQL = "SELECT question.id , content ,question.type AS `type`, user.name AS userDisplayName , category.category AS category ,category.id AS categoryId, time , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
                 WHERE question.id IN (SELECT questionId FROM question_tag WHERE tagId = ?)
                 ORDER BY ID DESC LIMIT 100";
