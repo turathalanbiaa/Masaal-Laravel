@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\QuestionStatus;
+use App\Enums\QuestionType;
 use App\Models\Admin;
+use App\Models\Question;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -57,6 +60,7 @@ class AdminController extends Controller
         $_SESSION["ADMIN_NAME"] = $admin->name;
         $_SESSION["ADMIN_LANG"] = $admin->lang;
         $_SESSION["ADMIN_TYPE"] = $admin->type;
+
         $_SESSION["ADMIN_MANAGER"] = $admin->manager;
         $_SESSION["ADMIN_REVIEWER"] = $admin->reviewer;
         $_SESSION["ADMIN_DISTRIBUTOR"] = $admin->distributor;
@@ -241,8 +245,10 @@ class AdminController extends Controller
     }
 
     /* Distributor */
-    public function distributor()
+    public function distribution($lang)
     {
-
+        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])->where('status',QuestionStatus::NO_ANSWER)->paginate(5);
+        $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])->where('lang',$lang)->where("respondent",1)->get();
+        return view("cPanel.$lang.distributor.distributor")->with(["lang" => $lang, "questions" => $questions, "respondents" => $respondents]);
     }
 }
