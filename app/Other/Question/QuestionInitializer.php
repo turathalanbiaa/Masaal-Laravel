@@ -28,6 +28,7 @@ class QuestionInitializer
         $question->userId = $userId;
         $question->type = Input::get("type");
         $question->lang = Input::get("lang");
+        $question->privacy = Input::get("privacy" , "1");
         $question->status = QuestionStatus::NO_ANSWER;
 
         return $question;
