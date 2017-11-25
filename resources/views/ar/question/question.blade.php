@@ -14,8 +14,6 @@
 @foreach($question as $one_question)
 
 
-
-
     <div style="margin-left: 10px ; margin-right: 10px" class="ui  segment">
         <a class="ui large left corner label" data-action="share_question" data-id="{{$one_question->id}}">
             <i style="color: #00b5ad" class="share icon"></i>
@@ -24,46 +22,27 @@
         <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
             @if($one_question->type == 2)
                 العقائد
+                <a class="ui right teal tag label"
+                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+                    {{$one_question->category}}
+
+
+                </a>
             @elseif($one_question->type == 1)
 
                 الفقه
 
-        </a>
+                <a class="ui right teal tag label"
+                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+                    {{$one_question->category}}
 
 
-        <a class="ui right teal tag label"
-           href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-            @switch($one_question->categoryId)
-                @case(6)الصوم->
-                @case(7)الصلاة->
-                @case(8)الزكاة->
-                @case(9)الحج->
-                @case(10)الخمس->
-                @case(11)الامر بالمعروف->
-                @case(12)النهي عن المنكر->
-                @case(13)التولي لأولياء الله->
-                @case(14)التبري من اعداء الله->
-
-            @endswitch
-
-
+                </a>
             @endif
 
-
-
-            @switch($one_question->categoryId)
-                @case(1)التوحيد
-                @break;
-                @case(2)العدل
-                @break;
-                @case(3)النبوّة
-                @break;
-                @case(4)الامامة
-                @break;
-                @case(5)المعاد
-
-            @endswitch
         </a>
+
+
         <a href="/ar/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
 
 
@@ -71,7 +50,7 @@
             <img src="/img/man.jpg">
             <div class="content ">
 
-                <div class="sub header">كرار حساني</div>
+                <div class="sub header">{{$one_question->userDisplayName}}</div>
                 <div class="sub header">{{$one_question->time}}</div>
             </div>
 
@@ -81,6 +60,7 @@
             <?php
             $questionContent = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->content);
             ?>
+
             {!! $questionContent !!}
         @else
             <p class="ellipsis"

@@ -11,12 +11,12 @@
     <div class="ui hidden divider"></div>
 
     <div id="mobile-page-header" class="ui teal inverted segment">
-        <div class="ui center aligned medium header">الاجوبة الميسّرة</div>
+        <div class="ui centered aligned medium header">الاجوبة الميسّرة</div>
     </div>
 
-    <div class="ui green segment">
+    <div class="ui centered green segment">
 
-        <div class="ui stackable two column very relaxed left aligned grid">
+        <div class="ui centered stackable two column very relaxed left aligned grid">
 
             <div class="column">
 
@@ -47,11 +47,11 @@
 
         </div>
     </div>
-    <h4>اذا كنت لاتمتلك حساب - انشأه الان</h4>
+    <h4 class="ui centered">اذا كنت لاتمتلك حساب - انشأه الان</h4>
 
-    <div class="ui green segment">
+    <div class="ui centered green segment">
 
-        <div class="ui stackable two column very relaxed left aligned grid">
+        <div class="ui centered stackable two column very relaxed left aligned grid">
 
 
 
