@@ -3,7 +3,14 @@
     <div class="ui floating message">
         <p>لاتوجد اسئلة</p>
     </div>
-    @endif
+@endif
+<style>
+    mark {
+        background-color: yellow;
+        text-anchor: true;
+        color: black;
+    }
+</style>
 @foreach($question as $one_question)
 
 
@@ -24,7 +31,8 @@
         </a>
 
 
-        <a class="ui right teal tag label" href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+        <a class="ui right teal tag label"
+           href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
             @switch($one_question->categoryId)
                 @case(6)الصوم->
                 @case(7)الصلاة->
@@ -56,7 +64,7 @@
 
             @endswitch
         </a>
-        <a  href="/ar/single-question/{{$one_question->id}}"  class="ui right teal label">س \ {{$one_question->id}}</a>
+        <a href="/ar/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
 
 
         <h3 class="ui header">
@@ -69,8 +77,16 @@
 
 
         </h3>
+        @if(isset($searchtext))
+            <?php
+            $questionContent = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->content);
+            ?>
+            {!! $questionContent !!}
+        @else
+            <p class="ellipsis"
+               style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;">{{$one_question->content}}</p>
 
-        <p>{{$one_question->content}}</p>
+        @endif
         <div class="ui divider"></div>
         <p>الجواب :</p>
         <p class="ellipsis"

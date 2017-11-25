@@ -39,8 +39,12 @@ class QuestionController extends Controller
 
     public function search($lang)
     {
+        $searchtext = Input::get("searchtext");
+        $questions = Question::where("lang", $lang)->where("content", 'like', "%" . $searchtext . "%")->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
-        return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => []]);
+
+
+        return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions],"searchtext"=>$searchtext]);
 
     }
 
@@ -82,7 +86,7 @@ class QuestionController extends Controller
         $question->status = $status;
 
         $question->save();
-     return  $this->my($lang);
+        return $this->my($lang);
     }
 
     public function showCategories($lang)

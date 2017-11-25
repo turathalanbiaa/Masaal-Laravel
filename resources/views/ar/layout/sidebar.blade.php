@@ -11,10 +11,18 @@
         <div class="ui horizontal inverted divider">
             الاجوبة الميسرة
         </div>
+        <div class="item">
+            <form method="post" action="/ar/search" class="ui icon input">
+                {{ csrf_field() }}
+                <input  name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
+                <i class="search link icon"></i>
+            </form>
+        </div>
         <a class="item" href="/ar/index/1">الفقه الميسر</a>
         <a class="item" href="/ar/index/2">العقائد الميسر</a>
         <a class="item" href="/ar/posts/1">منشورات فقهية</a>
         <a class="item" href="/ar/posts/2">منشورات عقائديه</a>
+
         <div class="ui horizontal inverted divider">
            فرز حسب
         </div>
