@@ -6,7 +6,6 @@ use App\Models\Admin;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use phpDocumentor\Reflection\Types\Null_;
 
 class AdminController extends Controller
 {
@@ -73,6 +72,7 @@ class AdminController extends Controller
         return view("cPanel.$lang.main.main");
     }
 
+    /* Managers */
     public function manager($lang)
     {
         $admins = Admin::where("lang","=",$_SESSION["ADMIN_LANG"])->where("type","=",$_SESSION["ADMIN_TYPE"])->get();
@@ -219,7 +219,7 @@ class AdminController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        $admin = Admin;
+        $admin = new Admin;
         $admin->name = Input::get("name");
         $admin->username = Input::get("username");
         $admin->password = md5(Input::get("password"));
@@ -238,5 +238,11 @@ class AdminController extends Controller
             return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","لم يتم انشاء الحساب بصورة صحيحة، اعد المحاولة مرة اخرى.");
 
         return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","تم انشاء الحساب بنجاح.");
+    }
+
+    /* Distributor */
+    public function distributor()
+    {
+
     }
 }

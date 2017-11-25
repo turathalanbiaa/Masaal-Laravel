@@ -18,3 +18,4 @@ Route::post("/control-panel/{lang}/admin/delete","AdminController@adminDelete")-
 Route::post("/control-panel/{lang}/admin/update","AdminController@adminUpdate")->where("lang" , "en|ar|fr");
 Route::get("/control-panel/{lang}/admin/create","AdminController@adminCreate")->where("lang" , "en|ar|fr");
 Route::post("/control-panel/{lang}/admin/create/validation","AdminController@adminCreateValidation")->where("lang" , "en|ar|fr");
+

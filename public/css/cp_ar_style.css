@@ -41,6 +41,9 @@ body
     left: 0;
 }
 
+.ui.button {
+    margin-right: 0!important;
+}
 /******************** Add JS-Flat Fount ********************/
 @font-face {
     font-family: JF-Flat;
