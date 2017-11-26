@@ -47,7 +47,7 @@
 
         </div>
     </div>
-    <h4 class="ui centered">اذا كنت لاتمتلك حساب - انشأه الان</h4>
+    <h4 class="ui centered medium header">اذا كنت لاتمتلك حساب - انشأه الان</h4>
 
     <div class="ui centered green segment">
 
@@ -58,20 +58,30 @@
             <div class="column">
                 <h1 class="ui centered medium header">انشاء حساب جديد</h1>
 
+                @if(count($errors))
+                    <div class="ui error message" id="message">
+                        <ul class="list">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form method="post" action="/ar/register" class="ui form">
 
                     <div class="field">
                         <label >الاسم</label>
                         <div class="ui left icon input">
-                            <input name="name" type="text" placeholder="الاسم" required style="text-align: right">
+                            <input name="name" type="text" placeholder="الاسم"  style="text-align: right">
                             <i class="user icon"></i>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>رقم الهاتف او الايميل</label>
+                        <label>انشيء مٌـعرفك الخاص</label>
                         <div class="ui left icon input">
-                            <input name="emailOrPhone" placeholder="رقم الهاتف او الايميل" type="text" required style="text-align: right">
+                            <input name="username" placeholder=" مثل husain123 , ali2" type="text"  style="text-align: right">
                             <i class="text telephone icon"></i>
                         </div>
                     </div>

@@ -132,6 +132,17 @@ h3.ui.header
         font-size: 20px;
     }
 
+}
 
+#message > ul.list {
+    text-align: right;
+}
 
+.ui.message#message .list:not(.ui) li {
+    margin: 0 1em .3em 0;
+}
+
+.ui.message#message .list:not(.ui) li:before {
+    right: -1em;
+    left: 0;
 }

@@ -9,6 +9,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\User;
+use Illuminate\Http\Request;
+
 class UserController extends Controller
 {
 
@@ -22,9 +25,81 @@ class UserController extends Controller
         return redirect("/$lang/");
     }
 
-    public function register($lang)
+    public function register($lang, Request $request)
     {
+        $rules = [
+            "username" => "required|min:4|unique:user,username",
+            "password" => "required|min:6",
+            "name" => "required|min:6"
+        ];
+
+        $rulesMessage = [
+            "ar" => [
+                "username.required" => "اسم المستخدم فارغ.",
+                "username.min:4" => "يجب ان يكون اسم المستخدم لايقل عن 4 حروف.",
+                "username.unique" => "هذا المُعرف مستخدم",
+                "password.required" => "اكتب كلمة المرور.",
+                "password.min:6" => "يجب ان لاتقل كلمة المرور عن 6 حروف.",
+                "name.required" => "حقل الاسم فارغ.",
+                "name.min:6" => "يجب ان الاسم عن 6 حروف."
+
+            ],
+            "fr" => [
+                "username.required" => "اسم المستخدم فارغ.",
+                "username.min:4" => "يجب ان يكون اسم المستخدم لايقل عن 4 حروف.",
+                "username.unique" => "هذا المُعرف مستخدم",
+                "password.required" => "اكتب كلمة المرور.",
+                "password.min:6" => "يجب ان لاتقل كلمة المرور عن 6 حروف.",
+                "name.required" => "حقل الاسم فارغ.",
+                "name.min:6" => "يجب ان الاسم عن 6 حروف."
+            ]
+        ];
+
+        if ($lang == "en")
+            $this->validate($request, $rules, []);
+
+        if ($lang == "ar")
+            $this->validate($request, $rules, $rulesMessage["ar"]);
+
+        if ($lang == "fr")
+            $this->validate($request, $rules, $rulesMessage["fr"]);
+
+
+
+        $name = Input::get("name");
+        $password = Input::get("password");
+        $username = Input::get("username");
+        $time = date("Y-m-d h:m:s");
+
+
+        $user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            = new User();
+        $question->name = $name;
+        $question->password = $password;
+        $question->time = $time;
+        $question->username = $username;
+
+
+
         return redirect("/$lang/");
     }
+
 
 }
