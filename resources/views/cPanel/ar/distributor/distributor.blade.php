@@ -11,44 +11,55 @@
         </div>
 
         <div class="column">
-            <div class="ui right aligned segment">
-                <div class="ui grid">
-                    <div class="sixteen wide mobile twelve wide tablet fourteen wide computer column">
-                        <table class="ui right aligned celled table">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>السؤال</th>
-                                <th>نوع السؤال</th>
-                                <th colspan="2">خيارات</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($questions as $question)
-                                <tr>
-                                    <td>{{$question->id}}</td>
-                                    <td>{{$question->content}}</td>
-                                    <td>{{\App\Enums\QuestionType::getQuestionTypeName($question->type)}}</td>
-                                    <td>
-                                        <div class="ui selection dropdown">
-                                            <input type="hidden" name="country">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">Select Country</div>
-                                            <div id="menu">
-                                                <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
-                                                <div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
-                                                <div class="item" data-value="al"><i class="al flag"></i>Albania</div>
-                                                <div class="item" data-value="dz"><i class="dz flag"></i>Algeria</div>
-                                            </div>
+
+            <div class="ui right aligned segments">
+                @if(count($questions) > 0)
+                    @foreach($questions as $question)
+                        <div class="ui teal segment">
+                            <p class="ui green header">السؤال:-</p>
+                            <p>{{$question->content}}</p>
+                            <div class="ui divider"></div>
+                            <form class="ui form" method="post" action="/control-panel/{{$lang}}/distribution">
+                                {!! csrf_field() !!}
+                                <input type="hidden" name="questionId" value="{{$question->id}}">
+                                <div class="sixteen wide field">
+                                    <div class="ui selection dropdown" style="width: 100%;">
+                                        <input type="hidden" name="respondentId">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">أختر اسم المجيب</div>
+                                        <div class="menu">
+                                            @foreach($respondents as $respondent)
+                                                <div class="item" data-value="{{$respondent->id}}">{{$respondent->name}}</div>
+                                            @endforeach
                                         </div>
-                                    </td>
-                                    <td>{{"ءىءء"}}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                    </div>
+                                </div>
+                                <div class="sixteen wide field">
+                                    <button class="ui green button" type="submit">ارسال</button>
+                                    <button class="ui left floated red button"  data-questionId="{{$question->id}}" data-action="convert-type-question">
+                                        @if($question->type == \App\Enums\QuestionType::FEQHI)
+                                            {{"تحويل الى اسئلة العقائد"}}
+                                        @elseif($question->type == \App\Enums\QuestionType::AKAEDI)
+                                            {{"تحويل الى اسئلة الفقه"}}
+                                        @endif
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    @endforeach
+
+                    <div class="ui bottom teal segment">
+                        {{$questions->links()}}
                     </div>
-                </div>
+                @else
+                    <div class="ui massive info message">
+                        <div class="ui hidden divider"></div>
+                        <div class="ui hidden divider"></div>
+                        <div class="ui celled aligned header">لاتوجد اسئلة جديدة لعرضها</div>
+                        <div class="ui hidden divider"></div>
+                        <div class="ui hidden divider"></div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -57,11 +68,14 @@
 
 @section("script")
     <script>
-        $(".ui.selection").dropdown();
-
-        $('.success.message').transition({
-            animation  : 'flash',
-            duration   : '1.5s'
+        $(".ui.selection.dropdown").dropdown();
+        $('.pagination').addClass('ui right aligned pagination menu');
+        $('.pagination').css({'padding':'0','font-size':'15px'});
+        $('.pagination').find('li').addClass('item');
+        $('.ui.form').form({
+            fields: {
+                respondentId: {rules: [{type   : 'empty'}]}
+            }
         });
     </script>
 @endsection

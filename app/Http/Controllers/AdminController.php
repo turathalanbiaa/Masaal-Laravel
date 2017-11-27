@@ -245,10 +245,19 @@ class AdminController extends Controller
     }
 
     /* Distributor */
-    public function distribution($lang)
+    public function distributeQuestionsToRespondents($lang)
     {
-        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])->where('status',QuestionStatus::NO_ANSWER)->paginate(5);
+        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])->where('status',QuestionStatus::NO_ANSWER)->paginate(10);
         $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])->where('lang',$lang)->where("respondent",1)->get();
         return view("cPanel.$lang.distributor.distributor")->with(["lang" => $lang, "questions" => $questions, "respondents" => $respondents]);
+    }
+
+    public function distribution()
+    {
+        $questionId = Input::get("questionId");
+        $respondentId = Input::get("respondentId");
+
+        $question = Question::find($questionId);
+        
     }
 }
