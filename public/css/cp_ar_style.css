@@ -38,6 +38,43 @@ body {
 .ui.button {
     margin-right: 0!important;
 }
+
+/* for tables*/
+.ui.celled.table tr td:first-child,
+.ui.celled.table tr th:first-child,
+.ui.celled.table tr td,
+.ui.celled.table tr th
+{
+    border-right: none;
+    border-left: 1px solid rgba(34,36,38,.1);
+}
+
+.ui.celled.table tr td:last-child,
+.ui.celled.table tr th:last-child
+{
+    border-right: none;
+    border-left: none;
+}
+
+/* for menu pagination*/
+.ui.menu .item:before
+{
+    width: 0!important;
+}
+.ui.menu .item:after
+{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 1px;
+    background: rgba(34,36,38,.1);
+}
+.ui.menu .item:last-child:after
+{
+    width: 0!important;
+}
 /******************** Add JS-Flat Fount ********************/
 @font-face {
     font-family: JF-Flat;
