@@ -41,7 +41,7 @@ class QuestionController extends Controller
         $offset = Input::get("offset" , 0);
         $lang = Input::get("lang" , "ar");
         $type = Input::get("type" , 1);
-        $announcements = AnnouncementRepository::recentActiveAnnouncements();
+        $announcements = AnnouncementRepository::recentActiveAnnouncements($lang);
         $questions = QuestionRepository::getRecentQuestions($lang , $type , $limit , $offset);
         return ["questions" => $questions , "announcements" => $announcements];
     }

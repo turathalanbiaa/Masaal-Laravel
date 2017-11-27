@@ -68,7 +68,7 @@ class QuestionRepository
     {
         $SQL = "SELECT question.id , content , user.name AS userDisplayName , category.category AS category , time , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE userId IN (SELECT id FROM user WHERE DeviceUUID = ?)
+                WHERE userId IN (SELECT id FROM user WHERE deviceUUID = ?)
                 ORDER BY ID DESC LIMIT 100";
 
         return DB::select($SQL , [$uuid]);
