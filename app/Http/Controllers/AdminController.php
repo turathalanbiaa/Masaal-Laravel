@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\QuestionStatus;
+use App\Enums\QuestionType;
 use App\Models\Admin;
+use App\Models\Question;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use phpDocumentor\Reflection\Types\Null_;
 
 class AdminController extends Controller
 {
@@ -58,6 +60,7 @@ class AdminController extends Controller
         $_SESSION["ADMIN_NAME"] = $admin->name;
         $_SESSION["ADMIN_LANG"] = $admin->lang;
         $_SESSION["ADMIN_TYPE"] = $admin->type;
+
         $_SESSION["ADMIN_MANAGER"] = $admin->manager;
         $_SESSION["ADMIN_REVIEWER"] = $admin->reviewer;
         $_SESSION["ADMIN_DISTRIBUTOR"] = $admin->distributor;
@@ -73,6 +76,7 @@ class AdminController extends Controller
         return view("cPanel.$lang.main.main");
     }
 
+    /* Managers */
     public function manager($lang)
     {
         $admins = Admin::where("lang","=",$_SESSION["ADMIN_LANG"])->where("type","=",$_SESSION["ADMIN_TYPE"])->get();
@@ -219,7 +223,7 @@ class AdminController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        $admin = Admin;
+        $admin = new Admin;
         $admin->name = Input::get("name");
         $admin->username = Input::get("username");
         $admin->password = md5(Input::get("password"));
@@ -238,5 +242,13 @@ class AdminController extends Controller
             return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","لم يتم انشاء الحساب بصورة صحيحة، اعد المحاولة مرة اخرى.");
 
         return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","تم انشاء الحساب بنجاح.");
+    }
+
+    /* Distributor */
+    public function distribution($lang)
+    {
+        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])->where('status',QuestionStatus::NO_ANSWER)->paginate(5);
+        $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])->where('lang',$lang)->where("respondent",1)->get();
+        return view("cPanel.$lang.distributor.distributor")->with(["lang" => $lang, "questions" => $questions, "respondents" => $respondents]);
     }
 }

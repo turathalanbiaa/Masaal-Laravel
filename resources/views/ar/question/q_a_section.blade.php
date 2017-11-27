@@ -8,7 +8,7 @@
 @foreach($tags as $tag)
 
     <div class="ui tag labels">
-        <a href="/ar/tagQuestion/{{$tag->tag}}" class="ui label">
+        <a href="/ar/tagQuestion/{{$tag->id}}" class="ui label">
             {{$tag->tag}}
         </a>
 
