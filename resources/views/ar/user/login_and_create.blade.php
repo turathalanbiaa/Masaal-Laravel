@@ -14,6 +14,10 @@
         <div class="ui centered aligned medium header">الاجوبة الميسّرة</div>
     </div>
 
+    <?php
+        dump($errors->all());
+    ?>
+
     <div class="ui centered green segment">
 
         <div class="ui centered stackable two column very relaxed left aligned grid">
@@ -26,8 +30,7 @@
                     <div class="field">
                         <label>رقم الهاتف او الايميل</label>
                         <div class="ui right icon input">
-                            <input name="username" type="text" placeholder="رقم الهاتف او الايميل" required
-                                   style="text-align: right">
+                            <input name="username" type="text" placeholder="رقم الهاتف او الايميل" required style="text-align: right">
                             <i class="user icon"></i>
                         </div>
                     </div>
@@ -35,8 +38,7 @@
                     <div class="field">
                         <label>رمز المرور</label>
                         <div class="ui left icon input">
-                            <input name="password" type="password" placeholder="ادخل رمز المرور هنا" required
-                                   style="text-align: right">
+                            <input name="password" type="password" placeholder="ادخل رمز المرور هنا" required style="text-align: right">
                             <i class="lock icon"></i>
                         </div>
                     </div>

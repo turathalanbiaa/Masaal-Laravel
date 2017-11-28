@@ -68,7 +68,7 @@
                         <i class="download icon"></i>
                         تحميل التطبيق
                     </a>
-                    <a href="/logout" class="item"> تسجيل خروج
+                    <a href="/ar/logout" class="item"> تسجيل خروج
                         <i class="log out icon"></i>
                     </a>
                 </div>

@@ -11,20 +11,47 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
 
-    public function showLogin($lang)
+    public function showLogin(Request $request, $lang )
     {
+        if ($request->session()->has('USER_ID'))
+            return redirect("/$lang/");
+
         return view("$lang.user.login_and_create");
     }
 
-    public function login($lang)
+    public function login(Request $request  , $lang)
     {
-        return redirect("/$lang/");
+
+        $username = Input::get("username", "");
+        $password = Input::get("password" , "");
+
+        $user = User::where("username" , $username)->where("password" , $password)->first();
+        if($user)
+        {
+            $request->session()->put("USER_ID" , $user->id);
+            $session = md5(uniqid());
+            $user->session = $session;
+            $user->save();
+            return redirect("/$lang/1")->withCookie(cookie('SESSION' , $session));
+        }
+        else
+        {
+            return redirect()->back()->withErrors(['USERNAME OR PASSWORD INCORRECT']);
+        }
     }
+
+    public function logout(Request $request , $lang)
+    {
+        $request->session()->remove('USER_ID');
+        return redirect("/$lang/login")->withCookie(cookie('SESSION' , null , -1));
+    }
+
 
     public function register($lang, Request $request)
     {
@@ -80,10 +107,13 @@ class UserController extends Controller
         $user->deviceType = $deviceType;
         $user->deviceUUID = $deviceUUID;
 
-
+        $session = md5(uniqid());
+        $user->session = $session;
         $user->save();
 
-        return redirect("/$lang/1");
+        $request->session()->put("USER_ID" , $user->id);
+
+        return redirect("/$lang/1")->withCookie(cookie('SESSION' , $session));
     }
 
 

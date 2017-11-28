@@ -14,15 +14,16 @@ use App\Models\Announcement;
 use App\Models\Category;
 use App\Models\Question;
 use App\Repositories\Question\QuestionRepository;
+use Illuminate\Http\Request;
 use  Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class QuestionController extends Controller
 {
 
-    public function index($lang, $type)
+    public function index(Request $request , $lang, $type)
     {
-
+        dump($request->session()->all());
         //    $questions = Question::where("lang", $lang)->where("type", $type)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
         $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
