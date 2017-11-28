@@ -21,11 +21,13 @@
             <div class="column">
 
                 <form method="post" action="/ar/login" class="ui form">
+                    {{ csrf_field()}}
                     <h1 class="ui centered medium header">تسجيل الدخول</h1>
                     <div class="field">
                         <label>رقم الهاتف او الايميل</label>
                         <div class="ui right icon input">
-                            <input  name="username" type="text" placeholder="رقم الهاتف او الايميل" required style="text-align: right">
+                            <input name="username" type="text" placeholder="رقم الهاتف او الايميل" required
+                                   style="text-align: right">
                             <i class="user icon"></i>
                         </div>
                     </div>
@@ -33,16 +35,16 @@
                     <div class="field">
                         <label>رمز المرور</label>
                         <div class="ui left icon input">
-                            <input name="password" type="password" placeholder="ادخل رمز المرور هنا" required style="text-align: right">
+                            <input name="password" type="password" placeholder="ادخل رمز المرور هنا" required
+                                   style="text-align: right">
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    {{ csrf_field()}}
+
                     <button type="submit" class="ui large blue button">دخول</button>
                 </form>
 
             </div>
-
 
 
         </div>
@@ -52,7 +54,6 @@
     <div class="ui centered green segment">
 
         <div class="ui centered stackable two column very relaxed left aligned grid">
-
 
 
             <div class="column">
@@ -69,11 +70,11 @@
                 @endif
 
                 <form method="post" action="/ar/register" class="ui form">
-
+                    {{ csrf_field()}}
                     <div class="field">
-                        <label >الاسم</label>
+                        <label>الاسم</label>
                         <div class="ui left icon input">
-                            <input name="name" type="text" placeholder="الاسم"  style="text-align: right">
+                            <input name="name" type="text" placeholder="الاسم" style="text-align: right">
                             <i class="user icon"></i>
                         </div>
                     </div>
@@ -81,7 +82,8 @@
                     <div class="field">
                         <label>انشيء مٌـعرفك الخاص</label>
                         <div class="ui left icon input">
-                            <input name="username" placeholder=" مثل husain123 , ali2" type="text"  style="text-align: right">
+                            <input name="username" placeholder=" مثل husain123 , ali2" type="text"
+                                   style="text-align: right">
                             <i class="text telephone icon"></i>
                         </div>
                     </div>
@@ -109,7 +111,7 @@
 </div>
 </body>
 <style>
-    label{
+    label {
         text-align: right;
     }
 </style>

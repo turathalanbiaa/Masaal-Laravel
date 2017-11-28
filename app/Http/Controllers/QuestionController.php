@@ -98,21 +98,22 @@ class QuestionController extends Controller
     {
 
         $content = Input::get("message");
-        $categoryId = Input::get("category");
+        $privacy = Input::get("privacy");
+        $type = Input::get("type");
+
         $time = date("Y-m-d h:m:s");
 
         $userId = 1;
-        $type = Input::get("type");
         $status = QuestionStatus::NO_ANSWER;
         $question = new Question();
         $question->content = $content;
-        $question->categoryId = $categoryId;
+
         $question->time = $time;
         $question->userId = $userId;
         $question->type = $type;
         $question->lang = $lang;
         $question->status = $status;
-
+        $question->privacy = $privacy;
         $question->save();
         return $this->my($lang);
     }
@@ -129,9 +130,12 @@ class QuestionController extends Controller
 
     public function showQuestion($lang, $id)
     {
+        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
+                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
+                WHERE question.id = ?";
 
-        $question = Question::find($id);
-
+        $questions = DB::select($SQL, [$id]);
+        $question = array_values($questions)[0];
         return view("$lang.Question.single_question", ["question" => $question]);
     }
 

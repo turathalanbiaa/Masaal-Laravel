@@ -44,7 +44,7 @@
     <div class="item">
         <form method="post" action="/ar/search" class="ui icon input">
             {{ csrf_field() }}
-            <input  name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
+            <input name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
             <i class="search link icon"></i>
         </form>
     </div>
@@ -82,7 +82,6 @@
     </div>
 
 </div>
-
 
 
 <script>

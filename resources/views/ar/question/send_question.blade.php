@@ -13,13 +13,13 @@
                 <label>ماهو نوع السؤال؟</label>
                 <div class="field">
                     <div class="ui radio checkbox">
-                        <input value="1" type="radio" name="type" checked="checked">
+                        <input value="1" type="radio" name="privacy" checked="checked">
                         <label>خاص</label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui radio checkbox">
-                        <input value="2" type="radio" name="type">
+                        <input value="2" type="radio" name="privacy">
                         <label>عام</label>
                     </div>
                 </div>
@@ -29,19 +29,19 @@
                     <label>ماهو صنف السؤال؟</label>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input value="1" type="radio" name="category" checked="checked">
+                            <input value="1" type="radio" name="type" checked="checked">
                             <label>فقهي</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input value="2" type="radio" name="category">
+                            <input value="2" type="radio" name="type">
                             <label>عقائدي</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input value="0" type="radio" name="category">
+                            <input value="1" type="radio" name="type">
                             <label>لا اعرف</label>
                         </div>
                     </div>

@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -27,6 +28,7 @@ class UserController extends Controller
 
     public function register($lang, Request $request)
     {
+
         $rules = [
             "username" => "required|min:4|unique:user,username",
             "password" => "required|min:6",
@@ -64,41 +66,24 @@ class UserController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-
-
         $name = Input::get("name");
         $password = Input::get("password");
         $username = Input::get("username");
         $time = date("Y-m-d h:m:s");
+        $deviceType = 3;
+        $deviceUUID = "";
+        $user = new User();
+        $user->name = $name;
+        $user->password = $password;
+        $user->registrationDate = $time;
+        $user->username = $username;
+        $user->deviceType = $deviceType;
+        $user->deviceUUID = $deviceUUID;
 
 
-        $user
+        $user->save();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            = new User();
-        $question->name = $name;
-        $question->password = $password;
-        $question->time = $time;
-        $question->username = $username;
-
-
-
-        return redirect("/$lang/");
+        return redirect("/$lang/1");
     }
 
 

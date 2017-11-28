@@ -5,13 +5,11 @@
     <div class="ui green segment">
 
 
-
-        <h3>سؤال رقم : {{$question->id}}</h3>
+        <h3>س \ {{$question->id}}</h3>
         <h3 class="ui header">
             <img src="/img/man.jpg">
             <div class="content ">
-
-                <div class="sub header">كرار حساني</div>
+                <div class="sub header">{{$question->userDisplayName}}</div>
                 <div class="sub header">{{$question->time}}</div>
             </div>
 
@@ -29,10 +27,8 @@
         @if($question->image !="")
             <div class="ui  icon ">
 
-                <i class="centered image icon"></i>
-                <label>صورة</label>
-                <br>
-                <img class="ui centered bordered large image"
+
+                <img class="ui right bordered large image"
                      src="{{\App\Enums\ImagePath::path_answer . $question->image}}">
             </div>
         @endif
