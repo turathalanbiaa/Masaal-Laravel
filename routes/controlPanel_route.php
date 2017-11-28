@@ -11,6 +11,7 @@ Route::post("/control-panel/{lang}/login/validation", "AdminController@loginVali
 
 Route::get("/control-panel/{lang}/main", "AdminController@main")->where("lang" , "en|ar|fr");
 
+/*route of manager*/
 Route::get("/control-panel/{lang}/managers","AdminController@manager")->where("lang" , "en|ar|fr");
 Route::get("/control-panel/{lang}/managers/search","AdminController@searchManager")->where("lang" , "en|ar|fr");
 Route::get("/control-panel/{lang}/admin/info","AdminController@adminInfo")->where("lang" , "en|ar|fr");
@@ -19,5 +20,6 @@ Route::post("/control-panel/{lang}/admin/update","AdminController@adminUpdate")-
 Route::get("/control-panel/{lang}/admin/create","AdminController@adminCreate")->where("lang" , "en|ar|fr");
 Route::post("/control-panel/{lang}/admin/create/validation","AdminController@adminCreateValidation")->where("lang" , "en|ar|fr");
 
-
-Route::get("/control-panel/{lang}/distribution-questions","AdminController@distribution")->where("lang" , "en|ar|fr");
+/*route of distributor*/
+Route::get("/control-panel/{lang}/distribution-questions","AdminController@distributeQuestionsToRespondents")->where("lang" , "en|ar|fr");
+Route::post("/control-panel/{lang}/distribution","AdminController@distribution")->where("lang" , "en|ar|fr");

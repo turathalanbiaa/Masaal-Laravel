@@ -15,9 +15,9 @@ use App\Models\Announcement;
 class AnnouncementRepository
 {
 
-    public static function recentActiveAnnouncements()
+    public static function recentActiveAnnouncements($lang)
     {
-        return Announcement::where("active" , AnnouncementActiveState::ACTIVE)->orderBy("id" , "DESC")->limit(5)->get();
+        return Announcement::where("active" , AnnouncementActiveState::ACTIVE)->where("lang" , $lang)->orderBy("id" , "DESC")->limit(5)->get();
     }
 
 }
