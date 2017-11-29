@@ -13,3 +13,5 @@ Route::post("tag/all" , "API\\TagController@all");
 
 
 Route::post("settings/change/name" , "API\\SettingsController@changeName");
+
+Route::get("notification/send-to-device" , "API\\NotificationController@sendToDevice");
