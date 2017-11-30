@@ -19,7 +19,7 @@
  {
     vertical-align: middle;
     line-height: 150px;
-    font-family: JF-Flat; 
+    font-family: JF-Flat;
 }
 body
 {
@@ -85,9 +85,9 @@ h3.ui.header
         margin-top: 5px;
         margin-left: 50px;
         vertical-align: middle;
-        font-family: JF-Flat; 
+        font-family: JF-Flat;
     }
-    i.icon, i.icons 
+    i.icon, i.icons
     {
         font-size: 20px;
     }

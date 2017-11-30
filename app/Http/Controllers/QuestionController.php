@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Input;
 class QuestionController extends Controller
 {
 
-    public function index(Request $request , $lang, $type)
+    public function index(Request $request, $lang, $type)
     {
-        dump($request->session()->all());
+        //        dump($request->session()->all());
         //    $questions = Question::where("lang", $lang)->where("type", $type)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
         $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
@@ -39,12 +39,15 @@ class QuestionController extends Controller
     public function my($lang)
     {
 
-        $userId = 1;
+
+        $userId = session("USER_ID");
+
+
         // $questions = Question::where("lang", $lang)->where("userId", $userId)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
         $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.userId = ? AND status = " . QuestionStatus::APPROVED . "
+                WHERE question.lang = ? AND question.userId = ? 
                 ORDER BY ID DESC";
 
         $questions = DB::select($SQL, [$lang, $userId]);
@@ -103,12 +106,15 @@ class QuestionController extends Controller
         $type = Input::get("type");
 
         $time = date("Y-m-d h:m:s");
+        if (session("USER_ID") != null) {
+            $userId = session("USER_ID");
+        } else {
+            $userId = 0;
+        }
 
-        $userId = 1;
         $status = QuestionStatus::NO_ANSWER;
         $question = new Question();
         $question->content = $content;
-
         $question->time = $time;
         $question->userId = $userId;
         $question->type = $type;
