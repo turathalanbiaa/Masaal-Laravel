@@ -58,7 +58,7 @@
                     <div class="ui massive info message">
                         <div class="ui hidden divider"></div>
                         <div class="ui hidden divider"></div>
-                        <div class="ui center aligned header">لاتوجد اسئلة جديدة لعرضها</div>
+                        <div class="ui center aligned header">لاتوجد اسئلة جديدة لتوزيعها</div>
                         <div class="ui hidden divider"></div>
                         <div class="ui hidden divider"></div>
                     </div>
@@ -73,7 +73,7 @@
     <script>
         $(".ui.selection.dropdown").dropdown();
         $('.pagination').addClass('ui right aligned pagination menu');
-        $('.pagination').css({'padding':'0','font-size':'15px'});
+        $('.pagination').css({'padding':'0','font-size':'12px'});
         $('.pagination').find('li').addClass('item');
 
         $("button[data-action='distribute-question']").click(function ()
@@ -130,7 +130,7 @@
                         snackbar("لم يتم تحويل نوع السؤال." , 3000 , "error");
 
                     else if (result["success"] == true)
-                        snackbar("تم تجويل نوع السؤال." , 3000 , "success");
+                        snackbar("تم تحويل نوع السؤال." , 3000 , "success");
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
