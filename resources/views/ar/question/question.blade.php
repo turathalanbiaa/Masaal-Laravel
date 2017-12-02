@@ -14,7 +14,7 @@
 @foreach($question as $one_question)
 
 
-    <div style="margin-left: 10px ; margin-right: 10px" class="ui  segment">
+    <div class="ui  segment">
 
 
         <h3 class="ui header">
@@ -43,8 +43,19 @@
         @endif
         <div class="ui divider"></div>
         <p>الجواب :</p>
-        <p class="ellipsis">{{$one_question->answer}}</p>
+        <p class="ellipsis">
+            @if($one_question->answer != null)
 
+                {{$one_question->answer}}</p>
+        @else
+            <div class="ui  message"> تم ارسال السؤال
+                <br>
+
+                سوف تتم الاجابة قريبا
+
+            </div>
+            ً
+        @endif
 
         @if($one_question->image !="")
 
@@ -88,8 +99,11 @@
                 العقائد
                 <a class="ui right teal tag label"
                    href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-                    {{$one_question->category}}
-
+                    @if($one_question->category!=null)
+                        {{$one_question->category}}
+                    @else
+                        غير مصنف
+                    @endif
 
                 </a>
             @elseif($one_question->type == 1)
@@ -98,9 +112,11 @@
 
                 <a class="ui right teal tag label"
                    href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-                    {{$one_question->category}}
-
-
+                    @if($one_question->category!=null)
+                        {{$one_question->category}}
+                    @else
+                        غير مصنف
+                    @endif
                 </a>
             @endif
 

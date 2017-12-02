@@ -4,8 +4,32 @@
 @section("content")
     <div class="ui green segment">
 
+        <a class="ui right tag label" href="/ar/index/{{$question->type}}">
+            @if($question->type == 2)
+                العقائد
+                <a class="ui  teal tag label"
+                   href="/ar/search?type={{$question->type}}&id={{$question->categoryId}}">
+                    {{$question->category}}
 
-        <h3>س \ {{$question->id}}</h3>
+
+                </a>
+            @elseif($question->type == 1)
+
+                الفقه
+
+                <a class="ui tag label"
+                   href="/ar/search?type={{$question->type}}&id={{$question->categoryId}}">
+                    {{$question->category}}
+
+
+                </a>
+            @endif
+
+        </a>
+
+
+        <a href="/ar/single-question/{{$question->id}}" class="ui right = label">س \ {{$question->id}}</a>
+
         <h3 class="ui header">
             <img src="/img/man.jpg">
             <div class="content ">
@@ -39,8 +63,7 @@
 
         @if($question->videoLink !="")
             <div class="ui icon">
-                <i class="video icon"></i>
-                <label>فيديو</label>
+
                 <br>
 
 

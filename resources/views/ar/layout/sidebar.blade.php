@@ -14,7 +14,7 @@
         <div class="item">
             <form method="post" action="/ar/search" class="ui icon input">
                 {{ csrf_field() }}
-                <input  name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
+                <input name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
                 <i class="search link icon"></i>
             </form>
         </div>
@@ -24,11 +24,10 @@
         <a class="item" href="/ar/posts/2">منشورات عقائديه</a>
 
         <div class="ui horizontal inverted divider">
-           فرز حسب
+            فرز حسب
         </div>
         <a class="item" href="/ar/categories">الاقسام</a>
         <a class="item" href="/ar/tags">المواضيع</a>
-
 
 
         <div class="ui horizontal inverted divider">
@@ -47,6 +46,9 @@
         <div class="ui horizontal inverted divider">
             ...
         </div>
+        <a href="/ar/login" class="item"> تسجيل دخول
+            <i class="log out icon"></i>
+        </a>
         <a class="item" href="/logout/"><i class="large log out icon"></i>تسجيل خروج</a>
     </div>
 </div>

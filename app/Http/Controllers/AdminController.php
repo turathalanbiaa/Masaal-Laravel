@@ -247,8 +247,16 @@ class AdminController extends Controller
     /* Distributor */
     public function distributeQuestionsToRespondents($lang)
     {
-        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])->where('status',QuestionStatus::NO_ANSWER)->paginate(10);
-        $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])->where('lang',$lang)->where("respondent",1)->get();
+        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
+            ->where('status',QuestionStatus::NO_ANSWER)
+            ->where("lang",$lang)
+            ->paginate(2);
+
+        $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])
+            ->where('lang',$lang)
+            ->where("respondent",1)
+            ->get();
+
         return view("cPanel.$lang.distributor.distributor")->with(["lang" => $lang, "questions" => $questions, "respondents" => $respondents]);
     }
 
@@ -256,8 +264,46 @@ class AdminController extends Controller
     {
         $questionId = Input::get("questionId");
         $respondentId = Input::get("respondentId");
-
         $question = Question::find($questionId);
-        
+        $respondent = Admin::find($respondentId);
+
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        if (!$respondent)
+            return ["respondent" => "NotFound"];
+
+        $question->status = QuestionStatus::TEMP_ANSWER;
+        $question->adminId = $respondentId;
+        $success = $question->save();
+
+        if (!$success)
+            return ["success" => false];
+
+        return ["success" => true];
+    }
+
+    public function changeQuestionType()
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        $question->status = QuestionStatus::NO_ANSWER;
+        $question->adminId = 0;
+        $question->categoryId = null;
+        switch ($question->type)
+        {
+            case QuestionType::FEQHI: $question->type = QuestionType::AKAEDI; break;
+            case QuestionType::AKAEDI: $question->type = QuestionType::FEQHI; break;
+            default: $question->type = QuestionType::FEQHI;
+
+        }
+        $success = $question->save();
+        if (!$success)
+            return ["success" => false];
+
+        return ["success" => true];
     }
 }

@@ -1,11 +1,5 @@
-<div id="nav" class="ui unstackable small menu">
-    <a class="item" href="/ar/index/1">
+<div id="nav" class="ui  small menu">
 
-        الفقه الميسر
-    </a>
-    <a class="item" href="/ar/index/2">
-        العقائد الميسره
-    </a>
     <a class="item" href="/ar/send-question">
         <i class="large send icon"></i> ارسال سؤال
     </a>
@@ -68,6 +62,9 @@
                         <i class="download icon"></i>
                         تحميل التطبيق
                     </a>
+                    <a href="/ar/login" class="item"> تسجيل دخول
+                        <i class="log out icon"></i>
+                    </a>
                     <a href="/ar/logout" class="item"> تسجيل خروج
                         <i class="log out icon"></i>
                     </a>
@@ -83,6 +80,20 @@
 
 </div>
 
+
+<div class="ui two item menu">
+
+    <a class="item" href="/ar/index/1">
+        <i class="home icon"></i>
+        الفقه الميسر
+    </a>
+    <a class="item" href="/ar/index/2">
+        <i class="home icon"></i>
+        العقائد الميسره
+    </a>
+
+
+</div>
 
 <script>
     $('.ui.dropdown')

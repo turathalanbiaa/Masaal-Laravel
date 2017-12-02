@@ -22,4 +22,5 @@ Route::post("/control-panel/{lang}/admin/create/validation","AdminController@adm
 
 /*route of distributor*/
 Route::get("/control-panel/{lang}/distribution-questions","AdminController@distributeQuestionsToRespondents")->where("lang" , "en|ar|fr");
-Route::post("/control-panel/{lang}/distribution","AdminController@distribution")->where("lang" , "en|ar|fr");
+Route::post("/control-panel/distribution","AdminController@distribution");
+Route::post("/control-panel/change-question-type","AdminController@changeQuestionType");
