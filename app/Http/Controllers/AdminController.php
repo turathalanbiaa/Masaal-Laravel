@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Enums\QuestionStatus;
 use App\Enums\QuestionType;
 use App\Models\Admin;
+use App\Models\Category;
 use App\Models\Question;
+use App\Models\QuestionTag;
+use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -79,17 +83,18 @@ class AdminController extends Controller
     /* Managers */
     public function manager($lang)
     {
-        $admins = Admin::where("lang","=",$_SESSION["ADMIN_LANG"])->where("type","=",$_SESSION["ADMIN_TYPE"])->get();
+        $admins = Admin::where("lang",$_SESSION["ADMIN_LANG"])->where("type",$_SESSION["ADMIN_TYPE"])->get();
         return view("cPanel.$lang.manager.managers")->with(["admins" => $admins, "lang" => $lang]);
     }
 
     public function searchManager($lang)
     {
         $query = Input::get("query");
-        $admins = Admin::where("lang","=",$_SESSION["ADMIN_LANG"])
-            ->where("type","=",$_SESSION["ADMIN_TYPE"])
+        $admins = Admin::where("lang",$_SESSION["ADMIN_LANG"])
+            ->where("type",$_SESSION["ADMIN_TYPE"])
             ->where("name","LIKE","%".$query."%")
             ->get();
+
         return view("cPanel.$lang.manager.managers")->with(["admins" => $admins, "lang" => $lang]);
     }
 
@@ -136,16 +141,16 @@ class AdminController extends Controller
         $rulesMessage = [
             "ar"=>[
                 "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min:6" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
+                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
                 "username.required" => "اسم المستخدم فارغ.",
-                "username.min:6" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
+                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد."
             ],
             "fr"=>[
                 "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min:6" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
+                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
                 "username.required" => "اسم المستخدم فارغ.",
-                "username.min:6" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
+                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد."
             ]
         ];
@@ -159,6 +164,8 @@ class AdminController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
+        $admin->name = Input::get("name");
+        $admin->username = Input::get("username");
         $admin->manager = Input::get("manager") ?: 0;
         $admin->reviewer = Input::get("reviewer") ?: 0;
         $admin->distributor = Input::get("distributor") ?: 0;
@@ -190,9 +197,9 @@ class AdminController extends Controller
         $rulesMessage = [
             "ar"=>[
                 "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min:6" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
+                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
                 "username.required" => "اسم المستخدم فارغ.",
-                "username.min:6" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
+                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
                 'password.required' => "كلمة المرور فارغة.",
                 'password_confirmation.required' => 'حقل اعد كتابة كلمة المرور فارغ.',
@@ -202,9 +209,9 @@ class AdminController extends Controller
             ],
             "fr"=>[
                 "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min:6" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
+                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
                 "username.required" => "اسم المستخدم فارغ.",
-                "username.min:6" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
+                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
                 'password.required' => "كلمة المرور فارغة.",
                 'password_confirmation.required' => 'حقل اعد كتابة كلمة المرور فارغ.',
@@ -250,7 +257,7 @@ class AdminController extends Controller
         $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
             ->where('status',QuestionStatus::NO_ANSWER)
             ->where("lang",$lang)
-            ->paginate(2);
+            ->paginate(20);
 
         $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])
             ->where('lang',$lang)
@@ -305,5 +312,104 @@ class AdminController extends Controller
             return ["success" => false];
 
         return ["success" => true];
+    }
+
+    /* Respondent */
+    public function showQuestionToRespondent($lang)
+    {
+        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
+            ->where('lang',$_SESSION["ADMIN_LANG"])
+            ->where('adminId',$_SESSION['ADMIN_ID'])
+            ->where('status',QuestionStatus::TEMP_ANSWER)
+            ->paginate(20);
+
+        return view("cPanel.$lang.respondent.my_questions")->with(["lang" => $lang, "questions" => $questions]);
+    }
+
+    public function showQuestion($lang)
+    {
+        $questionId = Input::get("id");
+        $question = Question::find($questionId);
+        $categories = Category::where('type',$_SESSION["ADMIN_TYPE"])
+            ->where('lang',$_SESSION["ADMIN_LANG"])
+            ->get();
+
+        $tags = Tag::where('lang',$_SESSION["ADMIN_LANG"])->get();
+
+        if (!$question)
+            return redirect("/control-panel/$lang/my-questions");
+
+        return view("cPanel.$lang.respondent.question")->with(["lang"=>$lang, "question"=>$question, "categories"=>$categories, "tags"=>$tags]);
+    }
+
+    public function questionAnswer(Request $request, $lang)
+    {
+
+        $question = Question::find(Input::get("questionId"));
+
+        if (is_null($question))
+            return redirect("/control-panel/$lang/question");
+
+        $rules = [
+            "questionId" => "required|numeric",
+            "answer" => 'required',
+            "categoryId" => "required|numeric",
+            "tags" => "required",
+            'attachmentName' => 'file|image|min:0|max:100',
+        ];
+
+        $rulesMessage = [
+            "ar"=>[
+                "questionId.required" => "رقم السؤال لم يرسل.",
+                "answer.required" => "لاتوجد اجابة !!!",
+                "categoryId.required" => "لم تقم بأختيار صنف السؤال.",
+                "tags.required" => "لم تقم بأختيار الموضوع التابع له السؤال.",
+                "attachmentName.file" => "قم برفع ملف.",
+                "attachmentName.image" => "انت تحاول رفع ملف ليس بصورة.",
+                "attachmentName.min" => "انت تقوم برفع صورة صغيرة جداً.",
+                "attachmentName.max" => "حجم الصورة يجب ان لايتعدى 100 كيلوبايت."
+            ],
+            "fr"=>[
+                "questionId.required" => "رقم السؤال لم يرسل.",
+                "answer.required" => "لاتوجد اجابة !!!",
+                "categoryId.required" => "لم تقم بأختيار صنف السؤال.",
+                "tags.required" => "لم تقم بأختيار الموضوع التابع له السؤال.",
+                "attachmentName.file" => "قم برفع ملف.",
+                "attachmentName.image" => "انت تحاول رفع ملف ليس بصورة.",
+                "attachmentName.min" => "انت تقوم برفع صورة صغيرة جداً.",
+                "attachmentName.max" => "حجم الصورة يجب ان لايتعدى 100 كيلوبايت."
+            ]
+        ];
+
+        if ($lang == "en")
+            $this->validate($request, $rules, []);
+
+        if ($lang == "ar")
+            $this->validate($request, $rules, $rulesMessage["ar"]);
+
+        if ($lang == "fr")
+            $this->validate($request, $rules, $rulesMessage["fr"]);
+
+        dd($_FILES);
+
+        DB::transaction(function ($question) {
+            $question->answer = Input::get("answer");
+            $question->category_Id = Input::get("categoryId");
+            $question->videoLink = Input::get("videoLink");
+            $question->externalLink = Input::get("externalLink");
+            $question->status = QuestionStatus::APPROVED;
+            $question->save();
+
+            $tags = explode(',',Input::get("tags"));
+            foreach ($tags as $tag_id)
+            {
+                $questionTag = new QuestionTag();
+                $questionTag->question_id = $question->id;
+                $questionTag->tag_id = $tag_id;
+                $questionTag->save();
+            }
+        });
+
+
     }
 }

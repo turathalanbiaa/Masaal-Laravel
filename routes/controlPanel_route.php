@@ -24,3 +24,8 @@ Route::post("/control-panel/{lang}/admin/create/validation","AdminController@adm
 Route::get("/control-panel/{lang}/distribution-questions","AdminController@distributeQuestionsToRespondents")->where("lang" , "en|ar|fr");
 Route::post("/control-panel/distribution","AdminController@distribution");
 Route::post("/control-panel/change-question-type","AdminController@changeQuestionType");
+
+/*route of respondent*/
+Route::get("/control-panel/{lang}/my-questions","AdminController@showQuestionToRespondent")->where("lang" , "en|ar|fr");
+Route::get("/control-panel/{lang}/question","AdminController@showQuestion")->where("lang" , "en|ar|fr");
+Route::post("/control-panel/{lang}/question-answer","AdminController@questionAnswer")->where("lang" , "en|ar|fr");
