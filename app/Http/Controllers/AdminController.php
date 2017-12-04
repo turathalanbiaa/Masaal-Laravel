@@ -10,6 +10,7 @@ use App\Models\Question;
 use App\Models\QuestionTag;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -54,9 +55,7 @@ class AdminController extends Controller
 
         $username = Input::get("username");
         $password = md5(Input::get("password"));
-
         $admin = Admin::where("username","=",$username)->where("password","=",$password)->first();
-
         if (is_null($admin))
             return redirect("/control-panel/$lang/login")->with('LoginMessage', "فشل تسجيل الدخول !!! أعد المحاولة مرة أخرى.");
 
@@ -64,7 +63,6 @@ class AdminController extends Controller
         $_SESSION["ADMIN_NAME"] = $admin->name;
         $_SESSION["ADMIN_LANG"] = $admin->lang;
         $_SESSION["ADMIN_TYPE"] = $admin->type;
-
         $_SESSION["ADMIN_MANAGER"] = $admin->manager;
         $_SESSION["ADMIN_REVIEWER"] = $admin->reviewer;
         $_SESSION["ADMIN_DISTRIBUTOR"] = $admin->distributor;
@@ -255,13 +253,13 @@ class AdminController extends Controller
     public function distributeQuestionsToRespondents($lang)
     {
         $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
-            ->where('status',QuestionStatus::NO_ANSWER)
-            ->where("lang",$lang)
+            ->where('adminId',null)
+            ->where('lang',$lang)
             ->paginate(20);
 
         $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])
             ->where('lang',$lang)
-            ->where("respondent",1)
+            ->where('respondent',1)
             ->get();
 
         return view("cPanel.$lang.distributor.distributor")->with(["lang" => $lang, "questions" => $questions, "respondents" => $respondents]);
@@ -280,7 +278,6 @@ class AdminController extends Controller
         if (!$respondent)
             return ["respondent" => "NotFound"];
 
-        $question->status = QuestionStatus::TEMP_ANSWER;
         $question->adminId = $respondentId;
         $success = $question->save();
 
@@ -294,11 +291,12 @@ class AdminController extends Controller
     {
         $questionId = Input::get("questionId");
         $question = Question::find($questionId);
+
         if (!$question)
             return ["question" => "NotFound"];
 
         $question->status = QuestionStatus::NO_ANSWER;
-        $question->adminId = 0;
+        $question->adminId = null;
         $question->categoryId = null;
         switch ($question->type)
         {
@@ -320,7 +318,7 @@ class AdminController extends Controller
         $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
             ->where('lang',$_SESSION["ADMIN_LANG"])
             ->where('adminId',$_SESSION['ADMIN_ID'])
-            ->where('status',QuestionStatus::TEMP_ANSWER)
+            ->where('status',QuestionStatus::NO_ANSWER)
             ->paginate(20);
 
         return view("cPanel.$lang.respondent.my_questions")->with(["lang" => $lang, "questions" => $questions]);
@@ -344,7 +342,6 @@ class AdminController extends Controller
 
     public function questionAnswer(Request $request, $lang)
     {
-
         $question = Question::find(Input::get("questionId"));
 
         if (is_null($question))
@@ -355,7 +352,7 @@ class AdminController extends Controller
             "answer" => 'required',
             "categoryId" => "required|numeric",
             "tags" => "required",
-            'attachmentName' => 'file|image|min:0|max:100',
+            'image' => 'file|image|min:0|max:100',
         ];
 
         $rulesMessage = [
@@ -390,14 +387,15 @@ class AdminController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        dd($_FILES);
-
         DB::transaction(function ($question) {
             $question->answer = Input::get("answer");
             $question->category_Id = Input::get("categoryId");
+            $question->status = QuestionStatus::TEMP_ANSWER;
+
+
+
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
-            $question->status = QuestionStatus::APPROVED;
             $question->save();
 
             $tags = explode(',',Input::get("tags"));
@@ -410,6 +408,6 @@ class AdminController extends Controller
             }
         });
 
-
+        dd("ok");
     }
 }

@@ -65,28 +65,20 @@
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label>ارفاق صورة</label>
+                    <div class="field" style="margin-top: 10px;">
+                        <label for="image">ارفاق صورة</label>
+                        <input type="file" name="image" id="image" placeholder="ارفق صورة مع الأجابة اذا كنت ترغب بذلك ... اختياري">
                     </div>
 
-                    <div class="field">
-                        <div class="ui action input">
-                            <label for="attachmentName" class="ui icon button btn-file">
-                                <i class="attachment file icon"></i>
-                                <input type="file" id="attachmentName" name="attachmentName" style="display: none">
-                            </label>
-                            <input type="text" name="j" id="_attachmentName">
-                        </div>
-                    </div>
 
                     <div class="field">
                         <label for="external-link">ارفاق رابط المصدر</label>
-                        <input type="text" name="externalLink" id="external-link" placeholder="اكتب رابط المصدر هنا ...اختياري">
+                        <input type="text" name="externalLink" id="external-link" placeholder="اكتب رابط المصدر هنا ... اختياري">
                     </div>
 
                     <div class="field">
                         <label for="video-link">ارفاق رابط الفديو</label>
-                        <input type="text" name="videoLink" id="video-link" placeholder="اكتب رابط الفديو هنا ...اختياري">
+                        <input type="text" name="videoLink" id="video-link" placeholder="اكتب رابط الفديو هنا ... اختياري">
                     </div>
 
                     <button type="submit" class="ui green button">حفظ</button>
@@ -150,8 +142,6 @@
     </script>
 
     <script>
-
-
         $('.btn-file :file').on('fileselect', function(event, numFiles, label, size) {
             $('#attachmentName').attr('name', 'attachmentName');
             $('#_attachmentName').val(input.val());
