@@ -47,7 +47,7 @@
             ...
         </div>
         <a href="/ar/login" class="item"> تسجيل دخول
-            <i class="log out icon"></i>
+            <i class="sign in icon"></i>
         </a>
         <a class="item" href="/logout/"><i class="large log out icon"></i>تسجيل خروج</a>
     </div>

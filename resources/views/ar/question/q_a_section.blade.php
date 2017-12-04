@@ -1,17 +1,14 @@
-<div class="ui label">
-    أ
-</div>
-<br>
-<br>
+<?php
 
-
+?>
 @foreach($tags as $tag)
 
-    <div class="ui tag labels">
-        <a href="/ar/tagQuestion/{{$tag->id}}" class="ui label">
-            {{$tag->tag}}
-        </a>
 
-    </div>
+    <a style="margin: 5px" href="/ar/tagQuestion/{{$tag->id}}" class="ui label">
+
+            {{$tag->tag}}
+    </a>
+
+
 @endforeach
 <div class="ui divider"></div>

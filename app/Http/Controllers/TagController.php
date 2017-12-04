@@ -23,7 +23,7 @@ class TagController extends Controller
 
     public function tags($lang)
     {
-        $tags = Tag::where("lang", $lang)->orderBy('id', 'ASC')->get();
+        $tags = Tag::where("lang", $lang)->orderBy('tag', 'ASC')->get();
 
         return view("$lang.Question.q_a", ["tags" => $tags]);
     }

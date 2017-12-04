@@ -1,8 +1,11 @@
 @if(Count($question)<=0)
+    <div class="ui  segment">
 
-    <div class="ui floating message">
-        <p>لاتوجد اسئلة</p>
+        <div class="ui floating message">
+            <p>لاتوجد اسئلة</p>
+        </div>
     </div>
+
 @endif
 <style>
     mark {
@@ -119,13 +122,8 @@
                     @endif
                 </a>
             @endif
-
         </a>
-
-
         <a href="/ar/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
-
-
     </div>
     <script>
         $('.ui.embed').embed();

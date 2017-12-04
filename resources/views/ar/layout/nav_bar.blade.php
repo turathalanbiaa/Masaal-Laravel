@@ -1,15 +1,15 @@
 <div id="nav" class="ui  small menu">
 
-    <a class="item" href="/ar/send-question">
+    <a style="direction: ltr" class="item" href="/ar/send-question">
         <i class="large send icon"></i> ارسال سؤال
     </a>
-    <a class="item" href="/ar/my-questions">
+    <a style="direction: ltr" class="item" href="/ar/my-questions">
         <i class="large mail icon"></i>
         اسئلتي
     </a>
 
 
-    <div class="ui dropdown item">
+    <div style="direction: ltr" class="ui dropdown item">
         <i class="large browser icon"></i>
         <div class="text">المنشورات</div>
         <div class="menu">
@@ -19,7 +19,7 @@
     </div>
 
 
-    <div class="ui dropdown item">
+    <div style="direction: ltr" class="ui dropdown item">
         <i class="large tags icon"></i>
         فرز حسب
 
@@ -53,17 +53,17 @@
 
                 <div class="container">
 
-                    <a href="/ar/index/1" class="item">عربي</a>
-                    <a href="/en/index/1" class="item">English</a>
+                    <a style="direction: ltr" href="/ar/index/1" class="item">عربي</a>
+                    <a style="direction: ltr" href="/en/index/1" class="item">English</a>
 
-                    <a href="/fr/index/1" class="item">French</a>
+                    <a style="direction: ltr" href="/fr/index/1" class="item">French</a>
 
                     <a class="item" href="/ar/app">
                         <i class="download icon"></i>
                         تحميل التطبيق
                     </a>
                     <a href="/ar/login" class="item"> تسجيل دخول
-                        <i class="log out icon"></i>
+                        <i class="sign in icon"></i>
                     </a>
                     <a href="/ar/logout" class="item"> تسجيل خروج
                         <i class="log out icon"></i>
@@ -80,17 +80,26 @@
 
 </div>
 
+<div class="ui grid">
 
-<div class="ui two item menu">
+    <div style="direction: ltr" class="eight wide column">
 
-    <a class="item" href="/ar/index/1">
-        <i class="home icon"></i>
-        الفقه الميسر
-    </a>
-    <a class="item" href="/ar/index/2">
-        <i class="home icon"></i>
-        العقائد الميسره
-    </a>
+        <a style="background: #00b5ad ; color: #ffffff" href="/ar/index/1" class="fluid ui button">
+            <i class="comments icon"></i>
+
+            الفقه الميسر
+        </a>
+
+    </div>
+    <div style="direction: ltr" class="eight wide column">
+
+        <a style="background: #00b5ad ; color: #ffffff" href="/ar/index/2" class="fluid ui button">
+            <i class="talk icon"></i>
+            العقائد الميسرة
+        </a>
+
+
+    </div>
 
 
 </div>
