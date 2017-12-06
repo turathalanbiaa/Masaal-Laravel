@@ -29,3 +29,5 @@ Route::post("/control-panel/change-question-type","AdminController@changeQuestio
 Route::get("/control-panel/{lang}/my-questions","AdminController@showQuestionToRespondent")->where("lang" , "en|ar|fr");
 Route::get("/control-panel/{lang}/question","AdminController@showQuestion")->where("lang" , "en|ar|fr");
 Route::post("/control-panel/{lang}/question-answer","AdminController@questionAnswer")->where("lang" , "en|ar|fr");
+
+/*route of reviewer*/

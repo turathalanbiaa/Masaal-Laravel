@@ -11,7 +11,6 @@
         </div>
 
         <div class="column">
-
             <div class="ui right aligned segments">
                 @if(count($questions) > 0)
                     @foreach($questions as $question)
@@ -75,7 +74,6 @@
         $('.pagination').addClass('ui right aligned pagination menu');
         $('.pagination').css({'padding':'0','font-size':'12px'});
         $('.pagination').find('li').addClass('item');
-
         $("button[data-action='distribute-question']").click(function ()
         {
             var _token = $(this).parent().parent().find("input[type='hidden'][name='_token']").val();
@@ -109,7 +107,6 @@
                 }
             });
         });
-
         $("button[data-action='change-question-type']").click(function ()
         {
             var questionId = $(this).data('question-id');

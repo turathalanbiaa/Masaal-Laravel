@@ -387,17 +387,26 @@ class AdminController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        DB::transaction(function ($question) {
+
+        DB::transaction(function () {
+            $question = Question::find(Input::get("questionId"));
+            if (!is_null(request()->file("image")))
+            {
+                if (Storage::exists($question->image))
+                {
+                    Storage::delete($question->image);
+                    $question->image = null;
+                }
+
+                $imagePath = Storage::putFile('public/answerImages', request()->file("image"));
+                $question->image = $imagePath;
+            }
             $question->answer = Input::get("answer");
-            $question->category_Id = Input::get("categoryId");
+            $question->categoryId = Input::get("categoryId");
             $question->status = QuestionStatus::TEMP_ANSWER;
-
-
-
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
             $question->save();
-
             $tags = explode(',',Input::get("tags"));
             foreach ($tags as $tag_id)
             {
@@ -408,6 +417,6 @@ class AdminController extends Controller
             }
         });
 
-        dd("ok");
+        return redirect("/control-panel/$lang/my-questions")->with("AnswerQuestionMessage","تمت الأجابة عن السؤال");
     }
 }
