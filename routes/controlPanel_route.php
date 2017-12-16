@@ -12,7 +12,7 @@ Route::post("/control-panel/{lang}/login/validation", "AdminController@loginVali
 Route::get("/control-panel/{lang}/main", "AdminController@main")->where("lang" , "en|ar|fr");
 
 /*route of manager*/
-Route::get("/control-panel/{lang}/managers","AdminController@manager")->where("lang" , "en|ar|fr");
+Route::get("/control-panel/{lang}/managers","AdminController@showAllManagers")->where("lang" , "en|ar|fr");
 Route::get("/control-panel/{lang}/managers/search","AdminController@searchManager")->where("lang" , "en|ar|fr");
 Route::get("/control-panel/{lang}/admin/info","AdminController@adminInfo")->where("lang" , "en|ar|fr");
 Route::post("/control-panel/{lang}/admin/delete","AdminController@adminDelete")->where("lang" , "en|ar|fr");

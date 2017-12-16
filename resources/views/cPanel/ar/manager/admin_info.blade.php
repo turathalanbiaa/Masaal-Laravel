@@ -109,6 +109,7 @@
 
 @section("script")
     <script>
+        $('.ui.checkbox').checkbox();
         $('.ui.session.info.message').transition({
             animation  : 'flash',
             duration   : '1s'

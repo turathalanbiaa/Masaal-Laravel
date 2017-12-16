@@ -26,5 +26,4 @@ class Question extends Model
     public $timestamps = false;
 
 
-
 }

@@ -83,7 +83,7 @@
                 {!! csrf_field() !!}
                 <input type="hidden" name="adminId" value="">
                 <button type="submit" class="ui green button">نعم</button>
-                <a class="ui red button" id="abort">لا</a>
+                <a class="ui red button" data-action="abort">لا</a>
             </form>
         </div>
     </div>
@@ -101,7 +101,7 @@
             $('.ui.modal').modal('show');
         });
 
-        $('#abort').click(function ()
+        $("a[data-action='abort']").click(function ()
         {
             $('.ui.modal').modal('hide');
         });
