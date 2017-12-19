@@ -400,9 +400,9 @@ class AdminController extends Controller
                     Storage::delete($question->image);
                     $question->image = null;
                 }
-
-                $imagePath = Storage::putFile('public/answerImages', request()->file("image"));
-                $question->image = $imagePath;
+                $Path = Storage::putFile("public", request()->file("image"));
+                $imagePath = explode('/',$Path);
+                $question->image = $imagePath[1];
             }
             $question->answer = Input::get("answer");
             $question->categoryId = Input::get("categoryId");
@@ -424,7 +424,7 @@ class AdminController extends Controller
     }
 
     /* Reviewer */
-    public function reviewer($lang)
+    public function reviewedQuestions($lang)
     {
         $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
             ->where('lang',$_SESSION["ADMIN_LANG"])
@@ -432,10 +432,10 @@ class AdminController extends Controller
             ->orderBy('id')
             ->paginate(20);
 
-        return view();
+        return view("cPanel.$lang.reviewer.reviewedQuestions")->with(["lang" => $lang, "questions" => $questions]);
     }
 
-    public function acceptAnswer($lang)
+    public function acceptAnswer()
     {
         $questionId = Input::get("questionId");
         $question = Question::find($questionId);
@@ -455,7 +455,7 @@ class AdminController extends Controller
         return ["Admin" => "NotReviewer"];
     }
 
-    public function rejectAnswer($lang)
+    public function rejectAnswer()
     {
         $questionId = Input::get("questionId");
         $question = Question::find($questionId);
@@ -466,11 +466,11 @@ class AdminController extends Controller
         {
             DB::transaction(function (){
                 $question = Question::find(Input::get("questionId"));
-                Storage::delete($question->image);
+                Storage::delete("public/".$question->image);
                 $question->image = null;
                 $question->answer = null;
                 $question->categoryId = null;
-                $question->status = QuestionStatus::TEMP_ANSWER;
+                $question->status = QuestionStatus::NO_ANSWER;
                 $question->videoLink = null;
                 $question->externalLink = null;
                 $question->save();

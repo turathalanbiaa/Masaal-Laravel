@@ -31,3 +31,6 @@ Route::get("/control-panel/{lang}/question","AdminController@showQuestion")->whe
 Route::post("/control-panel/{lang}/question-answer","AdminController@questionAnswer")->where("lang" , "en|ar|fr");
 
 /*route of reviewer*/
+Route::get("/control-panel/{lang}/reviewed-questions","AdminController@reviewedQuestions")->where("lang" , "en|ar|fr");
+Route::post("/control-panel/acceptAnswer","AdminController@acceptAnswer");
+Route::post("/control-panel/rejectAnswer","AdminController@rejectAnswer");

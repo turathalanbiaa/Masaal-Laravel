@@ -25,5 +25,18 @@ class Question extends Model
     protected $table = "question";
     public $timestamps = false;
 
+    public function Admin()
+    {
+        return $this->hasOne('App\Models\Admin','id','adminId');
+    }
 
+    public function Category()
+    {
+        return $this->hasOne('App\Models\Category','id','categoryId');
+    }
+
+    public function QuestionTags()
+    {
+        return $this->hasMany('App\Models\QuestionTag','question_id','id');
+    }
 }

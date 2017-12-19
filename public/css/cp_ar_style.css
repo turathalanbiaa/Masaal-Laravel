@@ -75,6 +75,14 @@ body {
 {
     width: 0!important;
 }
+
+.ui.buttons .button:first-child {
+    border-radius: 0 0.28571429rem 0.28571429rem 0;
+}
+
+.ui.buttons .button:last-child {
+    border-radius: 0.28571429rem  0  0 0.28571429rem;
+}
 /******************** Add JS-Flat Fount ********************/
 @font-face {
     font-family: JF-Flat;
