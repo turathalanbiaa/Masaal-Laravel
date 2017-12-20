@@ -24,7 +24,7 @@
 
         @if(session("UpdateManagerMessage"))
             <div class="column">
-                <div class="ui success large message">
+                <div class="ui session info message">
                     <h2 style="text-align: center;">{{session("UpdateManagerMessage")}}</h2>
                 </div>
             </div>
@@ -109,13 +109,10 @@
 
 @section("script")
     <script>
-        $('.success.message').transition({
+        $('.ui.checkbox').checkbox();
+        $('.ui.session.info.message').transition({
             animation  : 'flash',
-            duration   : '1.5s'
+            duration   : '1s'
         });
-
-        $('.ui.checkbox')
-            .checkbox()
-        ;
     </script>
 @endsection

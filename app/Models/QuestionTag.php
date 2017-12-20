@@ -8,4 +8,9 @@ class QuestionTag extends Model
 {
     protected $table = "question_tag";
     public $timestamps = false;
+
+    public function Tag()
+    {
+        return $this->hasOne('App\Models\Tag','id','tag_id');
+    }
 }

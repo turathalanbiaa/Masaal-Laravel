@@ -10,6 +10,7 @@ use App\Models\Question;
 use App\Models\QuestionTag;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -54,9 +55,7 @@ class AdminController extends Controller
 
         $username = Input::get("username");
         $password = md5(Input::get("password"));
-
         $admin = Admin::where("username","=",$username)->where("password","=",$password)->first();
-
         if (is_null($admin))
             return redirect("/control-panel/$lang/login")->with('LoginMessage', "فشل تسجيل الدخول !!! أعد المحاولة مرة أخرى.");
 
@@ -64,7 +63,6 @@ class AdminController extends Controller
         $_SESSION["ADMIN_NAME"] = $admin->name;
         $_SESSION["ADMIN_LANG"] = $admin->lang;
         $_SESSION["ADMIN_TYPE"] = $admin->type;
-
         $_SESSION["ADMIN_MANAGER"] = $admin->manager;
         $_SESSION["ADMIN_REVIEWER"] = $admin->reviewer;
         $_SESSION["ADMIN_DISTRIBUTOR"] = $admin->distributor;
@@ -81,9 +79,9 @@ class AdminController extends Controller
     }
 
     /* Managers */
-    public function manager($lang)
+    public function showAllManagers($lang)
     {
-        $admins = Admin::where("lang",$_SESSION["ADMIN_LANG"])->where("type",$_SESSION["ADMIN_TYPE"])->get();
+        $admins = Admin::where("lang",$_SESSION["ADMIN_LANG"])->where("type",$_SESSION["ADMIN_TYPE"])->orderBy("id")->get();
         return view("cPanel.$lang.manager.managers")->with(["admins" => $admins, "lang" => $lang]);
     }
 
@@ -93,6 +91,7 @@ class AdminController extends Controller
         $admins = Admin::where("lang",$_SESSION["ADMIN_LANG"])
             ->where("type",$_SESSION["ADMIN_TYPE"])
             ->where("name","LIKE","%".$query."%")
+            ->orderBy("id")
             ->get();
 
         return view("cPanel.$lang.manager.managers")->with(["admins" => $admins, "lang" => $lang]);
@@ -104,7 +103,7 @@ class AdminController extends Controller
         $admin = Admin::find($id);
 
         if (is_null($admin))
-            return redirect("/control-panel/$lang/manager")->with("InfoManagerMessage","لا يوجد مثل هذا الحساب لكي يتم عرض معلوماته.");;
+            return redirect("/control-panel/$lang/managers")->with("InfoManagerMessage","لا يوجد مثل هذا الحساب لكي يتم عرض معلوماته.");;
 
         return view("cPanel.$lang.manager.admin_info")->with(["admin"=>$admin, "lang"=>$lang]);
     }
@@ -255,13 +254,15 @@ class AdminController extends Controller
     public function distributeQuestionsToRespondents($lang)
     {
         $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
-            ->where('status',QuestionStatus::NO_ANSWER)
-            ->where("lang",$lang)
+            ->where('adminId',null)
+            ->where('lang',$lang)
+            ->orderBy("id")
             ->paginate(20);
 
         $respondents = Admin::where('type',$_SESSION["ADMIN_TYPE"])
             ->where('lang',$lang)
-            ->where("respondent",1)
+            ->where('respondent',1)
+            ->orderBy("id")
             ->get();
 
         return view("cPanel.$lang.distributor.distributor")->with(["lang" => $lang, "questions" => $questions, "respondents" => $respondents]);
@@ -280,7 +281,6 @@ class AdminController extends Controller
         if (!$respondent)
             return ["respondent" => "NotFound"];
 
-        $question->status = QuestionStatus::TEMP_ANSWER;
         $question->adminId = $respondentId;
         $success = $question->save();
 
@@ -294,11 +294,12 @@ class AdminController extends Controller
     {
         $questionId = Input::get("questionId");
         $question = Question::find($questionId);
+
         if (!$question)
             return ["question" => "NotFound"];
 
         $question->status = QuestionStatus::NO_ANSWER;
-        $question->adminId = 0;
+        $question->adminId = null;
         $question->categoryId = null;
         switch ($question->type)
         {
@@ -320,7 +321,8 @@ class AdminController extends Controller
         $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
             ->where('lang',$_SESSION["ADMIN_LANG"])
             ->where('adminId',$_SESSION['ADMIN_ID'])
-            ->where('status',QuestionStatus::TEMP_ANSWER)
+            ->where('status',QuestionStatus::NO_ANSWER)
+            ->orderBy('id')
             ->paginate(20);
 
         return view("cPanel.$lang.respondent.my_questions")->with(["lang" => $lang, "questions" => $questions]);
@@ -344,7 +346,6 @@ class AdminController extends Controller
 
     public function questionAnswer(Request $request, $lang)
     {
-
         $question = Question::find(Input::get("questionId"));
 
         if (is_null($question))
@@ -355,7 +356,7 @@ class AdminController extends Controller
             "answer" => 'required',
             "categoryId" => "required|numeric",
             "tags" => "required",
-            'attachmentName' => 'file|image|min:0|max:100',
+            'image' => 'file|image|min:0|max:100',
         ];
 
         $rulesMessage = [
@@ -390,16 +391,25 @@ class AdminController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        dd($_FILES);
-
-        DB::transaction(function ($question) {
+        DB::transaction(function () {
+            $question = Question::find(Input::get("questionId"));
+            if (!is_null(request()->file("image")))
+            {
+                if (Storage::exists($question->image))
+                {
+                    Storage::delete($question->image);
+                    $question->image = null;
+                }
+                $Path = Storage::putFile("public", request()->file("image"));
+                $imagePath = explode('/',$Path);
+                $question->image = $imagePath[1];
+            }
             $question->answer = Input::get("answer");
-            $question->category_Id = Input::get("categoryId");
+            $question->categoryId = Input::get("categoryId");
+            $question->status = QuestionStatus::TEMP_ANSWER;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
-            $question->status = QuestionStatus::APPROVED;
             $question->save();
-
             $tags = explode(',',Input::get("tags"));
             foreach ($tags as $tag_id)
             {
@@ -410,6 +420,83 @@ class AdminController extends Controller
             }
         });
 
+        return redirect("/control-panel/$lang/my-questions")->with("AnswerQuestionMessage","تمت الأجابة عن السؤال");
+    }
 
+    /* Reviewer */
+    public function reviewedQuestions($lang)
+    {
+        $questions = Question::where('type',$_SESSION["ADMIN_TYPE"])
+            ->where('lang',$_SESSION["ADMIN_LANG"])
+            ->where('status',QuestionStatus::TEMP_ANSWER)
+            ->orderBy('id')
+            ->paginate(20);
+
+        return view("cPanel.$lang.reviewer.reviewedQuestions")->with(["lang" => $lang, "questions" => $questions]);
+    }
+
+    public function acceptAnswer()
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        if ($_SESSION["ADMIN_REVIEWER"] == 1)
+        {
+            $question->status = QuestionStatus::APPROVED;
+            $success = $question->save();
+            if (!$success)
+                return ["success" => false];
+
+            return ["success" => true];
+        }
+
+        return ["Admin" => "NotReviewer"];
+    }
+
+    public function rejectAnswer()
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        if ($_SESSION["ADMIN_REVIEWER"] == 1)
+        {
+            DB::transaction(function (){
+                $question = Question::find(Input::get("questionId"));
+                Storage::delete("public/".$question->image);
+                $question->image = null;
+                $question->answer = null;
+                $question->categoryId = null;
+                $question->status = QuestionStatus::NO_ANSWER;
+                $question->videoLink = null;
+                $question->externalLink = null;
+                $question->save();
+                QuestionTag::where('question_id',$question->id)->delete();
+            });
+            return ["success" => true];
+        }
+
+        return ["Admin" => "NotReviewer"];
+    }
+
+    public function questionInfo($lang)
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+        if (!$question)
+            return redirect();
+        return view();
+    }
+
+    public function updateAnswer($lang)
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+        if (!$question)
+            return redirect();
+        return view();
     }
 }

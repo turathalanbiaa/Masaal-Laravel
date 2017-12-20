@@ -10,8 +10,15 @@
         @include("cPanel.ar.layout.welcome")
     </div>
 
-    <div class="column">
+    @if(session("AnswerQuestionMessage"))
+        <div class="column">
+            <div class="ui session info message">
+                <h2 style="text-align: center;">{{session("AnswerQuestionMessage")}}</h2>
+            </div>
+        </div>
+    @endif
 
+    <div class="column">
         <div class="ui right aligned segments">
             @if(count($questions) > 0)
             @foreach($questions as $question)
@@ -57,7 +64,10 @@
     $('.pagination').addClass('ui right aligned pagination menu');
     $('.pagination').css({'padding':'0','font-size':'15px'});
     $('.pagination').find('li').addClass('item');
-
+    $('.ui.session.info.message').transition({
+        animation  : 'flash',
+        duration   : '1s'
+    });
     $("button[data-action='change-question-type']").click(function ()
     {
         var questionId = $(this).data('question-id');

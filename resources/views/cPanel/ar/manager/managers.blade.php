@@ -12,7 +12,7 @@
 
         @if(session("InfoManagerMessage"))
             <div class="column">
-                <div class="ui success large message">
+                <div class="ui session info message">
                     <h2 style="text-align: center;">{{session("InfoManagerMessage")}}</h2>
                 </div>
             </div>
@@ -20,7 +20,7 @@
 
         @if(session("DeleteManagerMessage"))
             <div class="column">
-                <div class="ui success large message">
+                <div class="ui session info message">
                     <h2 style="text-align: center;">{{session("DeleteManagerMessage")}}</h2>
                 </div>
             </div>
@@ -28,7 +28,7 @@
 
         @if(session("UpdateManagerMessage"))
             <div class="column">
-                <div class="ui success large message">
+                <div class="ui session info message">
                     <h2 style="text-align: center;">{{session("UpdateManagerMessage")}}</h2>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 {!! csrf_field() !!}
                 <input type="hidden" name="adminId" value="">
                 <button type="submit" class="ui green button">نعم</button>
-                <a class="ui red button" id="abort">لا</a>
+                <a class="ui red button" data-action="abort">لا</a>
             </form>
         </div>
     </div>
@@ -101,14 +101,14 @@
             $('.ui.modal').modal('show');
         });
 
-        $('#abort').click(function ()
+        $("a[data-action='abort']").click(function ()
         {
             $('.ui.modal').modal('hide');
         });
 
-        $('.success.message').transition({
+        $('.ui.session.info.message').transition({
             animation  : 'flash',
-            duration   : '1.5s'
+            duration   : '1s'
         });
     </script>
 @endsection

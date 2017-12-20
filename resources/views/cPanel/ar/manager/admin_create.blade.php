@@ -24,7 +24,7 @@
 
         @if(session("CreateManagerMessage"))
             <div class="column">
-                <div class="ui success large message">
+                <div class="ui session info message">
                     <h2 style="text-align: center;">{{session("CreateManagerMessage")}}</h2>
                 </div>
             </div>
@@ -111,7 +111,9 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="ui green button">ارسال</button>
+                            <div class="field" style="text-align: center;">
+                                <button type="submit" class="ui green button">ارسال</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -122,13 +124,10 @@
 
 @section("script")
     <script>
-        $('.success.message').transition({
+        $('.ui.checkbox').checkbox();
+        $('.ui.session.info.message').transition({
             animation  : 'flash',
-            duration   : '1.5s'
+            duration   : '1s'
         });
-
-        $('.ui.checkbox')
-            .checkbox()
-        ;
     </script>
 @endsection
