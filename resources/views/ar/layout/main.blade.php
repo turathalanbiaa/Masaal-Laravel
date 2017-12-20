@@ -27,7 +27,7 @@
     </div>
 </div>
 
-<div class="ui hidden divider"></div>
+
 
 </body>
 <script>$(".ui.dropdown").dropdown();</script>

@@ -20,7 +20,7 @@ class UserController extends Controller
     public function showLogin(Request $request, $lang )
     {
         if ($request->session()->has('USER_ID'))
-            return redirect("/$lang/");
+            return redirect("/$lang/1");
 
         return view("$lang.user.login_and_create");
     }

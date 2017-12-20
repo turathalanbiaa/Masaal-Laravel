@@ -122,6 +122,7 @@
                     @endif
                 </a>
             @endif
+
         </a>
         <a href="/ar/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
     </div>

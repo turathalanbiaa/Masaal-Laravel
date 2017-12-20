@@ -2,6 +2,7 @@
 
 @section("content")
     <div class="ui green segment">
+
         <form method="post" action="/ar/send" class="ui form">
             {!! csrf_field() !!}
             <div class="field">
@@ -74,6 +75,8 @@
         ;
     </script>
 
-
+<script>
+    $('.ui.embed').embed();
+</script>
 
 @endsection

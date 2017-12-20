@@ -14,7 +14,7 @@
         </div>
     @endforeach
 
-    <div class="ui small modal">
+    <div class="ui tiny modal">
         <i class="close icon"></i>
         <div class=" header">
             مشاركة السؤال على
@@ -23,28 +23,28 @@
 
         <div class="ui grid">
             <div class="five wide column">
-
+Facebook
                 <a class="facebook"
                    href="https://www.facebook.com/sharer.php?u={{\Illuminate\Support\Facades\Request::root()}} . /single-question/"
-                   rel="nofollow" target="_blank"><i class="huge centered facebook icon"></i></a>
+                   rel="nofollow" target="_blank"><i class="big centered facebook icon"></i></a>
 
 
             </div>
             <div class="five wide column">
-
+                Twitter
                 <a class="twitter"
                    href="https://twitter.com/share?url={{\Illuminate\Support\Facades\Request::root()}} . /single-question/"
-                   rel="nofollow" target="_blank"><i class="huge centered twitter icon"></i></a>
+                   rel="nofollow" target="_blank"><i class="big centered twitter icon"></i></a>
 
 
             </div>
             <div class="five wide column">
-
+                google plus
                 <a class="centered g-puls"
                    href="https://plus.google.com/u/0/share?url={{\Illuminate\Support\Facades\Request::root()}} . /single-question/"
                    rel="nofollow"
                    target="_blank">
-                    <i class="huge centered google icon"></i></a>
+                    <i class="big centered google icon"></i></a>
 
 
             </div>
