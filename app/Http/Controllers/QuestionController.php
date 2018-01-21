@@ -33,7 +33,7 @@ class QuestionController extends Controller
         $questions = DB::select($SQL, [$lang, $type]);
         $announcements = Announcement::where("lang", $lang)->where("type", $type)->orderBy('id', 'DESC')->get();
 
-        return view("$lang.Question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => [$announcements]]);
+        return view("$lang.question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => [$announcements]]);
     }
 
     public function my($lang)
@@ -51,7 +51,7 @@ class QuestionController extends Controller
                 ORDER BY ID DESC";
 
         $questions = DB::select($SQL, [$lang, $userId]);
-        return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
     }
 
     public function search($lang)
@@ -68,7 +68,7 @@ class QuestionController extends Controller
 
         $questions = DB::select($SQL, [$lang, $searchtext]);
 
-        return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions], "searchtext" => $searchtext0]);
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => [$questions], "searchtext" => $searchtext0]);
 
     }
 
@@ -88,14 +88,14 @@ class QuestionController extends Controller
 
         $questions = DB::select($SQL, [$lang, $type, $id]);
 
-        return view("$lang.Question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
 
     }
 
     public function showSendQuestion($lang)
     {
 
-        return view("$lang.Question.send_question");
+        return view("$lang.question.send_question");
     }
 
     public function send($lang)
@@ -132,7 +132,7 @@ class QuestionController extends Controller
         $first_categorys = Category::where("lang", $lang)->where("type", 1)->get();
         $second_categorys = Category::where("lang", $lang)->where("type", 2)->get();
 
-        return view("$lang.Question.categories", ["first_categorys" => $first_categorys, "second_categorys" => $second_categorys]);
+        return view("$lang.question.categories", ["first_categorys" => $first_categorys, "second_categorys" => $second_categorys]);
     }
 
     public function showQuestion($lang, $id)
@@ -143,7 +143,7 @@ class QuestionController extends Controller
 
         $questions = DB::select($SQL, [$id]);
         $question = array_values($questions)[0];
-        return view("$lang.Question.single_question", ["question" => $question]);
+        return view("$lang.question.single_question", ["question" => $question]);
     }
 
     public function tagQuestion($lang, $tag)
@@ -165,6 +165,6 @@ class QuestionController extends Controller
         $questions = QuestionRepository::searchByTag($tag);
 
 
-        return view("$lang.Question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => null]);
+        return view("$lang.question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => null]);
     }
 }
