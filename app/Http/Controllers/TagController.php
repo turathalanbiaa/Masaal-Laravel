@@ -25,7 +25,7 @@ class TagController extends Controller
     {
         $tags = Tag::where("lang", $lang)->orderBy('tag', 'ASC')->get();
 
-        return view("$lang.Question.q_a", ["tags" => $tags]);
+        return view("$lang.question.q_a", ["tags" => $tags]);
     }
 
 
