@@ -4,8 +4,8 @@
 <div class="ui green segment">
     <h3 class="ui medium header">
         <div class="ui grid">
-            <div style="direction: ltr" class="column">
-                <a style="color: #00b5ad ; margin-left: 0px" class="ui big right ribbon label">
+            <div style="direction: rtl" class="column">
+                <a style="color: #00b5ad ; margin-left: 0px" class="ui big right">
                     {{$post->title}}
                 </a>
             </div>
