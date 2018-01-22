@@ -11,8 +11,10 @@ namespace App\Enums;
 
 class FirebaseNotificationType
 {
-    const ANSWER = 1;
-    const NEW_QUESTIONS = 2;
-    const NEW_POSTS = 3;
-    const ANNOUNCEMENT = 4;
+    const ANSWER = 5;
+    const NEW_FEQH_QUESTIONS = 1;
+    const NEW_AQAED_QUESTIONS = 2;
+    const NEW_FEQH_POSTS = 3;
+    const NEW_AQAED_POSTS = 4;
+    const ANNOUNCEMENT = 6;
 }

@@ -21,7 +21,7 @@ class NotificationController extends Controller
     public function sendToDevice()
     {
         $token = Input::get("token");
-        $result = FirebaseNotification::toDevice($token , "Testing Message From Laravel " . time() , FirebaseNotificationType::NEW_POSTS , "1");
+        $result = FirebaseNotification::toDevice($token , "You have " . time() , FirebaseNotificationType::ANSWER , "1");
         return ["result" => $result];
     }
 
