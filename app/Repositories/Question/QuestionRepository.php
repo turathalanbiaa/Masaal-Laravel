@@ -7,6 +7,7 @@
  */
 
 namespace App\Repositories\Question;
+use App\Enums\QuestionStatus;
 use Illuminate\Support\Facades\DB;
 
 class QuestionRepository
@@ -16,10 +17,10 @@ class QuestionRepository
     {
         $SQL = "SELECT question.id , content , user.name AS userDisplayName , category.category AS category , time , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.type = ? 
+                WHERE question.lang = ? AND question.type = ? AND question.status = ?
                 ORDER BY ID DESC LIMIT $limit OFFSET $offset";
 
-        return DB::select($SQL , [$lang , $type]);
+        return DB::select($SQL , [$lang , $type , QuestionStatus::APPROVED]);
     }
 
     public static function search($lang , $text , $category)
@@ -47,8 +48,10 @@ class QuestionRepository
 
         $SQL = "SELECT question.id , content , user.name AS userDisplayName , category.category AS category , time , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? $categoryCondition $textCondition
+                WHERE question.status = ? AND question.lang = ? $categoryCondition $textCondition 
                 ORDER BY ID DESC LIMIT 100";
+
+        $params[] = QuestionStatus::APPROVED;
 
         return DB::select($SQL , $params);
     }
@@ -58,10 +61,10 @@ class QuestionRepository
 
         $SQL = "SELECT question.id , content ,question.type AS `type`, user.name AS userDisplayName , category.category AS category ,category.id AS categoryId, time , answer , image , status , videoLink , externalLink 
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.id IN (SELECT questionId FROM question_tag WHERE tagId = ?)
+                WHERE question.id IN (SELECT questionId FROM question_tag WHERE tagId = ?) AND question.status = ?
                 ORDER BY ID DESC LIMIT 100";
 
-        return DB::select($SQL , [$tagId]);
+        return DB::select($SQL , [$tagId , QuestionStatus::APPROVED]);
     }
 
     public static function myQuestions($uuid)
