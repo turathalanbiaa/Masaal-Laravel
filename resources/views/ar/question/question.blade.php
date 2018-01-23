@@ -73,9 +73,9 @@
             <div>
                 <br>
 
-
-                <div class="ui embed" data-source="youtube" data-id="{{$one_question->videoLink}}" data-icon="play"
-                     data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>
+                <div class="ui embed" data-url="{{$one_question->videoLink}}" data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>
+                {{--<div class="ui embed" data-source="youtube" data-id="{{$one_question->videoLink}}" data-icon="play"--}}
+                     {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
 
 
             </div>
@@ -128,5 +128,6 @@
     </div>
     <script>
         $('.ui.embed').embed();
+        $('.url.example .ui.embed').embed();
     </script>
 @endforeach
