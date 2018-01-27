@@ -1,11 +1,16 @@
-<div class="ui green segment">
-    <div class="ui grid">
-        <div class="column">
-            <div class="ui teal right ribbon label">Announcement</div>
-            <p>
-                {{--TODO : Announcement--}}
-                Headers may be oriented to give the importance of a section in the context of the content that surrounds it
-            </p>
+
+@foreach($announcements as $en_announcement)
+
+    @foreach($en_announcement as $one_announcement )
+        <div class="ui green segment">
+            <div class="ui grid">
+                <div style="direction: ltr" class="column">
+                    <div class="ui teal left ribbon label">أعلان مثبت</div>
+                    <p style="direction: rtl">{{$one_announcement->content}}</p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    @endforeach
+@endforeach
+
+

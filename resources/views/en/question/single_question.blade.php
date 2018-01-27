@@ -1,14 +1,14 @@
-@extends("ar.layout.main")
+@extends("en.layout.main")
 
 
 @section("content")
     <div class="ui green segment">
 
-        <a class="ui right tag label" href="/ar/index/{{$question->type}}">
+        <a class="ui right tag label" href="/en/index/{{$question->type}}">
             @if($question->type == 2)
                 العقائد
                 <a class="ui  teal tag label"
-                   href="/ar/search?type={{$question->type}}&id={{$question->categoryId}}">
+                   href="/en/search?type={{$question->type}}&id={{$question->categoryId}}">
                     {{$question->category}}
 
 
@@ -18,7 +18,7 @@
                 الفقه
 
                 <a class="ui tag label"
-                   href="/ar/search?type={{$question->type}}&id={{$question->categoryId}}">
+                   href="/en/search?type={{$question->type}}&id={{$question->categoryId}}">
                     {{$question->category}}
 
 
@@ -28,7 +28,7 @@
         </a>
 
 
-        <a href="/ar/single-question/{{$question->id}}" class="ui right = label">س \ {{$question->id}}</a>
+        <a href="/en/single-question/{{$question->id}}" class="ui right = label">س \ {{$question->id}}</a>
 
         <h3 class="ui header">
             <img src="/img/man.jpg">
@@ -77,7 +77,6 @@
 
             </div>
         @endif
-
         <div class="ui hidden divider"></div>
 
         @if($question->externalLink !="")

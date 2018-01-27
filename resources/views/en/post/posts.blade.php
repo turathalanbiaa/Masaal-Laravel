@@ -6,7 +6,7 @@
         @foreach($posts as $post)
 
             @foreach($post as $en_post)
-                @include("ar.post.post" , ["post" => $en_post])
+                @include("en.post.post" , ["post" => $en_post])
             @endforeach
 
         @endforeach
