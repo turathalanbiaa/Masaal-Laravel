@@ -25,15 +25,25 @@ class QuestionController extends Controller
     {
         //        dump($request->session()->all());
         //    $questions = Question::where("lang", $lang)->where("type", $type)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
-        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
-                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.type = ? AND status = " . QuestionStatus::APPROVED . " 
-                ORDER BY ID DESC";
 
-        $questions = DB::select($SQL, [$lang, $type]);
-        $announcements = Announcement::where("lang", $lang)->where("type", $type)->orderBy('id', 'DESC')->get();
+//        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink
+//                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
+//                WHERE question.lang = ? AND question.type = ? AND status = " . QuestionStatus::APPROVED . "
+//                ORDER BY ID DESC";
+//
 
-        return view("$lang.question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => [$announcements]]);
+        $questions = DB::table('question')
+            ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+            ->leftJoin('user', 'question.userId', '=', 'user.id')
+            ->select('question.id','question.type as type', 'question.categoryId as categoryId', 'content' , 'user.name as userDisplayName' , 'category.category as category' , 'time as x' , 'answer', 'image' , 'status' , 'videoLink' , 'externalLink')
+            ->where("question.lang", $lang)->where("question.type", $type)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(20);
+
+
+
+        //  $questions = DB::select($SQL, [$lang, $type]);
+        $announcements = Announcement::where("lang", $lang)->where("type", $type)->orderBy('id', 'DESC')->paginate(20);
+
+        return view("$lang.question.questions", ["page_title" => "Home", "questions" => $questions, "announcements" => [$announcements]]);
     }
 
     public function my($lang)

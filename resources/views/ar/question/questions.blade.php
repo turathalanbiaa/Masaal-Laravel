@@ -7,12 +7,17 @@
     @if(isset($announcements))
         @include("ar.other.announcement" , ["announcements" => $announcements])
     @endif
-    @foreach($questions as $question)
-        <div id="questions">
-            @include("ar.question.question" , ["question" => $question])
 
+        <div id="questions">
+            @include("ar.question.question" , ["questions" => $questions])
+            <div style="margin-top: 30px" class="ui center aligned stackable grid">
+
+                {{ $questions->links() }}
+
+            </div>
+            <br><br><br><br><br><br>
         </div>
-    @endforeach
+
 
     <div class="ui tiny modal">
         <i class="close icon"></i>
@@ -48,9 +53,15 @@ Facebook
 
 
             </div>
+
             <div class="four wide column"></div>
         </div>
 
+        <div style="margin-top: 30px" class="ui center aligned stackable grid">
+
+            {{ $questions->links() }}
+
+        </div>
 
     </div>
 

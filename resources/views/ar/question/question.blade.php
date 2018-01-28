@@ -1,4 +1,4 @@
-@if(Count($question)<=0)
+@if(Count($questions)<=0)
     <div class="ui  segment">
 
         <div class="ui floating message">
@@ -14,7 +14,7 @@
         color: black;
     }
 </style>
-@foreach($question as $one_question)
+@foreach($questions as $one_question)
 
 
     <div class="ui  segment">
@@ -24,8 +24,9 @@
             <img src="/img/man.jpg">
             <div class="content ">
 
+
                 <div class="sub header">{{$one_question->userDisplayName}}</div>
-                <div class="sub header">{{$one_question->time}}</div>
+                <div class="sub header">{{$one_question->x}}</div>
             </div>
 
 

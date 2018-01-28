@@ -79,7 +79,7 @@
 
                 <div class="container">
 
-       
+
                     <a style="text-align: center" href="/en/index/1" class="item">English</a>
 
                     <a style="text-align: center" href="/fr/index/1" class="item">French</a>
