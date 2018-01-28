@@ -70,9 +70,9 @@
     </div>
 
 
-    <div class="left menu">
+    <div class="right menu">
 
-        <div class="ui left dropdown item">
+        <div class="ui right dropdown item">
             <i class="large translate icon"></i>
             <div class="ui vertical menu">
 
@@ -82,7 +82,6 @@
                     <a style="text-align: center" href="/ar/index/1" class="item">عربي</a>
                     <a style="text-align: center" href="/en/index/1" class="item">English</a>
 
-                    <a style="text-align: center" href="/fr/index/1" class="item">French</a>
 
                 </div>
 

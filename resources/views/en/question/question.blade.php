@@ -30,7 +30,7 @@
 
 
         </h3>
-        <a class="ui large left corner label" data-action="share_question" data-id="{{$one_question->id}}">
+        <a class="ui large right corner label" data-action="share_question" data-id="{{$one_question->id}}">
             <i style="color: #00b5ad" class="share icon"></i>
         </a>
         @if(isset($searchtext))
