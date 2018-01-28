@@ -15,7 +15,7 @@
     </div>
 
     <div class="ui stackable grid">
-    <!----
+
         <div class="eight wide  column">
 
             <div class="ui  centered green segment">
@@ -25,7 +25,7 @@
 
                         <form method="post" action="/ar/login" class="ui form">
                             {{ csrf_field()}}
-                            <h1 class="ui centered medium header">ادخل معلوماتك</h1>
+                            <h1 class="ui centered medium header">تسجيل الدخول</h1>
                             <div class="field">
                                 <label>ادخل مٌـعرفك الخاص</label>
                                 <div class="ui right icon input">
@@ -53,18 +53,14 @@
 
         </div>
 
-
-        !-->
-
-    <!---- delete centered !--->
-        <div class="eight centered wide column">
+        <div class="eight wide  column">
 
             <div class="ui centered green segment">
 
 
 
                     <div class="column">
-                        <h1 class="ui centered medium header">ادخل المعلومات المطلوب</h1>
+                        <h1 class="ui centered medium header">ادخل المعلومات التالية لإنشاء حساب</h1>
 
                         @if(count($errors))
                             <div class="ui error message" id="message">

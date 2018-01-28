@@ -1,29 +1,14 @@
-<div class="ui label">
-    {{--TODO : Letter--}}
-    A
-</div>
+<?php
 
-<br>
-<br>
+?>
+@foreach($tags as $tag)
 
-<div class="ui tag labels">
 
-    {{--TODO : Items--}}
-    <a href="/fr/search?type=tag&value=1" class="ui label">
-        Alcohol
-    </a>
-    <a href="/fr/search?type=tag&value=2" class="ui label">
-        Adoption
-    </a>
-    <a href="/fr/search?type=tag&value=3" class="ui label">
-        Aportion
-    </a>
-    <a href="/fr/search?type=tag&value=4" class="ui label">
-        Azadari
+    <a style="margin: 5px" href="/fr/tagQuestion/{{$tag->id}}" class="ui label">
+
+        {{$tag->tag}}
     </a>
 
-</div>
 
+@endforeach
 <div class="ui divider"></div>
-
-

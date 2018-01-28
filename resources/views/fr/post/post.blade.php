@@ -1,12 +1,19 @@
+<div>
+
+</div>
 <div class="ui green segment">
     <h3 class="ui medium header">
-        {{--TODO : PostTitle--}}
-        Headers may be oriented to give the importance
+        <div class="ui grid">
+            <div style="direction: rtl" class="column">
+                <a style="color: #00b5ad ; margin-left: 0px" class="ui big right">
+                    {{$post->title}}
+                </a>
+            </div>
+        </div>
     </h3>
-    <p>
-        {{--TODO : PostContent--}}
-        Headers may be oriented to give the importance of a section in the context of the content that surrounds it
-    </p>
-    {{--TODO : PostImage--}}
-    <img class="ui large image" src="/img/image.jpg">
+    <p>{{$post->content}}</p>
+    @if($post->image !="")
+        <img class="ui centered large bordered image" src="{{\App\Enums\ImagePath::path_post . $post->image}}">
+    @endif
+
 </div>

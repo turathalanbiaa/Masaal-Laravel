@@ -3,13 +3,12 @@
 @section("content")
 
     <div class="ui green segment">
-        @include("fr.question.q_a_section" , ["item" => null])
-        @include("fr.question.q_a_section" , ["item" => null])
-        @include("fr.question.q_a_section" , ["item" => null])
-        @include("fr.question.q_a_section" , ["item" => null])
-        @include("fr.question.q_a_section" , ["item" => null])
-        @include("fr.question.q_a_section" , ["item" => null])
-        @include("fr.question.q_a_section" , ["item" => null])
+        <div style="direction: ltr" class="column">
+            <div class="ui teal left ribbon label">التقسيم حسب المواظيع</div>
+
+        </div>
+        @include("fr.question.q_a_section" , ["tags" => $tags])
+
     </div>
 
 @endsection

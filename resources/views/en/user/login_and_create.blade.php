@@ -15,7 +15,7 @@
     </div>
 
     <div class="ui stackable grid">
-    <!----
+
         <div class="eight wide  column">
 
             <div class="ui  centered green segment">
@@ -23,7 +23,7 @@
 
                     <div class="column">
 
-                        <form method="post" action="/ar/login" class="ui form">
+                        <form method="post" action="/en/login" class="ui form">
                             {{ csrf_field()}}
             <h1 class="ui centered medium header">ادخل معلوماتك</h1>
             <div class="field">
@@ -54,10 +54,7 @@
 </div>
 
 
-!-->
-
-        <!---- delete centered !--->
-        <div class="eight centered wide column">
+        <div class="eight wide  column">
 
             <div class="ui centered green segment">
 
