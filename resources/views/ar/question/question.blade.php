@@ -47,10 +47,24 @@
         @endif
         <div class="ui divider"></div>
         <p>الجواب :</p>
-        <p class="ellipsis">
+
             @if($one_question->answer != null)
 
-                {{$one_question->answer}}</p>
+
+
+            @if(isset($searchtext))
+                <?php
+                $questionAnswer = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>',  $one_question->answer);
+                ?>
+
+                {!! $questionAnswer !!}
+            @else
+                <p class="ellipsis"
+                   style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;"> {{$one_question->answer}}</p>
+
+            @endif
+
+
         @else
             <div class="ui  message"> تم ارسال السؤال
                 <br>

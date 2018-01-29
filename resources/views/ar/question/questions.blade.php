@@ -8,15 +8,20 @@
         @include("ar.other.announcement" , ["announcements" => $announcements])
     @endif
 
-        <div id="questions">
-            @include("ar.question.question" , ["questions" => $questions])
-            <div style="margin-top: 30px" class="ui center aligned stackable grid">
+    <div id="questions">
+        @include("ar.question.question" , ["questions" => $questions])
+        <div style="margin-top: 30px" class="ui center aligned stackable grid">
 
-                {{ $questions->links() }}
+            @if(isset($unlink))
 
-            </div>
-            <br><br><br><br><br><br>
+            @else
+                {!! $questions->links() !!}
+
+            @endif
+
         </div>
+        <br><br><br><br><br><br>
+    </div>
 
 
     <div class="ui tiny modal">
@@ -28,7 +33,7 @@
 
         <div class="ui grid">
             <div class="five wide column">
-Facebook
+                Facebook
                 <a class="facebook"
                    href="https://www.facebook.com/sharer.php?u={{\Illuminate\Support\Facades\Request::root()}} . /single-question/"
                    rel="nofollow" target="_blank"><i class="big centered facebook icon"></i></a>
@@ -59,7 +64,7 @@ Facebook
 
         <div style="margin-top: 30px" class="ui center aligned stackable grid">
 
-            {{ $questions->links() }}
+
 
         </div>
 

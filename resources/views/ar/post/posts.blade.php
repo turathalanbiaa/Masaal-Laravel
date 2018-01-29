@@ -4,15 +4,19 @@
     <div id="posts">
 
 
-        @foreach($posts as $post)
 
-            @foreach($post as $ar_post)
+            @foreach($posts as $ar_post)
                 @include("ar.post.post" , ["post" => $ar_post])
             @endforeach
 
-        @endforeach
 
 
+            @if(isset($unlink))
+
+            @else
+                {!! $posts->links() !!}
+
+            @endif
     </div>
 
 

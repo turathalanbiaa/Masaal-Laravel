@@ -35,9 +35,8 @@ class QuestionController extends Controller
         $questions = DB::table('question')
             ->leftJoin('category', 'question.categoryId', '=', 'category.id')
             ->leftJoin('user', 'question.userId', '=', 'user.id')
-            ->select('question.id','question.type as type', 'question.categoryId as categoryId', 'content' , 'user.name as userDisplayName' , 'category.category as category' , 'time as x' , 'answer', 'image' , 'status' , 'videoLink' , 'externalLink')
+            ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
             ->where("question.lang", $lang)->where("question.type", $type)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(20);
-
 
 
         //  $questions = DB::select($SQL, [$lang, $type]);
@@ -54,14 +53,24 @@ class QuestionController extends Controller
 
 
         // $questions = Question::where("lang", $lang)->where("userId", $userId)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
+//
+//        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink
+//                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
+//                WHERE question.lang = ? AND question.userId = ?
+//                ORDER BY ID DESC";
+//
+//        $questions = DB::select($SQL, [$lang, $userId]);
+//
 
-        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
-                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.userId = ? 
-                ORDER BY ID DESC";
 
-        $questions = DB::select($SQL, [$lang, $userId]);
-        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
+        $questions = DB::table('question')
+            ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+            ->leftJoin('user', 'question.userId', '=', 'user.id')
+            ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
+            ->where("question.lang", $lang)->where("question.userId", $userId)->orderBy('question.id', 'desc')->paginate(20);
+
+
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions]);
     }
 
     public function search($lang)
@@ -71,14 +80,25 @@ class QuestionController extends Controller
         $searchtext = "%" . $searchtext . "%";
         //   $questions = Question::where("lang", $lang)->where("content", 'like', "%" . $searchtext . "%")->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
-        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
-                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND content LIKE ? AND status = " . QuestionStatus::APPROVED . "
-                ORDER BY ID DESC";
+//        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink
+//                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
+//                WHERE question.lang = ? AND content LIKE ? AND status = " . QuestionStatus::APPROVED . "
+//                ORDER BY ID DESC";
+//
+//        $questions = DB::select($SQL, [$lang, $searchtext]);
+//
+//
+//
+        $unlink = 0;
 
-        $questions = DB::select($SQL, [$lang, $searchtext]);
+        $questions = DB::table('question')
+            ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+            ->leftJoin('user', 'question.userId', '=', 'user.id')
+            ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
+            ->where("question.lang", $lang)->where("content", "LIKE", $searchtext)->orwhere("answer", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(100);
 
-        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => [$questions], "searchtext" => $searchtext0]);
+
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions, "searchtext" => $searchtext0 ,"unlink" => $unlink]);
 
     }
 
@@ -91,14 +111,24 @@ class QuestionController extends Controller
         // $questions = Question::where("lang", $lang)->where("type", $type)->where("categoryId", $id)->where("status", QuestionStatus::APPROVED)->orderBy('id', 'DESC')->get();
 
 
-        $SQL = "SELECT question.id ,question.type AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
-                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
-                WHERE question.lang = ? AND question.`type` = ? AND categoryId = ? AND status = " . QuestionStatus::APPROVED . "
-                ORDER BY ID DESC";
+//        $SQL = "SELECT question.id ,question.type AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink
+//                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
+//                WHERE question.lang = ? AND question.`type` = ? AND categoryId = ? AND status = " . QuestionStatus::APPROVED . "
+//                ORDER BY ID DESC";
+//
+//        $questions = DB::select($SQL, [$lang, $type, $id]);
+//
+//
+        $unlink = 0;
 
-        $questions = DB::select($SQL, [$lang, $type, $id]);
+        $questions = DB::table('question')
+            ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+            ->leftJoin('user', 'question.userId', '=', 'user.id')
+            ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
+            ->where("question.lang", $lang)->where("question.type", $type)->where("categoryId", $id)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(200);
 
-        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => [$questions]]);
+
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions , "unlink" =>$unlink]);
 
     }
 
@@ -151,6 +181,7 @@ class QuestionController extends Controller
                 FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
                 WHERE question.id = ?";
 
+
         $questions = DB::select($SQL, [$id]);
         $question = array_values($questions)[0];
         return view("$lang.question.single_question", ["question" => $question]);
@@ -173,8 +204,8 @@ class QuestionController extends Controller
 //
 
         $questions = QuestionRepository::searchByTag($tag);
+        $unlink = 0;
 
-
-        return view("$lang.question.questions", ["page_title" => "Home", "questions" => [$questions], "announcements" => null]);
+        return view("$lang.question.questions", ["page_title" => "Home", "questions" => $questions, "announcements" => null, "unlink" => $unlink]);
     }
 }

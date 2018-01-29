@@ -17,9 +17,11 @@ class PostController extends Controller
     public function index($lang , $type)
     {
 
-        $posts = Post::where("lang" ,$lang)->where("type" ,$type)->get();
+        $posts = Post::where("lang" ,$lang)->where("type" ,$type)->paginate(20);;
 
-        return view("$lang.post.posts" , ["posts" => [$posts]]);
+        return view("$lang.post.posts" , ["posts" => $posts]);
+
+
     }
 
 }
