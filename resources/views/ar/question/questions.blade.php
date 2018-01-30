@@ -33,28 +33,28 @@
 
         <div class="ui grid">
             <div class="five wide column">
-                Facebook
+
                 <a class="facebook"
-                   href="https://www.facebook.com/sharer.php?u={{\Illuminate\Support\Facades\Request::root()}} . /single-question/"
-                   rel="nofollow" target="_blank"><i class="big centered facebook icon"></i></a>
+                   href="https://www.facebook.com/sharer.php?u=masael.turathalanbiaa.com/ar/single-question/"
+                   rel="nofollow" target="_blank"><i class="big centered facebook icon"></i>Facebook</a>
 
 
             </div>
             <div class="five wide column">
-                Twitter
+
                 <a class="twitter"
-                   href="https://twitter.com/share?url={{\Illuminate\Support\Facades\Request::root()}} . /single-question/"
-                   rel="nofollow" target="_blank"><i class="big centered twitter icon"></i></a>
+                   href="https://twitter.com/share?url=masael.turathalanbiaa.com/ar/single-question/"
+                   rel="nofollow" target="_blank"><i class="big centered twitter icon"></i>Twitter</a>
 
 
             </div>
             <div class="five wide column">
-                google plus
-                <a class="centered g-puls"
-                   href="https://plus.google.com/u/0/share?url={{\Illuminate\Support\Facades\Request::root()}} . /single-question/"
+
+                <a class="g-puls"
+                   href="https://plus.google.com/u/0/share?url=masael.turathalanbiaa.com/ar/single-question/"
                    rel="nofollow"
                    target="_blank">
-                    <i class="big centered google icon"></i></a>
+                    <i class="big centered google icon"></i>google plus</a>
 
 
             </div>
@@ -77,7 +77,11 @@
         $("a[data-action=share_question]").click(function () {
             var id = $(this).data("id");
             var href = $("a.facebook").attr("href") + id;
+            var href = $("a.twitter").attr("href") + id;
+            var href = $("a.g-puls").attr("href") + id;
             $("a.facebook").attr("href", href);
+            $("a.twitter").attr("href", href);
+            $("a.g-puls").attr("href", href);
             $(".ui.modal").modal("show");
         });
     </script>
