@@ -14,14 +14,18 @@
         <div class="item">
             <form method="post" action="/fr/search" class="ui icon input">
                 {{ csrf_field() }}
-                <input name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
+                <input name="searchtext" type="text" placeholder="Chercher">
                 <i class="search link icon"></i>
             </form>
         </div>
-        <a class="item" href="/fr/index/1">الفقه الميسر</a>
-        <a class="item" href="/fr/index/2">العقائد الميسر</a>
-        <a class="item" href="/fr/posts/1">منشورات فقهية</a>
-        <a class="item" href="/fr/posts/2">منشورات عقائديه</a>
+        <a class="item" href="/fr/index/1"> Questions jurispruden
+        </a>
+        <a class="item" href="/fr/index/2">Questions doctrinales
+        </a>
+        <a class="item" href="/fr/posts/1">Publications jurispruden
+        </a>
+        <a class="item" href="/fr/posts/2">Publications doctrinales
+        </a>
 
         <div class="ui horizontal inverted divider">
             فرز حسب
@@ -38,8 +42,10 @@
         <div class="ui horizontal inverted divider">
             اخرى
         </div>
-        <a class="item" href="/ar/send-question"><i class="large send icon"></i>ارسال سؤال</a>
-        <a class="item" href="/ar/my-questions"><i class="large mail icon"></i>اسئلتي</a>
+        <a class="item" href="/ar/send-question"><i class="large send icon"></i>Envoyer une question
+        </a>
+        <a class="item" href="/ar/my-questions"><i class="large mail icon"></i>Mes questions
+        </a>
 
         <a class="item" href="/ar/app"><i class="large download icon"></i>تحميل التطبيق</a>
         <div class="ui horizontal inverted divider">

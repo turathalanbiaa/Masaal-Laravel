@@ -2,7 +2,8 @@
     <div class="ui  segment">
 
         <div class="ui floating message">
-            <p>لاتوجد اسئلة</p>
+            <p>Pas de donnés
+            </p>
         </div>
     </div>
 
@@ -51,7 +52,8 @@
 
                 {{$one_question->answer}}</p>
         @else
-            <div class="ui  message"> تم ارسال السؤال
+            <div class="ui  message">Question envoyée
+
                 <br>
 
                 سوف تتم الاجابة قريبا
@@ -105,26 +107,30 @@
 
         <a class="ui right teal tag label" href="/fr/index/{{$one_question->type}}">
             @if($one_question->type == 2)
-                العقائد
+                Doctrinales
+
                 <a class="ui right teal tag label"
                    href="/fr/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
                     @if($one_question->category!=null)
                         {{$one_question->category}}
                     @else
-                        غير مصنف
+                        Sans classification
+
                     @endif
 
                 </a>
             @elseif($one_question->type == 1)
 
-                الفقه
+                Jurispuridence
+
 
                 <a class="ui right teal tag label"
                    href="/fr/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
                     @if($one_question->category!=null)
                         {{$one_question->category}}
                     @else
-                        غير مصنف
+                        Sans classification
+
                     @endif
                 </a>
             @endif

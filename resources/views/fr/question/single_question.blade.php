@@ -6,7 +6,8 @@
 
         <a class="ui right tag label" href="/fr/index/{{$question->type}}">
             @if($question->type == 2)
-                العقائد
+                Doctrinale
+
                 <a class="ui  teal tag label"
                    href="/fr/search?type={{$question->type}}&id={{$question->categoryId}}">
                     {{$question->category}}
@@ -15,7 +16,8 @@
                 </a>
             @elseif($question->type == 1)
 
-                الفقه
+                Jurisprudence
+
 
                 <a class="ui tag label"
                    href="/fr/search?type={{$question->type}}&id={{$question->categoryId}}">
@@ -28,7 +30,8 @@
         </a>
 
 
-        <a href="/fr/single-question/{{$question->id}}" class="ui right = label">س \ {{$question->id}}</a>
+        <a href="/fr/single-question/{{$question->id}}" class="ui right = label">Question:
+            \ {{$question->id}}</a>
 
         <h3 class="ui header">
             <img src="/img/man.jpg">

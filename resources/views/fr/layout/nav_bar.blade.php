@@ -24,21 +24,25 @@
 <div id="nav" class="ui  small menu">
 
     <a style="direction: ltr" class="item" href="/fr/send-question">
-        <i class="large send icon"></i> ارسال سؤال
+        <i class="large send icon"></i> Envoyer une question
+
     </a>
     <a style="direction: ltr" class="item" href="/fr/my-questions">
         <i class="large mail icon"></i>
-        اسئلتي
+        Mes questions
+
     </a>
 
 
     <div  style="direction: ltr" class="ui dropdown item">
         <i  class="large browser icon"></i>
-        المنشورات
+        Publications
         <div class="ui vertical menu">
             <div class="container">
-                <a style="text-align: center"  class="item" href="/fr/posts/1">منشورات فقهيه</a>
-                <a style="text-align: center"   class="item" href="/fr/posts/2">منشورات عقائديه</a>
+                <a style="text-align: center"  class="item" href="/fr/posts/1">Publications jurispruden
+                </a>
+                <a style="text-align: center"   class="item" href="/fr/posts/2">Publications doctrinales
+                </a>
             </div>
         </div>
     </div>
@@ -64,7 +68,8 @@
     <div class="item">
         <form method="post" action="/ar/search" class="ui icon input">
             {{ csrf_field() }}
-            <input name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
+            <input name="searchtext" type="text" placeholder="Chercher
+">
             <i class="search link icon"></i>
         </form>
     </div>
