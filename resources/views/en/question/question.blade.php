@@ -2,7 +2,8 @@
     <div class="ui  segment">
 
         <div class="ui floating message">
-            <p>لاتوجد اسئلة</p>
+            <p>No Data
+            </p>
         </div>
     </div>
 
@@ -51,10 +52,9 @@
 
                 {{$one_question->answer}}</p>
         @else
-            <div class="ui  message"> تم ارسال السؤال
-                <br>
+            <div class="ui  message"> Question Sent
 
-                سوف تتم الاجابة قريبا
+                <br>We'll answer you question soon
 
             </div>
             ً
@@ -73,8 +73,9 @@
             <div>
                 <br>
                 <i class="video icon"></i>
-                <label>الفيديو : </label>
-                <a  href="{{$one_question->videoLink}}">                   اضغظ هنا لمشاهدة الفيديو</a>
+                <label>video : </label>
+                <a  href="{{$one_question->videoLink}}">Click here to see the video
+                </a>
 
 
 
@@ -92,9 +93,9 @@
             <div class="ui icon">
 
                 <i class="linkify icon"></i>
-                <label>المصدر : </label>
-                <a target="_blank" href="{{$one_question->externalLink}}">اضفط
-                    هنا لزيارة المصدر</a>
+                <label>source : </label>
+                <a target="_blank" href="{{$one_question->externalLink}}">Click here to go to the source
+                </a>
             </div>
         @endif
 
@@ -105,32 +106,36 @@
 
         <a class="ui right teal tag label" href="/en/index/{{$one_question->type}}">
             @if($one_question->type == 2)
-                العقائد
+                Ideological
+
                 <a class="ui right teal tag label"
                    href="/en/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
                     @if($one_question->category!=null)
                         {{$one_question->category}}
                     @else
-                        غير مصنف
+                        Without Category
+
                     @endif
 
                 </a>
             @elseif($one_question->type == 1)
 
-                الفقه
+                Jurisprudential
+
 
                 <a class="ui right teal tag label"
                    href="/en/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
                     @if($one_question->category!=null)
                         {{$one_question->category}}
                     @else
-                        غير مصنف
+                        Without Category
+
                     @endif
                 </a>
             @endif
 
         </a>
-        <a href="/en/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
+        <a href="/en/single-question/{{$one_question->id}}" class="ui right teal label">Question \ {{$one_question->id}}</a>
     </div>
     <script>
         $('.ui.embed').embed();

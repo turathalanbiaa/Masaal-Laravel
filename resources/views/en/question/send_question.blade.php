@@ -6,49 +6,59 @@
         <form method="post" action="/en/send" class="ui form">
             {!! csrf_field() !!}
             <div class="field">
-                <label>الرجاء أدخال السؤال :</label>
+                <label>Write Your Question
+                    :</label>
                 <textarea rows="5" name="message"></textarea>
             </div>
             <div class="ui centered error message"></div>
             <div class="grouped fields">
-                <label>ماهو نوع السؤال؟</label>
+                <label> Privacy
+                    ؟</label>
                 <div class="field">
                     <div class="ui radio checkbox">
                         <input value="1" type="radio" name="privacy" checked="checked">
-                        <label>خاص</label>
+                        <label> Private
+                        </label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui radio checkbox">
                         <input value="2" type="radio" name="privacy">
-                        <label>عام</label>
+                        <label> Public
+                        </label>
                     </div>
                 </div>
             </div>
             <div class="ui form">
                 <div class="grouped fields">
-                    <label>ماهو صنف السؤال؟</label>
+                    <label>Category
+                        ؟</label>
                     <div class="field">
                         <div class="ui radio checkbox">
                             <input value="1" type="radio" name="type" checked="checked">
-                            <label>فقهي</label>
+                            <label> Jurisprudence
+                            </label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
                             <input value="2" type="radio" name="type">
-                            <label>عقائدي</label>
+                            <label>Ideological
+
+                            </label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
                             <input value="1" type="radio" name="type">
-                            <label>لا اعرف</label>
+                            <label> I do not know
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="ui green large button">ارسال</button>
+            <button type="submit" class="ui green large button">Send
+            </button>
 
         </form>
 
@@ -65,7 +75,7 @@
                         rules: [
                             {
                                 type: 'minLength[6]',
-                                prompt: 'يرجى كتابة سؤال كامل'
+                                prompt: 'please enter your Question'
                             }
                         ]
                     }

@@ -24,21 +24,25 @@
 <div id="nav" class="ui  small menu">
 
     <a style="direction: ltr" class="item" href="/en/send-question">
-        <i class="large send icon"></i> ارسال سؤال
+        <i class="large send icon"></i>  Send Your Question
+
     </a>
     <a style="direction: ltr" class="item" href="/en/my-questions">
         <i class="large mail icon"></i>
-        اسئلتي
+        My Questions
+
     </a>
 
 
     <div style="direction: ltr" class="ui dropdown item">
         <i class="large browser icon"></i>
-        المنشورات
+        Posts
         <div class="ui vertical menu">
             <div class="container">
-                <a style="text-align: center" class="item" href="/en/posts/1">منشورات فقهيه</a>
-                <a style="text-align: center" class="item" href="/en/posts/2">منشورات عقائديه</a>
+                <a style="text-align: center" class="item" href="/en/posts/1">Jurisprudential Posts
+                </a>
+                <a style="text-align: center" class="item" href="/en/posts/2"> Ideological Posts
+                </a>
             </div>
         </div>
     </div>
@@ -51,9 +55,11 @@
         <div class="ui vertical menu">
 
             <div class="container">
-                <a style="text-align: center" class="item" href="/en/tags">المواضيع</a>
+                <a style="text-align: center" class="item" href="/en/tags">Subjects
+                </a>
 
-                <a style="text-align: center" class="item" href="/en/categories">الاقسام</a>
+                <a style="text-align: center" class="item" href="/en/categories">Divisions
+                </a>
             </div>
         </div>
 
@@ -64,7 +70,7 @@
     <div class="item">
         <form method="post" action="/en/search" class="ui icon input">
             {{ csrf_field() }}
-            <input name="searchtext" type="text" placeholder="ابحث عن كلمة في الاسئلة">
+            <input name="searchtext" type="text" placeholder="Search">
             <i class="search link icon"></i>
         </form>
     </div>
@@ -95,19 +101,19 @@
                 <a style=" margin: 20px;text-align: center" href="http://turathalanbiaa.com/"
                    class="ui primary basic button">
                     <i class="right arrow icon"></i>
-                    معهد تراث الانبياء
+                    Turath Alanbiaa
                 </a>
                 <div class="container">
 
 
                     <a style="text-align: center" class="item" href="/en/app">
                         <i class="download icon"></i>
-                        تحميل التطبيق
+                       Dounload App
                     </a>
-                    <a style="text-align: center" href="/en/login" class="item"> تسجيل دخول
+                    <a style="text-align: center" href="/en/login" class="item">login
                         <i class="sign in icon"></i>
                     </a>
-                    <a style="text-align: center" href="/en/logout" class="item"> تسجيل خروج
+                    <a style="text-align: center" href="/en/logout" class="item">logout
                         <i class="log out icon"></i>
                     </a>
                 </div>

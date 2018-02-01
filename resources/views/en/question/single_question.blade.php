@@ -6,7 +6,8 @@
 
         <a class="ui right tag label" href="/en/index/{{$question->type}}">
             @if($question->type == 2)
-                العقائد
+                Ideological
+
                 <a class="ui  teal tag label"
                    href="/en/search?type={{$question->type}}&id={{$question->categoryId}}">
                     {{$question->category}}
@@ -15,7 +16,8 @@
                 </a>
             @elseif($question->type == 1)
 
-                الفقه
+                Jurisprudential
+
 
                 <a class="ui tag label"
                    href="/en/search?type={{$question->type}}&id={{$question->categoryId}}">
@@ -28,7 +30,7 @@
         </a>
 
 
-        <a href="/en/single-question/{{$question->id}}" class="ui right = label">س \ {{$question->id}}</a>
+        <a href="/en/single-question/{{$question->id}}" class="ui right = label">Question \ {{$question->id}}</a>
 
         <h3 class="ui header">
             <img src="/img/man.jpg">
@@ -42,7 +44,7 @@
 
         <p>{{$question->content}}</p>
         <div class="ui divider"></div>
-        <p>الجواب :</p>
+        <p>Answer :</p>
         <p>{{$question->answer}}</p>
 
 
@@ -65,8 +67,9 @@
             <div>
                 <br>
                 <i class="video icon"></i>
-                <label>الفيديو : </label>
-                <a  href="{{$question->videoLink}}">                   اضغظ هنا لمشاهدة الفيديو</a>
+                <label>video : </label>
+                <a  href="{{$question->videoLink}}">Click here to see the video
+                </a>
 
 
 
@@ -83,9 +86,9 @@
             <div class="ui icon">
 
                 <i class="linkify icon"></i>
-                <label>المصدر : </label>
-                <a target="_blank" href="{{$question->externalLink}}">اضفط
-                    هنا لزيارة المصدر</a>
+                <label>source : </label>
+                <a target="_blank" href="{{$question->externalLink}}">Click here to go to the source
+                </a>
             </div>
         @endif
 
