@@ -85,7 +85,7 @@
                         <div class="field">
                             <label>الاسم</label>
                             <div class="ui left icon input">
-                                <input name="name" type="text" placeholder="الاسم" style="text-align: right">
+                                <input name="name" type="text" placeholder="name" style="text-align: right">
                                 <i class="user icon"></i>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                             <label>Create ID
                             </label>
                             <div class="ui left icon input">
-                                <input name="username" placeholder=" مثل husain123 , ali2" type="text"
+                                <input name="username" placeholder=" Like husain123 , ali2" type="text"
                                        style="text-align: right">
                                 <i class="text telephone icon"></i>
                             </div>

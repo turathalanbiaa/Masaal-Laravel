@@ -51,7 +51,7 @@
     <div style="direction: ltr ; margin: 0px" class="ui dropdown item">
         <i class="large tags icon"></i>
 
-        فرز حسب
+        Sort by
         <div class="ui vertical menu">
 
             <div class="container">

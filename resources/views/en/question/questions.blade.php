@@ -17,7 +17,8 @@
     <div class="ui tiny modal">
         <i class="close icon"></i>
         <div class=" header">
-            مشاركة السؤال على
+            Share
+
         </div>
         <br><br>
 
