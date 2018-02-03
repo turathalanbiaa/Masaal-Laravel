@@ -77,11 +77,11 @@
         $("a[data-action=share_question]").click(function () {
             var id = $(this).data("id");
             var href = $("a.facebook").attr("href") + id;
-            var href = $("a.twitter").attr("href") + id;
-            var href = $("a.g-puls").attr("href") + id;
+            var href2 = $("a.twitter").attr("href") + id;
+            var href3 = $("a.g-puls").attr("href") + id;
             $("a.facebook").attr("href", href);
-            $("a.twitter").attr("href", href);
-            $("a.g-puls").attr("href", href);
+            $("a.twitter").attr("href", href2);
+            $("a.g-puls").attr("href", href3);
             $(".ui.modal").modal("show");
         });
     </script>
