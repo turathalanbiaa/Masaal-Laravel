@@ -28,32 +28,32 @@
         </a>
 
         <div class="ui horizontal inverted divider">
-            فرز حسب
+            Par groupe
         </div>
-        <a class="item" href="/fr/categories">الاقسام</a>
-        <a class="item" href="/fr/tags">المواضيع</a>
+        <a class="item" href="/fr/categories">Assujettir</a>
+        <a class="item" href="/fr/tags">Catégories</a>
 
 
         <div class="ui horizontal inverted divider">
-            اللغة
+            Langue
         </div>
         <a class="item" href="/ar/app"><i class="circle icon"></i>عربي</a>
         <a class="item" href="/en/1"><i class="circle icon"></i>English</a>
         <div class="ui horizontal inverted divider">
-            اخرى
+            Un autre
         </div>
         <a class="item" href="/ar/send-question"><i class="large send icon"></i>Envoyer une question
         </a>
         <a class="item" href="/ar/my-questions"><i class="large mail icon"></i>Mes questions
         </a>
 
-        <a class="item" href="/ar/app"><i class="large download icon"></i>تحميل التطبيق</a>
+        <a class="item" href="/ar/app"><i class="large download icon"></i> Télécharger l'application</a>
         <div class="ui horizontal inverted divider">
             ...
         </div>
-        <a href="/fr/login" class="item"> تسجيل دخول
+        <a href="/fr/login" class="item">Connexion
             <i class="sign in icon"></i>
         </a>
-        <a class="item" href="/logout/"><i class="large log out icon"></i>تسجيل خروج</a>
+        <a class="item" href="/logout/"><i class="large log out icon"></i>déconnexion</a>
     </div>
 </div>

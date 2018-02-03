@@ -51,13 +51,13 @@
     <div style="direction: ltr ; margin: 0px" class="ui dropdown item">
         <i class="large tags icon"></i>
 
-        فرز حسب
+        Par groupe
         <div class="ui vertical menu">
 
             <div class="container">
-                <a style="text-align: center"  class="item" href="/fr/tags">المواضيع</a>
+                <a style="text-align: center"  class="item" href="/fr/tags">Assujettir</a>
 
-                <a style="text-align: center"  class="item" href="/fr/categories">الاقسام</a>
+                <a style="text-align: center"  class="item" href="/fr/categories">Catégories</a>
             </div>
         </div>
 
@@ -100,7 +100,7 @@
 
                 <a style=" margin: 20px;text-align: center" href="http://turathalanbiaa.com/"  class="ui primary basic button">
                     <i class="right arrow icon"></i>
-                    معهد تراث الانبياء
+                    Turath Alanbiaa
                 </a>
                 <div class="container">
 
@@ -108,12 +108,12 @@
 
                     <a style="text-align: center" class="item" href="/ar/app">
                         <i class="download icon"></i>
-                        تحميل التطبيق
+                        Télécharger l'application
                     </a>
-                    <a style="text-align: center" href="/fr/login" class="item"> تسجيل دخول
+                    <a style="text-align: center" href="/fr/login" class="item">Connexion
                         <i class="sign in icon"></i>
                     </a>
-                    <a style="text-align: center" href="/fr/logout" class="item"> تسجيل خروج
+                    <a style="text-align: center" href="/fr/logout" class="item">déconnexion
                         <i class="log out icon"></i>
                     </a>
                 </div>

@@ -46,7 +46,7 @@
 
         @endif
         <div class="ui divider"></div>
-        <p>الجواب :</p>
+        <p>La réponse :</p>
         <p class="ellipsis">
             @if($one_question->answer != null)
 
@@ -56,7 +56,7 @@
 
                 <br>
 
-                سوف تتم الاجابة قريبا
+                La réponse sera bientôt disponible
 
             </div>
             ً
@@ -75,8 +75,8 @@
             <div>
                 <br>
                 <i class="video icon"></i>
-                <label>الفيديو : </label>
-                <a  href="{{$one_question->videoLink}}">                   اضغظ هنا لمشاهدة الفيديو</a>
+                <label>Vidéo : </label>
+                <a  href="{{$one_question->videoLink}}"> Cliquez ici pour regarder la vidéo</a>
 
 
 
@@ -94,9 +94,8 @@
             <div class="ui icon">
 
                 <i class="linkify icon"></i>
-                <label>المصدر : </label>
-                <a target="_blank" href="{{$one_question->externalLink}}">اضفط
-                    هنا لزيارة المصدر</a>
+                <label>source : </label>
+                <a target="_blank" href="{{$one_question->externalLink}}">Ajoutez ici pour visiter la source</a>
             </div>
         @endif
 
@@ -136,7 +135,7 @@
             @endif
 
         </a>
-        <a href="/fr/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
+        <a href="/fr/single-question/{{$one_question->id}}" class="ui right teal label">Question \ {{$one_question->id}}</a>
     </div>
     <script>
         $('.ui.embed').embed();

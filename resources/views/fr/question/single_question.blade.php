@@ -45,7 +45,7 @@
 
         <p>{{$question->content}}</p>
         <div class="ui divider"></div>
-        <p>الجواب :</p>
+        <p>La réponse :</p>
         <p>{{$question->answer}}</p>
 
 
@@ -68,8 +68,8 @@
             <div>
                 <br>
                 <i class="video icon"></i>
-                <label>الفيديو : </label>
-                <a  href="{{$question->videoLink}}">                   اضغظ هنا لمشاهدة الفيديو</a>
+                <label>vidéo : </label>
+                <a  href="{{$question->videoLink}}">  Cliquez ici pour regarder la vidéo</a>
 
 
 
@@ -87,9 +87,8 @@
             <div class="ui icon">
 
                 <i class="linkify icon"></i>
-                <label>المصدر : </label>
-                <a target="_blank" href="{{$question->externalLink}}">اضفط
-                    هنا لزيارة المصدر</a>
+                <label>source : </label>
+                <a target="_blank" href="{{$question->externalLink}}">Ajoutez ici pour visiter la source</a>
             </div>
         @endif
 
