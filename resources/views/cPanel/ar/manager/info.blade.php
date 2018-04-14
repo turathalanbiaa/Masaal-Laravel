@@ -12,8 +12,8 @@
 
         @if(count($errors))
             <div class="column">
-                <div class="ui error message" id="message">
-                    <ul class="list">
+                <div class="ui error fadeInUp animated message" style="padding: 14px 0;">
+                    <ul>
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -22,10 +22,10 @@
             </div>
         @endif
 
-        @if(session("UpdateManagerMessage"))
+        @if(session("UpdateMessage"))
             <div class="column">
-                <div class="ui session info message">
-                    <h2 style="text-align: center;">{{session("UpdateManagerMessage")}}</h2>
+                <div class="ui success fadeIn animated message">
+                    <h2 style="text-align: center;">{{session("UpdateMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -110,9 +110,5 @@
 @section("script")
     <script>
         $('.ui.checkbox').checkbox();
-        $('.ui.session.info.message').transition({
-            animation  : 'flash',
-            duration   : '1s'
-        });
     </script>
 @endsection

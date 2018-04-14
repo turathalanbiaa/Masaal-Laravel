@@ -5,42 +5,58 @@
 @endsection
 
 @section("content")
-    <div class="ui centered grid">
-        <div class="sixteen wide mobile ten wide tablet eight wide computer column">
-            <div class="ui right aligned teal segment">
-
-                @if(count($errors))
-                    <div class="ui error message" id="message">
-                        <ul class="list">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+    <div class="ui tiny modal">
+        <h3 class="ui right aligned top attached grey inverted header">
+            <span>تسجيل الدخول الى لوحة التحكم</span>
+        </h3>
+        <div class="content">
+            <div class="ui center aligned one column grid">
+                <div class="column">
+                    <div class="ui small image">
+                        <img src="{{asset("/img/logo.png")}}">
                     </div>
-                @endif
-
-                @if(session("LoginMessage"))
-                    {{session("LoginMessage")}}
-                @endif
-
-                <form class="ui right aligned form" method="post" action="/control-panel/{{$lang}}/login/validation">
-                    {!! csrf_field() !!}
-
-                    <div class="field">
-                        <label>اسم المستخدم</label>
-                        <input type="text" name="username" value="{{old("username")}}" placeholder="اكتب الاسم هنا">
-                    </div>
-
-                    <div class="field">
-                        <label>كلمة المرور</label>
-                        <input type="password" name="password" placeholder="">
-                    </div>
-
-                    <div class="field">
-                        <button type="submit" class="ui green button">ارسال</button>
-                    </div>
-                </form>
+                </div>
             </div>
+
+            <div class="ui hidden divider"></div>
+            <div class="ui divider"></div>
+            <div class="ui hidden divider"></div>
+
+            @if(count($errors))
+                <div class="ui error fadeInUp animated message" style="padding: 14px 0;">
+                    <ul style="text-align: right; direction: rtl;">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(session("ErrorRegisterMessage"))
+                <div class="ui center aligned small bounce animated header">{{session("ErrorRegisterMessage")}}</div>
+            @endif
+
+            <form class="ui big form" dir="rtl" method="post" action="">
+                {!! csrf_field() !!}
+                <div class="field">
+                    <input placeholder="اسم المستخدم" type="text" name="username" value="{{ old('username') }}">
+                </div>
+                <div class="field">
+                    <input placeholder="كلمة المرور" type="password" name="password">
+                </div>
+                <button type="submit" class="ui black fluid big button">تسجيل الدخول</button>
+            </form>
         </div>
     </div>
+@endsection
+
+@section("script")
+    <script>
+        $('.ui.modal').modal({
+            centered: false,
+            blurring: true,
+            closable: false
+        })
+            .modal('show');
+    </script>
 @endsection

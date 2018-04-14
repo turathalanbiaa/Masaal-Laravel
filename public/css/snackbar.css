@@ -18,25 +18,25 @@
 
 .snackbar.error
 {
-    background: #E91E63;
+    background: #db2828;
     color: #FFFFFF;
 }
 
 .snackbar.warning
 {
-    background: #FDD835;
-    color: #111111;
+    background: #f26202;
+    color: #FFFFFF;
 }
 
 .snackbar.info
 {
-    background: #B3E5FC;
-    color: #111111;
+    background: #00b5ad;
+    color: #FFFFFF;
 }
 
 .snackbar.success
 {
-    background: #8BC34A;
+    background: #21ba45;
     color: #FFFFFF;
 }
 

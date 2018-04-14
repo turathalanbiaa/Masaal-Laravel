@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\LoginAdminFromCookie;
 use App\Http\Middleware\LoginFromCookie;
+use App\Http\Middleware\Permission;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -58,6 +60,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'loginFromCookie' => LoginFromCookie::class
+        'loginFromCookie' => LoginFromCookie::class,
+        'loginAdminFromCookie' => LoginAdminFromCookie::class,
+        'permission' => Permission::class
     ];
 }

@@ -10,18 +10,18 @@
             @include("cPanel.ar.layout.welcome")
         </div>
 
-        @if(session("InfoManagerMessage"))
+        @if(session("permissionMessage"))
             <div class="column">
-                <div class="ui session info message">
-                    <h2 style="text-align: center;">{{session("InfoManagerMessage")}}</h2>
+                <div class="ui info message">
+                    <h2 style="text-align: center;">{{session("permissionMessage")}}</h2>
                 </div>
             </div>
         @endif
 
-        @if(session("DeleteManagerMessage"))
+        @if(session("InfoMessage"))
             <div class="column">
-                <div class="ui session info message">
-                    <h2 style="text-align: center;">{{session("DeleteManagerMessage")}}</h2>
+                <div class="ui info message">
+                    <h2 style="text-align: center;">{{session("InfoMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -35,38 +35,77 @@
         @endif
 
         <div class="column">
-            <div class="ui right aligned segment">
-                <div class="ui grid">
-                    <div class="row">
-                        <div class="sixteen wide mobile twelve wide tablet fourteen wide computer column">
-                            <form class="ui form" method="get" action="/control-panel/{{$lang}}/managers/search" dir="rtl">
-                                <div class="ui left icon input" style="width: 100%; text-align: right;">
-                                    <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
-                                    <i class="search icon"></i>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="sixteen wide mobile four wide tablet two wide computer column">
-                            <a href="/control-panel/{{$lang}}/admin/create" class="ui fluid green button">أضافة مسؤول</a>
-                        </div>
+            <div class="ui segment">
+                <div class="ui stackable grid">
+                    <div class="fourteen wide computer thirteen wide tablet column">
+                        <form class="ui form" method="get" action="/control-panel/{{$lang}}/managers" dir="rtl">
+                            <div class="ui left icon input" style="width: 100%; text-align: right;">
+                                <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
+                                <i class="search icon"></i>
+                            </div>
+                        </form>
                     </div>
 
-                    <div class="row">
-                        <div class="sixteen wide column">
-                            @if($admins->count() > 0)
-                                @include("cPanel.$lang.manager.result_search")
+                    <div class="two wide computer three wide tablet column">
+                        <a href="/control-panel/{{$lang}}/admin/create" class="ui fluid green button">أضافة</a>
+                    </div>
+
+                    <div class="sixteen wide column">
+                        <table class="ui celled unstackable table">
+                            <thead>
+                            <tr>
+                                <th class="center aligned">الرقم</th>
+                                <th class="center aligned">الاسم الحقيقي</th>
+                                <th class="center aligned">اسم المستخدم</th>
+                                <th class="center aligned">التاريخ</th>
+                                <th class="center aligned">خيارات</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @if(count($admins) > 0)
+                                @foreach($admins as $admin)
+                                    <tr>
+                                        <td class="center aligned">{{$admin->id}}</td>
+                                        <td class="center aligned">{{$admin->name}}</td>
+                                        <td class="center aligned">{{$admin->username}}</td>
+                                        <td class="center aligned">{{$admin->date}}</td>
+                                        <td class="center aligned">
+                                            <div class="ui fluid buttons">
+                                                <a href="/control-panel/{{$lang}}/admin/info?id={{$admin->id}}" class="ui teal button">تحرير</a>
+                                                <button class="ui red button" data-action="delete" data-id="{{$admin->id}}" data-name="{{$admin->name}}">حذف</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @else
-                                <div class="ui divider"></div>
-                                <div class="ui fluid info large message">
-                                    <div class="ui hidden divider"></div>
-                                    <div class="ui hidden divider"></div>
-                                    <h3 class="ui center aligned header">لا توجد نتائج حول هذا البحث</h3>
-                                    <div class="ui hidden divider"></div>
-                                    <div class="ui hidden divider"></div>
-                                </div>
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="ui center aligned header">
+                                            <div class="ui hidden divider"></div>
+                                            <div class="ui hidden divider"></div>
+                                            <div class="ui hidden divider"></div>
+                                            <span>لا توجد نتائج</span>
+                                            <div class="ui hidden divider"></div>
+                                            <div class="ui hidden divider"></div>
+                                            <div class="ui hidden divider"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if($admins->hasPages())
+                        <div class="sixteen wide teal column">
+                            @if(isset($_GET["query"]))
+                                {{$admins->appends(['query' => $_GET["query"]])->links()}}
+                            @else
+                                {{$admins->links()}}
                             @endif
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -74,39 +113,87 @@
 @endsection
 
 @section("extra-content")
-    <div class="ui modal">
-        <h1 class="ui right aligned red header"> هل تريد حذف هذه المسؤول </h1>
-        <div class="content" style="text-align: center;">
-            <h3 class="ui center aligned teal header" id="admin-name"></h3>
+    <div class="ui mini modal">
+        <h3 class="ui center aligned top attached grey inverted header">
+            <span>هل انت متأكد من حذف المسؤول !!!</span>
+        </h3>
+        <div class="content">
+            <div class="ui hidden divider"></div>
+
+            <h3 class="ui center aligned header">
+                <span>صاحب الرقم - </span>
+                <span id="number"></span>
+                <br>
+                <span>والاسم :- </span>
+                <span id="name"></span>
+            </h3>
+
             <div class="ui divider"></div>
-            <form class="ui form" method="post" action="/control-panel/{{$lang}}/admin/delete">
-                {!! csrf_field() !!}
-                <input type="hidden" name="adminId" value="">
-                <button type="submit" class="ui green button">نعم</button>
-                <a class="ui red button" data-action="abort">لا</a>
-            </form>
+
+            <div class="actions" style="text-align: center;">
+                <button class="ui positive button">نعم</button>
+                <button class="ui negative button">لا</button>
+            </div>
+
+            <div class="ui hidden divider"></div>
         </div>
     </div>
 @endsection
 
 @section("script")
     <script>
-        $("button[data-action='delete-admin']").click(function ()
-        {
-            var adminId = $(this).data('id');
-            var adminName = $(this).data('content');
-            $('h3#admin-name').text(adminName);
-            $('input[name=adminId]:hidden').val(adminId);
-
-            $('.ui.modal').modal('show');
+        $(document).ready(function () {
+            var pagination = $(".pagination");
+            pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
+            pagination.css("padding","0");
+            pagination.find('li').addClass('item');
         });
 
-        $("a[data-action='abort']").click(function ()
-        {
-            $('.ui.modal').modal('hide');
+        $("button[data-action='delete']").click(function () {
+            $("#number").html($(this).data("id"));
+            $("#name").html($(this).data("name"));
+            $(".modal")
+                .modal({
+                    'closable' : false,
+                    'transition': 'horizontal flip'
+                })
+                .modal("show");
         });
 
-        $('.ui.session.info.message').transition({
+        $("button.positive.button").click(function () {
+            var id = $("#number").html();
+            var _token = "{{ csrf_token() }}";
+            $.ajax({
+                type: "POST",
+                url: "/control-panel/{{$lang}}/admin/delete",
+                data: {_token:_token, id:id},
+                datatype: 'json',
+                success: function(result) {
+                    if (result["notFound"] == true)
+                    {
+                        snackbar("هذا المسؤول غير موجود." , 3000 , "warning");
+                    }
+
+                    if (result["success"] == false)
+                    {
+                        snackbar("لم يتم حذف المسؤول, يرجى اعدة المحاولة." , 3000 , "error");
+                    }
+
+                    if (result["success"] == true)
+                    {
+                        snackbar("تم حذف المسؤول." , 3000 , "success");
+                    }
+                },
+                error: function() {
+                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                } ,
+                complete : function() {
+
+                }
+            });
+        });
+
+        $('.ui.info.message').transition({
             animation  : 'flash',
             duration   : '1s'
         });

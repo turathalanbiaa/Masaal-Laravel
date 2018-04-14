@@ -11,6 +11,7 @@
     <!-- Stylesheet -->
         <link rel="stylesheet" type="text/css" href="{{asset("css/semantic.min.css")}}">
         <link rel="stylesheet" type="text/css" href="{{asset("css/cp_ar_style.css")}}">
+        <link rel="stylesheet" type="text/css" href="{{asset("css/animate.css")}}">
         <link rel="stylesheet" type="text/css" href="{{asset("css/snackbar.css")}}">
 
     <!-- Script -->
