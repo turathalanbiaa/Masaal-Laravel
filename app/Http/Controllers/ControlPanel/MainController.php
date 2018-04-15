@@ -12,4 +12,11 @@ class MainController extends Controller
     {
         return view("cPanel.$lang.main.main")->with(["lang"=>$lang]);
     }
+
+    public function logout(Request $request, $lang)
+    {
+        $request->session()->remove("ADMIN_SESSION");
+        return redirect("/control-panel/$lang/main")
+            ->cookie("ADMIN_SESSION", null, -1);
+    }
 }

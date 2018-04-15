@@ -10,6 +10,15 @@
             @include("cPanel.$lang.layout.welcome")
         </div>
 
+        <div class="column">
+            <div class="ui four item teal big menu">
+                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
+                <a class="item active" href="/control-panel/{{$lang}}/managers">ادارة الحسابات</a>
+                <a class="item" href="/control-panel/{{$lang}}/admin/create">اضافة حساب</a>
+                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            </div>
+        </div>
+
         @if(count($errors))
             <div class="column">
                 <div class="ui error fadeInUp animated message" style="padding: 14px 0;">
@@ -49,6 +58,20 @@
                                 <label for="username">اسم المستخدم</label>
                                 <div class="sixteen wide field">
                                     <input type="text" name="username" value="{{$admin->username}}" id="username">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="password">كلمة المرور الجديد</label>
+                                <div class="sixteen wide field">
+                                    <input type="text" name="password" value="" id="password">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="password_confirmation">اعد كتابة كلمة المرور</label>
+                                <div class="sixteen wide field">
+                                    <input type="text" name="password_confirmation" value="" id="password_confirmation">
                                 </div>
                             </div>
 

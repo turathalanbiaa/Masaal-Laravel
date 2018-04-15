@@ -65,19 +65,19 @@ class ManagerController extends Controller
         return view("cPanel.$currentAdmin->lang.manager.info")->with(["admin"=>$admin, "lang"=>$currentAdmin->lang]);
     }
 
-
-
-    public function adminUpdate(Request $request, $lang)
+    public function update(Request $request, $lang)
     {
         $id = Input::get("id");
         $admin = Admin::find($id);
 
-        if (is_null($admin))
-            return redirect("/control-panel/$lang/managers")->with("UpdateManagerMessage","لا يوجد مثل هذا الحساب لكي يتم عملية التعديل.");
+        if (!$admin)
+            return redirect("/control-panel/$lang/managers")->with("UpdateMessage","لا يوجد مثل هذا الحساب لكي تتم عملية التعديل.");
 
         $rules = [
             "name" => "required|min:6",
-            "username" => ['required','min:6',Rule::unique('admin')->ignore($id)]
+            "username" => ['required','min:6',Rule::unique('admin')->ignore($id)],
+            'password' => "confirmed"
+
         ];
 
         $rulesMessage = [
@@ -86,14 +86,16 @@ class ManagerController extends Controller
                 "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
                 "username.required" => "اسم المستخدم فارغ.",
                 "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
-                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد."
+                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
+                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
             ],
             "fr"=>[
                 "name.required" => "الاسم الحقيقي فارغ.",
                 "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
                 "username.required" => "اسم المستخدم فارغ.",
                 "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
-                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد."
+                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
+                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
             ]
         ];
 
@@ -108,6 +110,8 @@ class ManagerController extends Controller
 
         $admin->name = Input::get("name");
         $admin->username = Input::get("username");
+        if (!is_null(Input::get("password")))
+            $admin->password = md5(Input::get("password"));
         $admin->manager = Input::get("manager") ?: 0;
         $admin->reviewer = Input::get("reviewer") ?: 0;
         $admin->distributor = Input::get("distributor") ?: 0;
@@ -116,24 +120,25 @@ class ManagerController extends Controller
         $admin->announcement = Input::get("announcement") ?: 0;
         $success = $admin->save();
 
+        EventLogController::add($request, "UPDATE ADMIN", $admin->id);
+
         if (!$success)
-            return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateManagerMessage","لم يتم التعديل، اعد المحاولة مرة اخرى.");
+            return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateMessage","لم يتم التعديل، اعد المحاولة مرة اخرى.");
 
-        return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateManagerMessage","تم التعديل بنجاح.");
+        return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateMessage","تم التعديل بنجاح.");
     }
 
-    public function adminCreate($lang)
+    public function create($lang)
     {
-        return view("cPanel.$lang.manager.admin_create")->with(["lang" => $lang]);
+        return view("cPanel.$lang.manager.create")->with(["lang" => $lang]);
     }
 
-    public function adminCreateValidation(Request $request, $lang)
+    public function createValidation(Request $request, $lang)
     {
         $rules = [
             "name" => "required|min:6",
             "username" => "required|min:6|unique:admin,username",
             'password' => "required|min:6|confirmed",
-            'password_confirmation' => "required|min:6",
         ];
 
         $rulesMessage = [
@@ -144,9 +149,7 @@ class ManagerController extends Controller
                 "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
                 'password.required' => "كلمة المرور فارغة.",
-                'password_confirmation.required' => 'حقل اعد كتابة كلمة المرور فارغ.',
                 'password.min' => 'كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
-                'password_confirmation.min' => 'اعد كتابة كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
                 'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
             ],
             "fr"=>[
@@ -156,9 +159,7 @@ class ManagerController extends Controller
                 "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
                 'password.required' => "كلمة المرور فارغة.",
-                'password_confirmation.required' => 'حقل اعد كتابة كلمة المرور فارغ.',
                 'password.min' => 'كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
-                'password_confirmation.min' => 'اعد كتابة كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
                 'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
             ]
         ];
@@ -172,12 +173,14 @@ class ManagerController extends Controller
         if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        $admin = new Admin;
+        $currentAdmin = Input::get("currentAdmin");
+
+        $admin = new Admin();
         $admin->name = Input::get("name");
         $admin->username = Input::get("username");
         $admin->password = md5(Input::get("password"));
-        $admin->type = $_SESSION["ADMIN_TYPE"];
-        $admin->lang = $_SESSION["ADMIN_LANG"];
+        $admin->type = $currentAdmin->type;
+        $admin->lang = $currentAdmin->lang;
         $admin->date = date("Y-m-d");
         $admin->manager = Input::get("manager") ?: 0;
         $admin->reviewer = Input::get("reviewer") ?: 0;
@@ -187,9 +190,11 @@ class ManagerController extends Controller
         $admin->announcement = Input::get("announcement") ?: 0;
         $success = $admin->save();
 
-        if (!$success)
-            return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","لم يتم انشاء الحساب بصورة صحيحة، اعد المحاولة مرة اخرى.");
+        EventLogController::add($request, "CREATE ADMIN", $admin->id);
 
-        return redirect("/control-panel/$lang/admin/create")->with("CreateManagerMessage","تم انشاء الحساب بنجاح.");
+        if (!$success)
+            return redirect("/control-panel/$lang/admin/create")->with("CreateMessage","لم يتم انشاء الحساب بصورة صحيحة، اعد المحاولة مرة اخرى.");
+
+        return redirect("/control-panel/$lang/admin/create")->with("CreateMessage","تم انشاء الحساب بنجاح.");
     }
 }

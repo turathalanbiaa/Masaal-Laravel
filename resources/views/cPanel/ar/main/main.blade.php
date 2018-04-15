@@ -40,7 +40,7 @@
                                 <i class="recycle special teal icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">الموزع</a>
+                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/distribution-questions">الموزع</a>
                             </div>
                         </div>
                     </div>

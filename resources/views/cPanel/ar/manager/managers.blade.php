@@ -10,6 +10,15 @@
             @include("cPanel.ar.layout.welcome")
         </div>
 
+        <div class="column">
+            <div class="ui four item teal big menu">
+                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
+                <a class="item active" href="/control-panel/{{$lang}}/managers">ادارة الحسابات</a>
+                <a class="item" href="/control-panel/{{$lang}}/admin/create">اضافة حساب</a>
+                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            </div>
+        </div>
+
         @if(session("permissionMessage"))
             <div class="column">
                 <div class="ui info message">
@@ -26,28 +35,24 @@
             </div>
         @endif
 
-        @if(session("UpdateManagerMessage"))
+        @if(session("UpdateMessage"))
             <div class="column">
                 <div class="ui session info message">
-                    <h2 style="text-align: center;">{{session("UpdateManagerMessage")}}</h2>
+                    <h2 style="text-align: center;">{{session("UpdateMessage")}}</h2>
                 </div>
             </div>
         @endif
 
         <div class="column">
             <div class="ui segment">
-                <div class="ui stackable grid">
-                    <div class="fourteen wide computer thirteen wide tablet column">
+                <div class="ui grid">
+                    <div class="sixteen wide column">
                         <form class="ui form" method="get" action="/control-panel/{{$lang}}/managers" dir="rtl">
                             <div class="ui left icon input" style="width: 100%; text-align: right;">
                                 <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
                                 <i class="search icon"></i>
                             </div>
                         </form>
-                    </div>
-
-                    <div class="two wide computer three wide tablet column">
-                        <a href="/control-panel/{{$lang}}/admin/create" class="ui fluid green button">أضافة</a>
                     </div>
 
                     <div class="sixteen wide column">
@@ -98,7 +103,7 @@
                     </div>
 
                     @if($admins->hasPages())
-                        <div class="sixteen wide teal column">
+                        <div class="sixteen wide teal center aligned column">
                             @if(isset($_GET["query"]))
                                 {{$admins->appends(['query' => $_GET["query"]])->links()}}
                             @else

@@ -10,6 +10,15 @@
             @include("cPanel.$lang.layout.welcome")
         </div>
 
+        <div class="column">
+            <div class="ui four item teal big menu">
+                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
+                <a class="item" href="/control-panel/{{$lang}}/managers">ادارة الحسابات</a>
+                <a class="item active" href="/control-panel/{{$lang}}/admin/create">اضافة حساب</a>
+                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            </div>
+        </div>
+
         @if(count($errors))
             <div class="column">
                 <div class="ui error message" id="message">
@@ -22,10 +31,10 @@
             </div>
         @endif
 
-        @if(session("CreateManagerMessage"))
+        @if(session("CreateMessage"))
             <div class="column">
                 <div class="ui session info message">
-                    <h2 style="text-align: center;">{{session("CreateManagerMessage")}}</h2>
+                    <h2 style="text-align: center;">{{session("CreateMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -35,7 +44,7 @@
                 <h3 class="ui center aligned green dividing header">انشاء حساب جديد</h3>
                 <div class="ui one column grid">
                     <div class="column">
-                        <form class="ui form" method="post" action="/control-panel/{{$lang}}/admin/create/validation">
+                        <form class="ui form" method="post" action="/control-panel/{{$lang}}/admin/create">
                             {!! csrf_field() !!}
                             <div class="field">
                                 <label for="name">الاسم الحقيقي</label>

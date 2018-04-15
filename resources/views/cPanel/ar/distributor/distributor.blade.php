@@ -11,6 +11,14 @@
         </div>
 
         <div class="column">
+            <div class="ui three item teal big menu">
+                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
+                <a class="item active" href="/control-panel/{{$lang}}/distribution-questions">توزيع الاسئلة</a>
+                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            </div>
+        </div>
+
+        <div class="column">
             <div class="ui right aligned segments">
                 @if(count($questions) > 0)
                     @foreach($questions as $question)
@@ -50,7 +58,7 @@
                         </div>
                     @endforeach
 
-                    <div class="ui bottom teal segment">
+                    <div class="ui bottom teal center aligned inverted segment">
                         {{$questions->links()}}
                     </div>
                 @else
@@ -71,11 +79,15 @@
 @section("script")
     <script>
         $(".ui.selection.dropdown").dropdown();
-        $('.pagination').addClass('ui right aligned pagination menu');
-        $('.pagination').css({'padding':'0','font-size':'12px'});
-        $('.pagination').find('li').addClass('item');
-        $("button[data-action='distribute-question']").click(function ()
-        {
+
+        $(document).ready(function () {
+            var pagination = $(".pagination");
+            pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
+            pagination.css("padding","0");
+            pagination.find('li').addClass('item');
+        });
+
+        $("button[data-action='distribute-question']").click(function () {
             var _token = $(this).parent().parent().find("input[type='hidden'][name='_token']").val();
             var questionId = $(this).parent().parent().find("input[type='hidden'][name='questionId']").val();
             var respondentId = $(this).parent().parent().find("input[type='hidden'][name='respondentId']").val();
@@ -107,8 +119,8 @@
                 }
             });
         });
-        $("button[data-action='change-question-type']").click(function ()
-        {
+
+        $("button[data-action='change-question-type']").click(function () {
             var questionId = $(this).data('question-id');
             var _token = $(this).data('token');
             var button = $(this);
