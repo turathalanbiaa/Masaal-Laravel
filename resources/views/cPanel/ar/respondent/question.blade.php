@@ -10,6 +10,14 @@
             @include("cPanel.ar.layout.welcome")
         </div>
 
+        <div class="column">
+            <div class="ui three item teal big menu">
+                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
+                <a class="item active" href="/control-panel/{{$lang}}/my-questions">اسئلتي</a>
+                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            </div>
+        </div>
+
         @if(count($errors))
             <div class="column">
                 <div class="ui error message" id="message">

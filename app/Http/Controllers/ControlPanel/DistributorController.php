@@ -20,7 +20,7 @@ class DistributorController extends Controller
             ->where('adminId',null)
             ->where('lang', $currentAdmin->lang)
             ->orderBy("id")
-            ->simplePaginate(25);
+            ->simplePaginate(20);
 
         $respondents = Admin::where('type', $currentAdmin->type)
             ->where('lang', $currentAdmin->lang)
@@ -28,7 +28,7 @@ class DistributorController extends Controller
             ->orderBy("id")
             ->get();
 
-        return view("cPanel.$currentAdmin->lang.distributor.distributor")->with([
+        return view("cPanel.$currentAdmin->lang.distributor.questions")->with([
             "lang" => $currentAdmin->lang,
             "questions" => $questions,
             "respondents" => $respondents

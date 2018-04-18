@@ -51,7 +51,7 @@
                                 <i class="microphone alternate special teal icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">المجيب</a>
+                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/my-questions">المجيب</a>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                                 <i class="eye special teal icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">المدقق</a>
+                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/reviewed-questions">المدقق</a>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                 <i class="newspaper special teal icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">المنشورات</a>
+                                <a class="ui center aligned header" href="">المنشورات</a>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                                 <i class="bullhorn special teal icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">الاعلانات</a>
+                                <a class="ui center aligned header" href="">الاعلانات</a>
                             </div>
                         </div>
                     </div>

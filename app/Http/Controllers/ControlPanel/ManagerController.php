@@ -22,12 +22,12 @@ class ManagerController extends Controller
                 ->where("lang", $currentAdmin->lang)
                 ->where("type", $currentAdmin->type)
                 ->orderBy("name")
-                ->simplePaginate(25);
+                ->simplePaginate(20);
         } else {
             $admins = Admin::where("lang", $currentAdmin->lang)
                 ->where("type", $currentAdmin->type)
                 ->orderBy("id")
-                ->simplePaginate(25);
+                ->simplePaginate(20);
         }
 
         return view("cPanel.$currentAdmin->lang.manager.managers")->with(["admins" => $admins, "lang" => $currentAdmin->lang]);

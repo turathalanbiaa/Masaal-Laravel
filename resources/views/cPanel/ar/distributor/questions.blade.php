@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="sixteen wide field">
                                     <button class="ui green button" data-action="distribute-question">ارسال</button>
-                                    <button class="ui left floated red button" data-token="{!! csrf_token() !!}" data-question-id="{{$question->id}}" data-action="change-question-type">
+                                    <button class="ui left floated red button" data-question-id="{{$question->id}}" data-action="change-question-type">
                                         @if($question->type == \App\Enums\QuestionType::FEQHI)
                                             {{"تحويل الى العقائد"}}
                                         @elseif($question->type == \App\Enums\QuestionType::AKAEDI)
@@ -58,16 +58,25 @@
                         </div>
                     @endforeach
 
-                    <div class="ui bottom teal center aligned inverted segment">
-                        {{$questions->links()}}
-                    </div>
+                    @if($questions->hasPages())
+                        <div class="ui bottom teal center aligned inverted segment">
+                            {{$questions->links()}}
+                        </div>
+                    @endif
+
                 @else
-                    <div class="ui massive info message">
-                        <div class="ui hidden divider"></div>
-                        <div class="ui hidden divider"></div>
-                        <div class="ui center aligned header">لاتوجد اسئلة جديدة لتوزيعها</div>
-                        <div class="ui hidden divider"></div>
-                        <div class="ui hidden divider"></div>
+                    <div class="ui segment">
+                        <div class="ui massive info message">
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui center aligned header">لاتوجد اسئلة جديدة لتوزيعها</div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                        </div>
                     </div>
                 @endif
             </div>
@@ -91,7 +100,8 @@
             var _token = $(this).parent().parent().find("input[type='hidden'][name='_token']").val();
             var questionId = $(this).parent().parent().find("input[type='hidden'][name='questionId']").val();
             var respondentId = $(this).parent().parent().find("input[type='hidden'][name='respondentId']").val();
-            $(this).parent().parent().parent().find('#dimmer').addClass("active");
+            var currentDimmer = $(this).parent().parent().parent().find('#dimmer');
+            currentDimmer.addClass("active");
 
             $.ajax({
                 type: "POST",
@@ -115,15 +125,15 @@
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
-                    $('#dimmer').removeClass("active");
+                    currentDimmer.removeClass("active");
                 }
             });
         });
 
         $("button[data-action='change-question-type']").click(function () {
-            var questionId = $(this).data('question-id');
-            var _token = $(this).data('token');
             var button = $(this);
+            var questionId = button.data('question-id');
+            var _token = "{{csrf_token()}}";
             button.addClass("loading");
 
             $.ajax({

@@ -6,6 +6,7 @@
  * Time: 2:12 PM
  */
 
+Route::get("/control-panel/{lang}/", "ControlPanel\\MainController@index")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie");
 Route::get("/control-panel/{lang}/main", "ControlPanel\\MainController@index")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie");
 Route::get("/control-panel/{lang}/login", "ControlPanel\\LoginController@login")->where("lang" , "en|ar|fr");
 Route::post("/control-panel/{lang}/login", "ControlPanel\\LoginController@loginValidation")->where("lang" , "en|ar|fr");
@@ -25,11 +26,11 @@ Route::post("/control-panel/distribution", "ControlPanel\\DistributorController@
 Route::post("/control-panel/change-question-type", "ControlPanel\\DistributorController@changeQuestionType")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
 
 /*route of respondent*/
-Route::get("/control-panel/{lang}/my-questions","AdminController@showQuestionToRespondent")->where("lang" , "en|ar|fr");
-Route::get("/control-panel/{lang}/question","AdminController@showQuestion")->where("lang" , "en|ar|fr");
-Route::post("/control-panel/{lang}/question-answer","AdminController@questionAnswer")->where("lang" , "en|ar|fr");
+Route::get("/control-panel/{lang}/my-questions", "ControlPanel\\RespondentController@questions")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:respondent");
+Route::get("/control-panel/{lang}/question", "ControlPanel\\RespondentController@question")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:respondent");
+Route::post("/control-panel/{lang}/question-answer", "ControlPanel\\RespondentController@answer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:respondent");
 
 /*route of reviewer*/
-Route::get("/control-panel/{lang}/reviewed-questions","AdminController@reviewedQuestions")->where("lang" , "en|ar|fr");
-Route::post("/control-panel/acceptAnswer","AdminController@acceptAnswer");
-Route::post("/control-panel/rejectAnswer","AdminController@rejectAnswer");
+Route::get("/control-panel/{lang}/reviewed-questions","ControlPanel\\ReviewerController@questions")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
+Route::post("/control-panel/acceptAnswer","ControlPanel\\ReviewerController@acceptAnswer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
+Route::post("/control-panel/rejectAnswer","ControlPanel\\ReviewerController@rejectAnswer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");

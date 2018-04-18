@@ -35,10 +35,6 @@ body {
     left: 0;
 }
 
-.ui.button {
-    margin-right: 0!important;
-}
-
 /* for tables*/
 .ui.celled.table tr td:first-child,
 .ui.celled.table tr th:first-child,
@@ -56,24 +52,9 @@ body {
     border-left: none;
 }
 
-/* for menu pagination*/
-.ui.menu .item:before
-{
-    width: 0!important;
-}
-.ui.menu .item:after
-{
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 1px;
-    background: rgba(34,36,38,.1);
-}
-.ui.menu .item:last-child:after
-{
-    width: 0!important;
+/* for button*/
+.ui.button {
+    margin-right: 0!important;
 }
 
 .ui.buttons .button:first-child {
@@ -82,6 +63,18 @@ body {
 
 .ui.buttons .button:last-child {
     border-radius: 0.28571429rem  0  0 0.28571429rem;
+}
+
+/* for accordion*/
+.ui.accordion .title .dropdown.icon
+{
+    transform: rotate(180deg);
+    margin: 0;
+}
+
+.paragraph {
+    text-indent: 32px;
+    text-align: justify;
 }
 /******************** Add JS-Flat Fount ********************/
 @font-face {

@@ -11,6 +11,6 @@ class QuestionTag extends Model
 
     public function Tag()
     {
-        return $this->hasOne('App\Models\Tag','id','tag_id');
+        return $this->hasOne('App\Models\Tag','id','tagId');
     }
 }

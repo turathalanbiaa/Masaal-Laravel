@@ -19,10 +19,10 @@
                                 <div class="ui text loader">جاري التحميل...</div>
                             </div>
 
-                            <p class="ui green header" style="margin-top: 0!important;">السؤال</p>
-                            <p style="text-align: justify;">{{$question->content}}</p>
+                            <p class="ui green header">السؤال</p>
+                            <p class="paragraph"> {{$question->content}}</p>
                             <p class="ui olive header">الجواب</p>
-                            <p style="text-align: justify;">{{$question->answer}}</p>
+                            <p class="paragraph">{{$question->answer}}</p>
 
                             <div class="ui accordion">
                                 <div class="title">
@@ -83,33 +83,36 @@
                                         @endif
                                     </div>
 
-                                    <!--
-                                    {{--
-                                    @if(!is_null($question->videoLink))
-                                        <div class="ui embed" data-source="youtube" data-id="{{$question->videoLink}}" data-placeholder="{{asset("img/youtube-placeholder.png")}}" data-icon="right circle arrow"></div>
-                                    @endif
-                                    --}}
-                                    -->
+                                    <div class="ui divider"></div>
                                 </div>
                             </div>
-                            <br>
 
-                            <button class="ui positive basic button" data-action="accept" data-question-id="{{$question->id}}" data-token="{!! csrf_token() !!}">قبول</button>
-                            <button class="ui primary basic button" data-action="update" >تعديل</button>
-                            <button class="ui negative basic button" data-action="reject" data-question-id="{{$question->id}}" data-token="{!! csrf_token() !!}">رفض</button>
+                            <div class="ui hidden divider"></div>
+
+                            <button class="ui inverted green button" data-action="accept" data-question-id="{{$question->id}}">قبول</button>
+                            <a class="ui inverted blue button" data-action="update" href="">تعديل</a>
+                            <button class="ui inverted red button" data-action="reject" data-question-id="{{$question->id}}">رفض</button>
                         </div>
                     @endforeach
 
-                    <div class="ui bottom teal segment">
-                        {{$questions->links()}}
-                    </div>
+                    @if($questions->hasPages())
+                        <div class="ui bottom teal center aligned inverted segment">
+                            {{$questions->links()}}
+                        </div>
+                    @endif
                 @else
-                    <div class="ui massive info message">
-                        <div class="ui hidden divider"></div>
-                        <div class="ui hidden divider"></div>
-                        <div class="ui center aligned header">لاتوجد اسئلة جديدة لمراجعتها</div>
-                        <div class="ui hidden divider"></div>
-                        <div class="ui hidden divider"></div>
+                    <div class="ui segment">
+                        <div class="ui massive info message">
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui center aligned header">لاتوجد اسئلة جديدة لمراجعتها</div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                            <div class="ui hidden divider"></div>
+                        </div>
                     </div>
                 @endif
             </div>
@@ -119,14 +122,19 @@
 
 @section("script")
     <script>
-        $('.pagination').addClass('ui right aligned pagination menu');
-        $('.pagination').css({'padding':'0','font-size':'12px'});
-        $('.pagination').find('li').addClass('item');
+        $(document).ready(function () {
+            var pagination = $(".pagination");
+            pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
+            pagination.css("padding","0");
+            pagination.find('li').addClass('item');
+        });
+
         $('.ui.accordion').accordion();
+
         $('.ui.embed').embed();
-        $("button[data-action='accept']").click(function ()
-        {
-            var _token = $(this).data('token');
+
+        $("button[data-action='accept']").click(function () {
+            var _token = "{!! csrf_token() !!}";
             var questionId = $(this).data('question-id');
             var dimmer = $(this).parent().find(".dimmer");
             dimmer.addClass("active");
@@ -140,27 +148,24 @@
                     if (result["question"] == "NotFound")
                         snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
 
-                    else if(result["Admin"] == "NotReviewer")
-                        snackbar("ليس لديك الصلاحية لعمل ذلك." , 3000 , "warning");
-
-                    else if (result["success"] == false)
+                    if (result["success"] == false)
                         snackbar("لم يتم قبو ل الاجابة !!، حاول مرة اخرى." , 3000 , "error");
 
-                    else if (result["success"] == true)
-                        snackbar("تم قبول الاجابة بنجاح" , 3000 , "success");
+                    else
+                        if (result["success"] == true)
+                            snackbar("تم قبول الاجابة بنجاح" , 3000 , "success");
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
                     dimmer.removeClass("active");
-
                 }
             });
         });
-        $("button[data-action='reject']").click(function ()
-        {
-            var _token = $(this).data('token');
+
+        $("button[data-action='reject']").click(function () {
+            var _token = "{!! csrf_token() !!}";
             var questionId = $(this).data('question-id');
             var dimmer = $(this).parent().find(".dimmer");
             dimmer.addClass("active");
@@ -174,11 +179,9 @@
                     if (result["question"] == "NotFound")
                         snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
 
-                    else if(result["Admin"] == "NotReviewer")
-                        snackbar("ليس لديك الصلاحية لعمل ذلك." , 3000 , "warning");
-
-                    else if (result["success"] == true)
-                        snackbar("تم رفض الاجابة بنجاح" , 3000 , "success");
+                    else
+                        if (result["success"] == true)
+                            snackbar("تم رفض الاجابة بنجاح" , 3000 , "success");
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
