@@ -34,3 +34,5 @@ Route::post("/control-panel/{lang}/question-answer", "ControlPanel\\RespondentCo
 Route::get("/control-panel/{lang}/reviewed-questions","ControlPanel\\ReviewerController@questions")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
 Route::post("/control-panel/acceptAnswer","ControlPanel\\ReviewerController@acceptAnswer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
 Route::post("/control-panel/rejectAnswer","ControlPanel\\ReviewerController@rejectAnswer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
+Route::get("/control-panel/{lang}/info-question","ControlPanel\\ReviewerController@infoQuestion")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
+Route::post("/control-panel/{lang}/update-question","ControlPanel\\ReviewerController@updateQuestion")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");

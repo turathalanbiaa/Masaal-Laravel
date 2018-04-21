@@ -10,6 +10,14 @@
             @include("cPanel.ar.layout.welcome")
         </div>
 
+        @if(session("ArInfoMessage"))
+            <div class="column">
+                <div class="ui info message">
+                    <h2 class="ui center aligned header">{{session("ArInfoMessage")}}</h2>
+                </div>
+            </div>
+        @endif
+
         <div class="column">
             <div class="ui right aligned segments">
                 @if(count($questions) > 0)
@@ -90,7 +98,7 @@
                             <div class="ui hidden divider"></div>
 
                             <button class="ui inverted green button" data-action="accept" data-question-id="{{$question->id}}">قبول</button>
-                            <a class="ui inverted blue button" data-action="update" href="">تعديل</a>
+                            <a class="ui inverted blue button" href="/control-panel/{{$lang}}/info-question?id={{$question->id}}">تعديل</a>
                             <button class="ui inverted red button" data-action="reject" data-question-id="{{$question->id}}">رفض</button>
                         </div>
                     @endforeach

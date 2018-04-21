@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionTag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -74,15 +76,38 @@ class ReviewerController extends Controller
         return ["success" => true];
     }
 
-    public function questionInfo($lang)
+    public function infoQuestion()
     {
-        $questionId = Input::get("questionId");
+        $currentAdmin = Input::get("currentAdmin");
+        $questionId = Input::get("id");
         $question = Question::find($questionId);
 
         if (!$question)
-            return redirect();
+            return redirect("/control-panel/$currentAdmin->lang/reviewed-questions")->with([
+                "ArInfoMessage" => "عذرا، لايوجد مثل هذا السؤال.",
+                "EnInfoMessage" => "Sorry, there is no such question.",
+                "FrInfoMessage" => "Désolé, il n'y a pas de telle question."
+            ]);
 
-        return view();
+        $categories = Category::where("type", $currentAdmin->type)
+            ->where("lang", $currentAdmin->lang)
+            ->get();
+
+        $tags = Tag::where("type", 0)
+            ->where("lang", $currentAdmin->lang)
+            ->get();
+
+        $qusTag = array();
+
+        foreach ($question->QuestionTags as $questionTag)
+            $qusTag[] = $questionTag->tagId;
+
+        return view("cPanel.$currentAdmin->lang.reviewer.editQuestion")->with([
+            "lang" => $currentAdmin->lang,
+            "question" => $question,
+            "categories" => $categories,
+            "tags" => $tags
+        ]);
     }
 
     public function updateAnswer($lang)
