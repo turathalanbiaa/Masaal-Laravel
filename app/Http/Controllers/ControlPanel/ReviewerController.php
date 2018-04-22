@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
+use App\Enums\TargetName;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionTag;
@@ -44,7 +45,7 @@ class ReviewerController extends Controller
         if (!$success)
             return ["success" => false];
 
-        EventLogController::add($request, "ACCEPT ANSWER FOR QUESTION", $question->id);
+        EventLogController::add($request, "ACCEPT ANSWER FOR QUESTION", TargetName::QUESTION, $question->id);
 
         return ["success" => true];
     }
@@ -68,10 +69,10 @@ class ReviewerController extends Controller
             $question->externalLink = null;
             $question->save();
 
-            QuestionTag::where('question_id',$question->id)->delete();
+            QuestionTag::where('questionId',$question->id)->delete();
         });
 
-        EventLogController::add($request, "REJECT ANSWER FOR QUESTION", $question->id);
+        EventLogController::add($request, "REJECT ANSWER FOR QUESTION", TargetName::QUESTION, $question->id);
 
         return ["success" => true];
     }
@@ -97,11 +98,6 @@ class ReviewerController extends Controller
             ->where("lang", $currentAdmin->lang)
             ->get();
 
-        $qusTag = array();
-
-        foreach ($question->QuestionTags as $questionTag)
-            $qusTag[] = $questionTag->tagId;
-
         return view("cPanel.$currentAdmin->lang.reviewer.editQuestion")->with([
             "lang" => $currentAdmin->lang,
             "question" => $question,
@@ -110,12 +106,109 @@ class ReviewerController extends Controller
         ]);
     }
 
-    public function updateAnswer($lang)
+    public function updateAnswer(Request $request)
     {
-        $questionId = Input::get("questionId");
-        $question = Question::find($questionId);
+        $currentAdmin = Input::get("currentAdmin");
+        $question = Question::find(Input::get("id"));
+
         if (!$question)
-            return redirect();
-        return view();
+            return redirect("/control-panel/$currentAdmin->lang/reviewed-questions")->with([
+                "ArInfoMessage" => "عذرا، لايوجد مثل هذا السؤال.",
+                "EnInfoMessage" => "Sorry, there is no such question.",
+                "FrInfoMessage" => "Désolé, il n'y a pas de telle question."
+            ]);
+
+        $rules = [
+            "answer" => 'required',
+            "categoryId" => "required|numeric",
+            "tags" => "required",
+            'image' => 'file|image|min:50|max:200',
+        ];
+
+        $rulesMessage = [
+            "ar"=>[
+                "answer.required" => "لاتوجد اجابة !!!",
+                "categoryId.required" => "لم تقم بأختيار صنف السؤال.",
+                "tags.required" => "لم تقم بأختيار الموضوع التابع له السؤال.",
+                "image.file" => "انت تحاول رفع ملف ليس بصورة.",
+                "image.image" => "انت تحاول رفع ملف ليس بصورة.",
+                "image.min" => "انت تقوم برفع صورة صغيرة جداً.",
+                "image.max" => "حجم الصورة يجب ان لايتعدى 200KB."
+            ],
+            "fr"=>[
+                "answer.required" => "Il n'y a pas de réponse !!!",
+                "categoryId.required" => "Vous n'avez pas sélectionné la catégorie de question.",
+                "tags.required" => "Vous n'avez pas sélectionné l'objet de la question.",
+                "image.file" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
+                "image.image" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
+                "image.min" => "Vous soulevez une très petite image.",
+                "image.max" => "La taille de l'image ne doit pas dépasser 200 Ko."
+            ]
+        ];
+
+        if ($currentAdmin->lang == "en")
+            $this->validate($request, $rules, []);
+
+        if ($currentAdmin->lang == "ar")
+            $this->validate($request, $rules, $rulesMessage["ar"]);
+
+        if ($currentAdmin->lang == "fr")
+            $this->validate($request, $rules, $rulesMessage["fr"]);
+
+        DB::transaction(function () {
+            $question = Question::find(Input::get("id"));
+
+            // Delete Old Image
+            if (Input::get("delete"))
+            {
+                if (Storage::exists($question->image))
+                {
+                    Storage::delete($question->image);
+                    $question->image = null;
+                }
+            }
+
+            // Save new image if exist
+            if (!is_null(request()->file("image")))
+            {
+                if (Storage::exists($question->image))
+                {
+                    Storage::delete($question->image);
+                    $question->image = null;
+                }
+                $Path = Storage::putFile("public", request()->file("image"));
+                $imagePath = explode('/',$Path);
+                $question->image = $imagePath[1];
+            }
+
+            // Update info question
+            $question->answer = Input::get("answer");
+            $question->categoryId = Input::get("categoryId");
+            $question->status = QuestionStatus::APPROVED;
+            $question->videoLink = Input::get("videoLink");
+            $question->externalLink = Input::get("externalLink");
+            $question->save();
+
+            // Delete all old tags
+            QuestionTag::where('questionId',$question->id)->delete();
+
+            // Save new tags
+            $tags = explode(',', Input::get("tags"));
+            foreach ($tags as $tag_id)
+            {
+                $questionTag = new QuestionTag();
+                $questionTag->questionId = $question->id;
+                $questionTag->tagId = $tag_id;
+                $questionTag->save();
+            }
+        });
+
+        EventLogController::add($request, "UPDATE AND ACCEPT ANSWER FOR QUESTION", TargetName::QUESTION, $question->id);
+
+        return redirect("/control-panel/$currentAdmin->lang/reviewed-questions")->with([
+            "ArInfoMessage" => "رائع، تم تعديل وقبول الاجابة بنجاح.",
+            "EnInfoMessage" => "Wonderful, have been modified and accept the answer successfully.",
+            "FrInfoMessage" => "Merveilleux, ont été modifiés et acceptent la réponse avec succès."
+        ]);
     }
 }

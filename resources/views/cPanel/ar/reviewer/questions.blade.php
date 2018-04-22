@@ -142,9 +142,11 @@
         $('.ui.embed').embed();
 
         $("button[data-action='accept']").click(function () {
+            var button = $(this);
             var _token = "{!! csrf_token() !!}";
-            var questionId = $(this).data('question-id');
-            var dimmer = $(this).parent().find(".dimmer");
+            var questionId = button.data('question-id');
+            var dimmer = button.parent().find(".dimmer");
+            var success = false;
             dimmer.addClass("active");
 
             $.ajax({
@@ -156,26 +158,43 @@
                     if (result["question"] == "NotFound")
                         snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
 
-                    if (result["success"] == false)
+                    else if (result["success"] == false)
                         snackbar("لم يتم قبو ل الاجابة !!، حاول مرة اخرى." , 3000 , "error");
 
-                    else
-                        if (result["success"] == true)
-                            snackbar("تم قبول الاجابة بنجاح" , 3000 , "success");
+                    else if (result["success"] == true)
+                    {
+                        snackbar("تم قبول الاجابة بنجاح" , 3000 , "success");
+                        success = true;
+                    }
+
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
                     dimmer.removeClass("active");
+
+                    if(success)
+                    {
+                        setTimeout(function () {
+                            var segment = button.parent();
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
                 }
             });
         });
 
         $("button[data-action='reject']").click(function () {
+            var button = $(this);
             var _token = "{!! csrf_token() !!}";
-            var questionId = $(this).data('question-id');
-            var dimmer = $(this).parent().find(".dimmer");
+            var questionId = button.data('question-id');
+            var dimmer = button.parent().find(".dimmer");
+            var success = false;
             dimmer.addClass("active");
 
             $.ajax({
@@ -187,15 +206,29 @@
                     if (result["question"] == "NotFound")
                         snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
 
-                    else
-                        if (result["success"] == true)
-                            snackbar("تم رفض الاجابة بنجاح" , 3000 , "success");
+                    else if (result["success"] == true)
+                    {
+                        snackbar("تم رفض الاجابة بنجاح" , 3000 , "success");
+                        success = true;
+                    }
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
                     dimmer.removeClass("active");
+
+                    if(success)
+                    {
+                        setTimeout(function () {
+                            var segment = button.parent();
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
                 }
             });
         });

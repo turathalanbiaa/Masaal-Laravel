@@ -97,10 +97,12 @@
         });
 
         $("button[data-action='distribute-question']").click(function () {
-            var _token = $(this).parent().parent().find("input[type='hidden'][name='_token']").val();
-            var questionId = $(this).parent().parent().find("input[type='hidden'][name='questionId']").val();
-            var respondentId = $(this).parent().parent().find("input[type='hidden'][name='respondentId']").val();
-            var currentDimmer = $(this).parent().parent().parent().find('#dimmer');
+            var button = $(this);
+            var _token = button.parent().parent().find("input[type='hidden'][name='_token']").val();
+            var questionId = button.parent().parent().find("input[type='hidden'][name='questionId']").val();
+            var respondentId = button.parent().parent().find("input[type='hidden'][name='respondentId']").val();
+            var currentDimmer = button.parent().parent().parent().find('#dimmer');
+            var success = false;
             currentDimmer.addClass("active");
 
             $.ajax({
@@ -119,13 +121,28 @@
                         snackbar("لم يتم تحويل السؤال الى المجيب !!، حاول مرة اخرى." , 3000 , "error");
 
                     else if (result["success"] == true)
+                    {
                         snackbar("تم تحويل السؤال الى المجيب بنجاح." , 3000 , "success");
+                        success = true;
+                    }
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
                     currentDimmer.removeClass("active");
+
+                    if(success)
+                    {
+                        setTimeout(function(){
+                            var segment = button.parent().parent().parent();
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
                 }
             });
         });
@@ -134,6 +151,7 @@
             var button = $(this);
             var questionId = button.data('question-id');
             var _token = "{{csrf_token()}}";
+            var success = false;
             button.addClass("loading");
 
             $.ajax({
@@ -149,19 +167,27 @@
                         snackbar("لم يتم تحويل نوع السؤال." , 3000 , "error");
 
                     else if (result["success"] == true)
+                    {
                         snackbar("تم تحويل نوع السؤال." , 3000 , "success");
+                        success = true;
+                    }
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
                     button.removeClass("loading");
-                    var segment = button.parent().parent().parent();
-                    segment.addClass("scale");
-                    segment.transition({
-                        animation  : 'scale',
-                        duration   : '1s'
-                    });
+                    if (success)
+                    {
+                        setTimeout(function () {
+                            var segment = button.parent().parent().parent();
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
                 }
             });
         });

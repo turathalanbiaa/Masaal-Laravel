@@ -9,14 +9,16 @@ use Illuminate\Support\Facades\Input;
 
 class EventLogController extends Controller
 {
-    public static function add(Request $request, $event , $target_Id)
+    public static function add(Request $request, $event, $targetName, $targetId)
     {
         $currentAdmin = Input::get("currentAdmin");
 
         $row = new EventLog();
         $row->adminUsername = $currentAdmin->username;
+        $row->lang = $currentAdmin->lang;
         $row->event = $event;
-        $row->target_Id = $target_Id;
+        $row->targetName = $targetName;
+        $row->targetId = $targetId;
         $row->save();
 
         return "";

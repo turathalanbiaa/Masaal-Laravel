@@ -25,8 +25,10 @@
         <div class="column">
             <div class="ui right aligned teal segment">
                 <h3><span style="color: #21ba45;">السؤال:- </span> {{$question->content}}</h3>
-                <form class="ui form" method="post" action="/control-panel/{{$lang}}/question-answer" enctype="multipart/form-data">
+                <form class="ui form" method="post" action="/control-panel/{{$lang}}/update-answer" enctype="multipart/form-data">
                     {!! csrf_field() !!}
+
+                    <input type="hidden" name="id" value="{{$question->id}}">
 
                     <div class="field">
                         <label for="answer">الجواب</label>
@@ -122,7 +124,7 @@
         });
         $("button[data-action='delete-image']").click(function () {
             var h3 = "<h3 class='ui center aligned green header'>تم حذف الصورة بنجاح</h3>";
-            var input = "<input type='hidden' name='delete'>";
+            var input = "<input type='hidden' name='delete' value='yes'>";
             var filedCard = $("#filed-card").html(h3 + input);
         });
     </script>
