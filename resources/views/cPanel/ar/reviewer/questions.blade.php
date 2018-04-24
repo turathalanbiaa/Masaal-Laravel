@@ -232,5 +232,10 @@
                 }
             });
         });
+
+        $('.ui.info.message').transition({
+            animation  : 'flash',
+            duration   : '1s'
+        });
     </script>
 @endsection

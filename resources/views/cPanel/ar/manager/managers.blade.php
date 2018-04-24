@@ -19,26 +19,10 @@
             </div>
         </div>
 
-        @if(session("permissionMessage"))
+        @if(session("ArInfoMessage"))
             <div class="column">
                 <div class="ui info message">
-                    <h2 style="text-align: center;">{{session("permissionMessage")}}</h2>
-                </div>
-            </div>
-        @endif
-
-        @if(session("InfoMessage"))
-            <div class="column">
-                <div class="ui info message">
-                    <h2 style="text-align: center;">{{session("InfoMessage")}}</h2>
-                </div>
-            </div>
-        @endif
-
-        @if(session("UpdateMessage"))
-            <div class="column">
-                <div class="ui session info message">
-                    <h2 style="text-align: center;">{{session("UpdateMessage")}}</h2>
+                    <h2 class="ui center aligned header">{{session("ArInfoMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -155,8 +139,11 @@
         });
 
         $("button[data-action='delete']").click(function () {
-            $("#number").html($(this).data("id"));
-            $("#name").html($(this).data("name"));
+            var button = $(this);
+            button.parent().parent().parent().attr("id", "row-delete");
+            button.addClass("loading");
+            $("#number").html(button.data("id"));
+            $("#name").html(button.data("name"));
             $(".modal")
                 .modal({
                     'closable' : false,
@@ -168,6 +155,8 @@
         $("button.positive.button").click(function () {
             var id = $("#number").html();
             var _token = "{{ csrf_token() }}";
+            var success = false;
+
             $.ajax({
                 type: "POST",
                 url: "/control-panel/{{$lang}}/admin/delete",
@@ -175,27 +164,43 @@
                 datatype: 'json',
                 success: function(result) {
                     if (result["notFound"] == true)
-                    {
                         snackbar("هذا المسؤول غير موجود." , 3000 , "warning");
-                    }
 
-                    if (result["success"] == false)
-                    {
+                    else if (result["success"] == false)
                         snackbar("لم يتم حذف المسؤول, يرجى اعدة المحاولة." , 3000 , "error");
-                    }
 
-                    if (result["success"] == true)
+                    else if (result["success"] == true)
                     {
                         snackbar("تم حذف المسؤول." , 3000 , "success");
+                        success = true;
                     }
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
+                    var tr = $("#row-delete");
+                    tr.removeAttr("id");
+                    tr.find("button").removeClass("loading");
+                    if(success)
+                    {
+                        setTimeout(function () {
+                            tr.addClass("scale");
+                            tr.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
 
+                        }, 250);
+                    }
                 }
             });
+        });
+
+        $("button.negative.button").click(function () {
+            var tr = $("#row-delete");
+            tr.removeAttr("id");
+            tr.find("button").removeClass("loading");
         });
 
         $('.ui.info.message').transition({

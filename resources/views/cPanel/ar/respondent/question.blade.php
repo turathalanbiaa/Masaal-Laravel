@@ -77,7 +77,6 @@
                         <input type="file" name="image" id="image" placeholder="ارفق صورة مع الأجابة اذا كنت ترغب بذلك ... اختياري">
                     </div>
 
-
                     <div class="field">
                         <label for="external-link">ارفاق رابط المصدر</label>
                         <input type="text" name="externalLink" id="external-link" placeholder="اكتب رابط المصدر هنا ... اختياري">
@@ -101,8 +100,5 @@
 @section("script")
     <script>
         $('.ui.selection.dropdown').dropdown();
-        $('.pagination').addClass('ui right aligned pagination menu');
-        $('.pagination').css({'padding':'0','font-size':'15px'});
-        $('.pagination').find('li').addClass('item');
     </script>
 @endsection

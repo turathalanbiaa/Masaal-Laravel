@@ -18,10 +18,10 @@
         </div>
     </div>
 
-    @if(session("QuestionMessage"))
+    @if(session("ArInfoMessage"))
         <div class="column">
             <div class="ui info message">
-                <h2 style="text-align: center;">{{session("QuestionMessage")}}</h2>
+                <h2 class="ui center aligned header">{{session("ArInfoMessage")}}</h2>
             </div>
         </div>
     @endif
@@ -94,9 +94,11 @@
 
     $("button[data-action='change-question-type']").click(function () {
         var button = $(this);
-        var questionId = button.data('question-id');
         var _token = "{{csrf_token()}}";
-        button.addClass("loading");
+        var questionId = button.data('question-id');
+        var dimmer = button.parent().find(".dimmer");
+        var success = false;
+        dimmer.addClass("active");
 
         $.ajax({
             type: "POST",
@@ -111,19 +113,27 @@
                     snackbar("لم يتم تحويل نوع السؤال." , 3000 , "error");
 
                 else if (result["success"] == true)
-                    snackbar("تم تجويل نوع السؤال." , 3000 , "success");
+                {
+                    snackbar("تم تحويل نوع السؤال." , 3000 , "success");
+                    success = true;
+                }
             },
             error: function() {
                 snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
             } ,
             complete : function() {
-                button.removeClass("loading");
-                var segment = button.parent();
-                segment.addClass("scale");
-                segment.transition({
-                    animation  : 'scale',
-                    duration   : '1s'
-                });
+                dimmer.removeClass("active");
+                if (success)
+                {
+                    setTimeout(function () {
+                        var segment = button.parent().parent().parent();
+                        segment.addClass("scale");
+                        segment.transition({
+                            animation  : 'scale',
+                            duration   : '1s'
+                        });
+                    }, 250);
+                }
             }
         });
     });

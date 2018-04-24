@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ControlPanel;
 
+use App\Enums\TargetName;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,10 @@ class ManagerController extends Controller
                 ->simplePaginate(20);
         }
 
-        return view("cPanel.$currentAdmin->lang.manager.managers")->with(["admins" => $admins, "lang" => $currentAdmin->lang]);
+        return view("cPanel.$currentAdmin->lang.manager.managers")->with([
+            "admins" => $admins,
+            "lang" => $currentAdmin->lang
+        ]);
     }
 
     public function delete(Request $request)
@@ -42,15 +46,12 @@ class ManagerController extends Controller
             return ["notFound"=>true];
 
         $success = $admin->delete();
+
         if (!$success)
-        {
             return ["success"=>false];
-        }
-        else
-        {
-            EventLogController::add($request, "DELETE ADMIN", $id);
-            return ["success"=>true];
-        }
+
+        EventLogController::add($request, "DELETE ADMIN", TargetName::ADMIN, $id);
+        return ["success"=>true];
     }
 
     public function info()
@@ -60,24 +61,35 @@ class ManagerController extends Controller
         $admin = Admin::find($id);
 
         if (!$admin)
-            return redirect("/control-panel/$currentAdmin->lang/managers")->with("InfoMessage","لا يوجد مثل هذا الحساب لكي يتم عرض معلوماته.");;
+            return redirect("/control-panel/$currentAdmin->lang/managers")->with([
+                "ArInfoMessage" => "لا يوجد مثل هذا الحساب لكي يتم عرض معلوماته.",
+                "EnInfoMessage" => "There is no such account to display its information.",
+                "FrInfoMessage" => "Il n'y a pas un tel compte pour afficher ses informations."
+            ]);
 
-        return view("cPanel.$currentAdmin->lang.manager.info")->with(["admin"=>$admin, "lang"=>$currentAdmin->lang]);
+        return view("cPanel.$currentAdmin->lang.manager.info")->with([
+            "admin"=>$admin,
+            "lang"=>$currentAdmin->lang
+        ]);
     }
 
-    public function update(Request $request, $lang)
+    public function update(Request $request)
     {
+        $currentAdmin = Input::get("currentAdmin");
         $id = Input::get("id");
         $admin = Admin::find($id);
 
         if (!$admin)
-            return redirect("/control-panel/$lang/managers")->with("UpdateMessage","لا يوجد مثل هذا الحساب لكي تتم عملية التعديل.");
+            return redirect("/control-panel/$currentAdmin->lang/managers")->with([
+                "ArInfoMessage" => "لا يوجد مثل هذا الحساب لكي يتم عرض معلوماته.",
+                "EnInfoMessage" => "There is no such account to display its information.",
+                "FrInfoMessage" => "Il n'y a pas un tel compte pour afficher ses informations."
+            ]);
 
         $rules = [
             "name" => "required|min:6",
             "username" => ['required','min:6',Rule::unique('admin')->ignore($id)],
             'password' => "confirmed"
-
         ];
 
         $rulesMessage = [
@@ -90,22 +102,22 @@ class ManagerController extends Controller
                 'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
             ],
             "fr"=>[
-                "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
-                "username.required" => "اسم المستخدم فارغ.",
-                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
-                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
-                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
+                "name.required" => "Le vrai nom est vide.",
+                "name.min" => "Le vrai nom doit comporter au moins 6 caractères.",
+                "username.required" => "Le nom d'utilisateur est vide.",
+                "username.min" => "Le nom d'utilisateur doit comporter au moins 6 caractères.",
+                "username.unique" => "Un autre utilisateur portant le même nom, veuillez utiliser un nouveau nom d'utilisateur.",
+                'password.confirmed' => 'Les deux mots de passe ne correspondent pas.'
             ]
         ];
 
-        if ($lang == "en")
+        if ($currentAdmin->lang == "en")
             $this->validate($request, $rules, []);
 
-        if ($lang == "ar")
+        if ($currentAdmin->lang == "ar")
             $this->validate($request, $rules, $rulesMessage["ar"]);
 
-        if ($lang == "fr")
+        if ($currentAdmin->lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
         $admin->name = Input::get("name");
@@ -120,21 +132,32 @@ class ManagerController extends Controller
         $admin->announcement = Input::get("announcement") ?: 0;
         $success = $admin->save();
 
-        EventLogController::add($request, "UPDATE ADMIN", $admin->id);
+        EventLogController::add($request, "UPDATE ADMIN", TargetName::ADMIN, $admin->id);
 
         if (!$success)
-            return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateMessage","لم يتم التعديل، اعد المحاولة مرة اخرى.");
+            return redirect("/control-panel/$currentAdmin->lang/admin/info?id=$admin->id")->with([
+                "ArInfoMessage" => "لم يتم حفظ أي تغييرات ، يرجى اعادة المحاولة.",
+                "EnInfoMessage" => "No changes saved, please try again.",
+                "FrInfoMessage" => "Aucun changement enregistré, veuillez réessayer."
+            ]);
 
-        return redirect("/control-panel/$lang/admin/info?id=$admin->id")->with("UpdateMessage","تم التعديل بنجاح.");
+        return redirect("/control-panel/$currentAdmin->lang/admin/info?id=$admin->id")->with([
+            "ArInfoMessage" => "تم حفظ التغييرات بنجاح.",
+            "EnInfoMessage" => "Changes saved successfully.",
+            "FrInfoMessage" => "Les modifications ont bien été enregistrées."
+        ]);
     }
 
-    public function create($lang)
+    public function create()
     {
-        return view("cPanel.$lang.manager.create")->with(["lang" => $lang]);
+        $currentAdmin = Input::get("currentAdmin");
+        return view("cPanel.$currentAdmin->lang.manager.create")->with(["lang" => $currentAdmin->lang]);
     }
 
-    public function createValidation(Request $request, $lang)
+    public function createValidation(Request $request)
     {
+        $currentAdmin = Input::get("currentAdmin");
+
         $rules = [
             "name" => "required|min:6",
             "username" => "required|min:6|unique:admin,username",
@@ -148,32 +171,30 @@ class ManagerController extends Controller
                 "username.required" => "اسم المستخدم فارغ.",
                 "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
-                'password.required' => "كلمة المرور فارغة.",
-                'password.min' => 'كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
+                "password.required" => "كلمة المرور فارغة.",
+                "password.min" => "يجب ان تكون كلمة المرور لاتقل عن 6 حروف.",
                 'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
             ],
             "fr"=>[
-                "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
-                "username.required" => "اسم المستخدم فارغ.",
-                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
-                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
-                'password.required' => "كلمة المرور فارغة.",
-                'password.min' => 'كلمة المرور قصيرة,يجب ان تتكون كلمة المرور من 6 أحرف على الأقل.',
-                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
+                "name.required" => "Le vrai nom est vide.",
+                "name.min" => "Le vrai nom doit comporter au moins 6 caractères.",
+                "username.required" => "Le nom d'utilisateur est vide.",
+                "username.min" => "Le nom d'utilisateur doit comporter au moins 6 caractères.",
+                "username.unique" => "Un autre utilisateur portant le même nom, veuillez utiliser un nouveau nom d'utilisateur.",
+                "password.required" => "Le mot de passe est vide.",
+                "password.min" => "Le mot de passe doit comporter au moins 6 caractères.",
+                'password.confirmed' => 'Les deux mots de passe ne correspondent pas.'
             ]
         ];
 
-        if ($lang == "en")
+        if ($currentAdmin->lang == "en")
             $this->validate($request, $rules, []);
 
-        if ($lang == "ar")
+        if ($currentAdmin->lang == "ar")
             $this->validate($request, $rules, $rulesMessage["ar"]);
 
-        if ($lang == "fr")
+        if ($currentAdmin->lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
-
-        $currentAdmin = Input::get("currentAdmin");
 
         $admin = new Admin();
         $admin->name = Input::get("name");
@@ -190,11 +211,19 @@ class ManagerController extends Controller
         $admin->announcement = Input::get("announcement") ?: 0;
         $success = $admin->save();
 
-        EventLogController::add($request, "CREATE ADMIN", $admin->id);
+        EventLogController::add($request, "CREATE ADMIN",TargetName::ADMIN, $admin->id);
 
         if (!$success)
-            return redirect("/control-panel/$lang/admin/create")->with("CreateMessage","لم يتم انشاء الحساب بصورة صحيحة، اعد المحاولة مرة اخرى.");
+            return redirect("/control-panel/$currentAdmin->lang/admin/create")->with([
+                "ArInfoMessage" => "لم يتم انشاء الحساب بصورة صحيحة، يرجى اعادة المحاولة.",
+                "EnInfoMessage" => "Account not created correctly, please try again.",
+                "FrInfoMessage" => "Le compte n'a pas été créé correctement. Veuillez réessayer."
+            ]);
 
-        return redirect("/control-panel/$lang/admin/create")->with("CreateMessage","تم انشاء الحساب بنجاح.");
+        return redirect("/control-panel/$currentAdmin->lang/admin/create")->with([
+            "ArInfoMessage" => "تم انشاء الحساب بنجاح.",
+            "EnInfoMessage" => "Account successfully created.",
+            "FrInfoMessage" => "Compte créé avec succès."
+        ]);
     }
 }

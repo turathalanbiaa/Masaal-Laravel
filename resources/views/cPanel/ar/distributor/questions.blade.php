@@ -149,10 +149,11 @@
 
         $("button[data-action='change-question-type']").click(function () {
             var button = $(this);
-            var questionId = button.data('question-id');
             var _token = "{{csrf_token()}}";
+            var questionId = button.data('question-id');
+            var dimmer = button.parent().find(".dimmer");
             var success = false;
-            button.addClass("loading");
+            dimmer.addClass("active");
 
             $.ajax({
                 type: "POST",
@@ -176,7 +177,7 @@
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
-                    button.removeClass("loading");
+                    dimmer.removeClass("active");
                     if (success)
                     {
                         setTimeout(function () {

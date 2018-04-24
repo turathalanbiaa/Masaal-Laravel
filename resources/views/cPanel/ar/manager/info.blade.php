@@ -31,10 +31,10 @@
             </div>
         @endif
 
-        @if(session("UpdateMessage"))
+        @if(session("ArInfoMessage"))
             <div class="column">
-                <div class="ui success fadeIn animated message">
-                    <h2 style="text-align: center;">{{session("UpdateMessage")}}</h2>
+                <div class="ui info message">
+                    <h2 class="ui center aligned header">{{session("ArInfoMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -133,5 +133,10 @@
 @section("script")
     <script>
         $('.ui.checkbox').checkbox();
+
+        $('.ui.info.message').transition({
+            animation  : 'flash',
+            duration   : '1s'
+        });
     </script>
 @endsection
