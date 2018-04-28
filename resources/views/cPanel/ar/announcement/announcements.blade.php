@@ -1,7 +1,7 @@
 @extends("cPanel.ar.layout.main_layout")
 
 @section("title")
-    <title>ادارة الحسابات</title>
+    <title>الاعلانات</title>
 @endsection
 
 @section("content")
@@ -13,8 +13,8 @@
         <div class="column">
             <div class="ui four item teal big menu">
                 <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/managers">ادارة الحسابات</a>
-                <a class="item" href="/control-panel/{{$lang}}/admin/create">اضافة حساب</a>
+                <a class="item active" href="/control-panel/{{$lang}}/announcements">الأعلانات</a>
+                <a class="item" href="/control-panel/{{$lang}}/announcement/create">اضافة اعلان</a>
                 <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
             </div>
         </div>
@@ -31,9 +31,9 @@
             <div class="ui segment">
                 <div class="ui grid">
                     <div class="sixteen wide column">
-                        <form class="ui form" method="get" action="/control-panel/{{$lang}}/managers" dir="rtl">
+                        <form class="ui form" method="get" action="/control-panel/{{$lang}}/announcements" dir="rtl">
                             <div class="ui left icon input" style="width: 100%; text-align: right;">
-                                <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
+                                <input type="text" placeholder="بحث عن اعلان" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
                                 <i class="search icon"></i>
                             </div>
                         </form>
@@ -44,32 +44,37 @@
                             <thead>
                             <tr>
                                 <th class="center aligned">الرقم</th>
-                                <th class="center aligned">الاسم الحقيقي</th>
-                                <th class="center aligned">اسم المستخدم</th>
+                                <th class="center aligned">الاعلان</th>
                                 <th class="center aligned">التاريخ</th>
+                                <th class="center aligned">حالة الاعلان</th>
+                                <th class="center aligned">تفعيل الاعلان</th>
                                 <th class="center aligned">خيارات</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @if(count($admins) > 0)
-                                @foreach($admins as $admin)
+                            @if(count($announcements) > 0)
+                                @foreach($announcements as $announcement)
                                     <tr>
-                                        <td class="center aligned">{{$admin->id}}</td>
-                                        <td class="center aligned">{{$admin->name}}</td>
-                                        <td class="center aligned">{{$admin->username}}</td>
-                                        <td class="center aligned">{{$admin->date}}</td>
+                                        <td class="center aligned">{{$announcement->id}}</td>
+                                        <td class="center aligned">{{$announcement->content}}</td>
+                                        <td class="center aligned">{{$announcement->time}}</td>
+                                        <td class="new-state center aligned">{{\App\Enums\AnnouncementActiveState::getAnnouncementActiveState($announcement->active)}}</td>
                                         <td class="center aligned">
-                                            <div class="ui fluid buttons">
-                                                <a href="/control-panel/{{$lang}}/admin/info?id={{$admin->id}}" class="ui teal button">تحرير</a>
-                                                <button class="ui red button" data-action="delete" data-id="{{$admin->id}}" data-name="{{$admin->name}}">حذف</button>
+                                            <div class="ui buttons">
+                                                <button class="ui green button" data-action="active" data-id="{{$announcement->id}}" data-status="1">نعم</button>
+                                                <div class="or"></div>
+                                                <button class="ui red button" data-action="active" data-id="{{$announcement->id}}" data-status="0" >لا</button>
                                             </div>
+                                        </td>
+                                        <td class="center aligned">
+                                            <button class="ui fluid red button" data-action="delete" data-id="{{$announcement->id}}">حذف</button>
                                         </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <div class="ui center aligned header">
                                             <div class="ui hidden divider"></div>
                                             <div class="ui hidden divider"></div>
@@ -86,12 +91,12 @@
                         </table>
                     </div>
 
-                    @if($admins->hasPages())
+                    @if($announcements->hasPages())
                         <div class="sixteen wide teal center aligned column">
                             @if(isset($_GET["query"]))
-                                {{$admins->appends(['query' => $_GET["query"]])->links()}}
+                                {{$announcements->appends(['query' => $_GET["query"]])->links()}}
                             @else
-                                {{$admins->links()}}
+                                {{$announcements->links()}}
                             @endif
                         </div>
                     @endif
@@ -104,17 +109,14 @@
 @section("extra-content")
     <div class="ui mini modal">
         <h3 class="ui center aligned top attached grey inverted header">
-            <span>هل انت متأكد من حذف المسؤول !!!</span>
+            <span>هل انت متأكد من حذف الاعلان !!!</span>
         </h3>
         <div class="content">
             <div class="ui hidden divider"></div>
 
             <h3 class="ui center aligned header">
-                <span>صاحب الرقم - </span>
+                <span>رقم الاعلان - </span>
                 <span id="number"></span>
-                <br>
-                <span>والاسم :- </span>
-                <span id="name"></span>
             </h3>
 
             <div class="ui divider"></div>
@@ -131,6 +133,70 @@
 
 @section("script")
     <script>
+        $(".ui.checkbox").checkbox();
+
+        $("button[data-action='active']").click(function () {
+            var button = $(this);
+            var id = button.data("id");
+            var status = button.data("status");
+            var _token = "{!! csrf_token() !!}";
+            var tr = button.parent().parent().parent().attr("id", "active-row");
+            var newSate = "";
+            button.parent().find("button").addClass("disabled");
+            button.addClass("loading");
+
+            $.ajax({
+                type: "POST",
+                url: "/control-panel/announcement/active",
+                data: {_token:_token, id:id, status:status},
+                datatype: 'json',
+                success: function(result) {
+                    if (result["notFound"] == true)
+                        snackbar("هذا الاعلان غير موجود." , 3000 , "warning");
+
+                    else if (result["success"] == false)
+                    {
+                        if(status == 0)
+                            snackbar("لم يتم الغاء تفعيل الاعلان, يرجى اعدة المحاولة." , 3000 , "error");
+
+                        if(status == 1)
+                            snackbar("لم يتم تفعيل الاعلان, يرجى اعدة المحاولة." , 3000 , "error");
+                    }
+
+                    else if (result["success"] == true)
+                    {
+                        if(status == 0)
+                        {
+                            snackbar("تم الغاء تفعيل الاعلان." , 3000 , "success");
+                            newSate = 0;
+                        }
+
+
+                        if(status == 1)
+                        {
+                            snackbar("تم تفعيل الاعلان." , 3000 , "success");
+                            newSate = 1;
+                        }
+                    }
+                },
+                error: function() {
+                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                } ,
+                complete : function() {
+                    var tr = $("#active-row");
+                    tr.removeAttr("id");
+                    tr.find("button").removeClass("loading");
+                    tr.find("button").removeClass("disabled");
+
+                    if(newSate == 0)
+                        tr.find(".new-state").html("غير مفعل");
+
+                    if(newSate == 1)
+                        tr.find(".new-state").html("مفعل");
+                }
+            });
+        });
+
         $(document).ready(function () {
             var pagination = $(".pagination");
             pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
@@ -140,10 +206,9 @@
 
         $("button[data-action='delete']").click(function () {
             var button = $(this);
-            button.parent().parent().parent().attr("id", "row-delete");
+            button.parent().parent().attr("id", "row-delete");
             button.addClass("loading");
             $("#number").html(button.data("id"));
-            $("#name").html(button.data("name"));
             $(".modal")
                 .modal({
                     'closable' : false,
@@ -159,19 +224,19 @@
 
             $.ajax({
                 type: "POST",
-                url: "/control-panel/admin/delete",
+                url: "/control-panel/announcement/delete",
                 data: {_token:_token, id:id},
                 datatype: 'json',
                 success: function(result) {
                     if (result["notFound"] == true)
-                        snackbar("هذا المسؤول غير موجود." , 3000 , "warning");
+                        snackbar("هذا الاعلان غير موجود." , 3000 , "warning");
 
                     else if (result["success"] == false)
-                        snackbar("لم يتم حذف المسؤول, يرجى اعدة المحاولة." , 3000 , "error");
+                        snackbar("لم يتم حذف الاعلان, يرجى اعدة المحاولة." , 3000 , "error");
 
                     else if (result["success"] == true)
                     {
-                        snackbar("تم حذف المسؤول." , 3000 , "success");
+                        snackbar("تم حذف الاعلان." , 3000 , "success");
                         success = true;
                     }
                 },

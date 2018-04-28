@@ -20,6 +20,14 @@
             @include("cPanel.ar.layout.welcome")
         </div>
 
+        @if(session("ArPermissionMessage"))
+            <div class="column">
+                <div class="ui info message">
+                    <h2 class="ui center aligned header">{{session("ArPermissionMessage")}}</h2>
+                </div>
+            </div>
+        @endif
+
         <div class="sixteen wide column">
             <div class="ui segment">
                 <div class="ui center aligned relaxed grid">
@@ -74,7 +82,7 @@
                                 <i class="newspaper special teal icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="">المنشورات</a>
+                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/posts">المنشورات</a>
                             </div>
                         </div>
                     </div>
@@ -86,7 +94,7 @@
                                 <i class="bullhorn special teal icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="">الاعلانات</a>
+                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/announcements">الاعلانات</a>
                             </div>
                         </div>
                     </div>
@@ -98,5 +106,10 @@
 
 
 @section("script")
-    <script></script>
+    <script>
+        $('.ui.info.message').transition({
+            animation  : 'flash',
+            duration   : '1s'
+        });
+    </script>
 @endsection

@@ -77,7 +77,7 @@ class RespondentController extends Controller
             "answer" => 'required',
             "categoryId" => "required|numeric",
             "tags" => "required",
-            'image' => 'file|image|min:50|max:200',
+            "image" => 'file|image|min:50|max:200',
         ];
 
         $rulesMessage = [

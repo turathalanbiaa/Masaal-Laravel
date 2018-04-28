@@ -121,7 +121,7 @@
                             </div>
 
                             <div class="field" style="text-align: center;">
-                                <button type="submit" class="ui green button">ارسال</button>
+                                <button type="submit" class="ui green button">انشاء حساب</button>
                             </div>
                         </form>
                     </div>
