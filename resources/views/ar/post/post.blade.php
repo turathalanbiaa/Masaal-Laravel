@@ -6,7 +6,7 @@
         <div class="ui grid">
             <div style="direction: rtl" class="column">
                 <a style="color: #00b5ad ; margin-left: 0px" class="ui big right">
-                    {{$post->title}}
+                    {{-$post>title}}
                 </a>
             </div>
         </div>

@@ -48,13 +48,13 @@
         <div class="ui divider"></div>
         <p>الجواب :</p>
 
-            @if($one_question->answer != null)
+        @if($one_question->answer != null)
 
 
 
             @if(isset($searchtext))
                 <?php
-                $questionAnswer = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>',  $one_question->answer);
+                $questionAnswer = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->answer);
                 ?>
 
                 {!! $questionAnswer !!}
@@ -89,13 +89,12 @@
                 <br>
                 <i class="video icon"></i>
                 <label>الفيديو : </label>
-                <a  href="{{$one_question->videoLink}}">                   اضغظ هنا لمشاهدة الفيديو</a>
-
+                <a href="{{$one_question->videoLink}}"> اضغظ هنا لمشاهدة الفيديو</a>
 
 
                 {{--<div class="ui embed" data-url="{{$one_question->videoLink}}" data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
                 {{--<div class="ui embed" data-source="youtube" data-id="{{$one_question->videoLink}}" data-icon="play"--}}
-                     {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
+                {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
 
 
             </div>
