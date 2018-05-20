@@ -41,7 +41,7 @@
 
             {!! $questionContent !!}
         @else
-            <p class="ellipsis">{{$one_question->content}}</p>
+            <p>{{$one_question->content}}</p>
 
         @endif
         <div class="ui divider"></div>
@@ -58,8 +58,7 @@
 
                 {!! $questionAnswer !!}
             @else
-                <p class="ellipsis"
-                   style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;"> {{$one_question->answer}}</p>
+                <p> {{$one_question->answer}}</p>
 
             @endif
 
