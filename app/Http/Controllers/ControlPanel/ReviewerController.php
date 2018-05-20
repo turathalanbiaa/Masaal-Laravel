@@ -25,10 +25,7 @@ class ReviewerController extends Controller
             ->orderBy('id')
             ->paginate(20);
 
-        return view("cPanel.$currentAdmin->lang.reviewer.questions")->with([
-            "lang" => $currentAdmin->lang,
-            "questions" => $questions
-        ]);
+        return view("cPanel.$currentAdmin->lang.reviewer.questions")->with(["lang" => $currentAdmin->lang,"questions" => $questions]);
     }
 
     public function acceptAnswer(Request $request)
