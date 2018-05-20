@@ -49,7 +49,7 @@
                                     <p>
                                         <span>المجيب</span>
                                         <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
-                                        <span>{{$question->name}}</span>
+                                        <span>{{$question->Admin["name"]}}</span>
                                     </p>
 
                                     <p>
