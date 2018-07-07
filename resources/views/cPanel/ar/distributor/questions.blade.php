@@ -26,8 +26,17 @@
                             <div class="ui dimmer" id="dimmer">
                                 <div class="ui text loader">جاري التحميل...</div>
                             </div>
-                            <p class="ui green header">السؤال:-</p>
-                            <p>{{$question->content}}</p>
+
+                            <p style="font-weight: bold;">
+                                <span>اسم السائل</span>
+                                <span> :- </span>
+                                <span style="color: #00b5ad;">{{$question->User["name"]}}</span>
+                            </p>
+
+                            <p>
+                                <span style="color: #21ba45;">السؤال :- </span>
+                                <span>{{$question->content}}</span>
+                            </p>
                             <div class="ui divider"></div>
                             <div class="ui form">
                                 {!! csrf_field() !!}
@@ -45,8 +54,10 @@
                                     </div>
                                 </div>
                                 <div class="sixteen wide field">
-                                    <button class="ui green button" data-action="distribute-question">ارسال</button>
-                                    <button class="ui left floated red button" data-question-id="{{$question->id}}" data-action="change-question-type">
+                                    <button class="ui green button" data-action="distribute-question">تحويل</button>
+                                    <button class="ui red button" data-action="delete-question">حذف</button>
+
+                                    <button class="ui left floated orange button" data-question-id="{{$question->id}}" data-action="change-question-type">
                                         @if($question->type == \App\Enums\QuestionType::FEQHI)
                                             {{"تحويل الى العقائد"}}
                                         @elseif($question->type == \App\Enums\QuestionType::AKAEDI)
@@ -123,6 +134,53 @@
                     else if (result["success"] == true)
                     {
                         snackbar("تم تحويل السؤال الى المجيب بنجاح." , 3000 , "success");
+                        success = true;
+                    }
+                },
+                error: function() {
+                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                } ,
+                complete : function() {
+                    currentDimmer.removeClass("active");
+
+                    if(success)
+                    {
+                        setTimeout(function(){
+                            var segment = button.parent().parent().parent();
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
+                }
+            });
+        });
+
+        $("button[data-action='delete-question']").click(function () {
+            var button = $(this);
+            var _token = button.parent().parent().find("input[type='hidden'][name='_token']").val();
+            var questionId = button.parent().parent().find("input[type='hidden'][name='questionId']").val();
+            var currentDimmer = button.parent().parent().parent().find('#dimmer');
+            var success = false;
+            currentDimmer.addClass("active");
+
+            $.ajax({
+                type: "POST",
+                url: '/control-panel/distributor/delete-question',
+                data: {_token:_token, questionId:questionId},
+                datatype: 'json',
+                success: function(result) {
+                    if (result["question"] == "NotFound")
+                        snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
+
+                    else if (result["success"] == false)
+                        snackbar("لم يتم حذف السؤال !!، حاول مرة اخرى." , 3000 , "error");
+
+                    else if (result["success"] == true)
+                    {
+                        snackbar("تم حذف السؤال بنجاح." , 3000 , "success");
                         success = true;
                     }
                 },

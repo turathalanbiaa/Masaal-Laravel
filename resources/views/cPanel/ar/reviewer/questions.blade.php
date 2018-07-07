@@ -35,10 +35,21 @@
                                 <div class="ui text loader">جاري التحميل...</div>
                             </div>
 
-                            <p class="ui green header">السؤال</p>
-                            <p class="paragraph"> {{$question->content}}</p>
-                            <p class="ui olive header">الجواب</p>
-                            <p class="paragraph">{{$question->answer}}</p>
+                            <p style="font-weight: bold;">
+                                <span>اسم السائل</span>
+                                <span> :- </span>
+                                <span style="color: #00b5ad;">{{$question->User["name"]}}</span>
+                            </p>
+
+                            <p>
+                                <span style="color: #21ba45;">السؤال :- </span>
+                                <span>{{$question->content}}</span>
+                            </p>
+
+                            <p>
+                                <span style="color: #b5cc18;">الجواب :- </span>
+                                <span>{{$question->answer}}</span>
+                            </p>
 
                             <div class="ui accordion">
                                 <div class="title">
@@ -108,6 +119,7 @@
                             <button class="ui inverted green button" data-action="accept" data-question-id="{{$question->id}}">قبول</button>
                             <a class="ui inverted blue button" href="/control-panel/{{$lang}}/info-question?id={{$question->id}}">تعديل</a>
                             <button class="ui inverted red button" data-action="reject" data-question-id="{{$question->id}}">رفض</button>
+                            <button class="ui inverted pink button" data-action="delete" data-question-id="{{$question->id}}">حذف سؤال</button>
                         </div>
                     @endforeach
 
@@ -211,6 +223,8 @@
                 data: {_token:_token, questionId:questionId},
                 datatype: 'json',
                 success: function(result) {
+
+                    console.log(result["message"])
                     if (result["question"] == "NotFound")
                         snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
 
@@ -222,7 +236,53 @@
                 },
                 error: function() {
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
-                } ,
+                },
+                complete : function() {
+                    dimmer.removeClass("active");
+
+                    if(success)
+                    {
+                        setTimeout(function () {
+                            var segment = button.parent();
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
+                }
+            });
+        });
+
+        $("button[data-action='delete']").click(function () {
+            var button = $(this);
+            var _token = "{!! csrf_token() !!}";
+            var questionId = button.data('question-id');
+            var dimmer = button.parent().find(".dimmer");
+            var success = false;
+            dimmer.addClass("active");
+
+            $.ajax({
+                type: "POST",
+                url: '/control-panel/reviewer/delete-question',
+                data: {_token:_token, questionId:questionId},
+                datatype: 'json',
+                success: function(result) {
+
+                    console.log(result["message"])
+                    if (result["question"] == "NotFound")
+                        snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
+
+                    else if (result["success"] == true)
+                    {
+                        snackbar("تم حذف السؤال بنجاح." , 3000 , "success");
+                        success = true;
+                    }
+                },
+                error: function() {
+                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                },
                 complete : function() {
                     dimmer.removeClass("active");
 

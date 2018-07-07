@@ -117,7 +117,11 @@ class AnnouncementController extends Controller
         if (!$success)
             return ["success"=>false];
 
-        EventLogController::add($request, "ACTIVE ANNOUNCEMENT", TargetName::ANNOUNCEMENT, $id);
+        if ($announcement->active == 0)
+            EventLogController::add($request, "INACTIVE ANNOUNCEMENT", TargetName::ANNOUNCEMENT, $id);
+        else
+            EventLogController::add($request, "ACTIVE ANNOUNCEMENT", TargetName::ANNOUNCEMENT, $id);
+
         return ["success"=>true];
     }
 }

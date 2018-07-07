@@ -98,6 +98,7 @@ class PostController extends Controller
         $post->lang = $currentAdmin->lang;
         $post->type = $currentAdmin->type;
         $post->time = date("Y-m-d H:i:s");
+        $post->image = null;
         if (!is_null(request()->file("image")))
         {
             $path = Storage::putFile("public", request()->file("image"));
@@ -105,7 +106,7 @@ class PostController extends Controller
             $post->image = $imagePath[1];
         }
 
-        $success = $post->save;
+        $success = $post->save();
 
         if (!$success)
             return redirect("/control-panel/$currentAdmin->lang/post/create")->with([

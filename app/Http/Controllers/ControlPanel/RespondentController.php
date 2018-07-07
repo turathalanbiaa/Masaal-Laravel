@@ -151,4 +151,22 @@ class RespondentController extends Controller
             "FrInfoMessage" => "La question a été répondue."
         ]);
     }
+
+    public function deleteQuestion(Request $request)
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        $success = $question->delete();
+
+        if (!$success)
+            return ["success" => false];
+
+        EventLogController::add($request, "THE RESPONDENT IS DELETING THE QUESTION", TargetName::QUESTION, $question->id);
+
+        return ["success" => true];
+    }
 }

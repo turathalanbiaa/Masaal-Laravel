@@ -88,4 +88,22 @@ class DistributorController extends Controller
 
         return ["success" => true];
     }
+
+    public function deleteQuestion(Request $request)
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        $success = $question->delete();
+
+        if (!$success)
+            return ["success" => false];
+
+        EventLogController::add($request, "THE DISTRIBUTOR IS DELETING THE QUESTION", TargetName::QUESTION, $question->id);
+
+        return ["success" => true];
+    }
 }

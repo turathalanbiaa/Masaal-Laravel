@@ -31,18 +31,27 @@
             @if(count($questions) > 0)
                 @foreach($questions as $question)
                     <div class="ui teal segment">
-                        <div class="ui dimmer" id="dimmer">
+                        <div class="ui dimmer">
                             <div class="ui text loader">جاري التحميل...</div>
                         </div>
 
-                        <p><span style="color: #21ba45;">السؤال:-</span> {{$question->content}}</p>
+                        <p style="font-weight: bold;">
+                            <span>اسم السائل</span>
+                            <span> :- </span>
+                            <span style="color: #00b5ad;">{{$question->User["name"]}}</span>
+                        </p>
 
-                        <div class="ui hidden divider"></div>
-                        <div class="ui hidden divider"></div>
+                        <p>
+                            <span style="color: #21ba45;">السؤال :- </span>
+                            <span>{{$question->content}}</span>
+                        </p>
+
+                        <div class="ui divider"></div>
 
                         <a class="ui green button" href="/control-panel/{{$lang}}/question?id={{$question->id}}">اجابة السؤال</a>
+                        <button class="ui red button" data-action="delete-question" data-question-id="{{$question->id}}">حذف</button>
 
-                        <button class="ui left floated red button" data-question-id="{{$question->id}}" data-action="change-question-type">
+                        <button class="ui left floated orange button" data-question-id="{{$question->id}}" data-action="change-question-type">
                             @if($question->type == \App\Enums\QuestionType::FEQHI)
                                 {{"تحويل الى العقائد"}}
                             @elseif($question->type == \App\Enums\QuestionType::AKAEDI)
@@ -92,6 +101,56 @@
         duration   : '1s'
     });
 
+    $("button[data-action='delete-question']").click(function () {
+        var button = $(this);
+        var _token = "{!! csrf_token() !!}";
+        var questionId = button.data("question-id");
+        var currentDimmer = button.parent().find(".dimmer");
+        var success = false;
+        currentDimmer.addClass("active");
+
+        console.log(_token);
+        console.log(questionId);
+
+        $.ajax({
+            type: "POST",
+            url: '/control-panel/respondent/delete-question',
+            data: {_token:_token, questionId:questionId},
+            datatype: 'json',
+            success: function(result) {
+                if (result["question"] == "NotFound")
+                    snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
+
+                else if (result["success"] == false)
+                    snackbar("لم يتم حذف السؤال !!، حاول مرة اخرى." , 3000 , "error");
+
+                else if (result["success"] == true)
+                {
+                    snackbar("تم حذف السؤال بنجاح." , 3000 , "success");
+                    success = true;
+                }
+            },
+            error: function() {
+                snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+            } ,
+            complete : function() {
+                currentDimmer.removeClass("active");
+
+                if(success)
+                {
+                    setTimeout(function(){
+                        var segment = button.parent();
+                        segment.addClass("scale");
+                        segment.transition({
+                            animation  : 'scale',
+                            duration   : '1s'
+                        });
+                    }, 250);
+                }
+            }
+        });
+    });
+
     $("button[data-action='change-question-type']").click(function () {
         var button = $(this);
         var _token = "{{csrf_token()}}";
@@ -123,10 +182,11 @@
             } ,
             complete : function() {
                 dimmer.removeClass("active");
+
                 if (success)
                 {
                     setTimeout(function () {
-                        var segment = button.parent().parent().parent();
+                        var segment = button.parent();
                         segment.addClass("scale");
                         segment.transition({
                             animation  : 'scale',

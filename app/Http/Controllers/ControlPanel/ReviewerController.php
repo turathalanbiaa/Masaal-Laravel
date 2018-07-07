@@ -57,7 +57,8 @@ class ReviewerController extends Controller
 
         DB::transaction(function (){
             $question = Question::find(Input::get("questionId"));
-            Storage::delete("public/".$question->image);
+            if (!is_null($question->image))
+                Storage::delete("public/".$question->image);
             $question->image = null;
             $question->answer = null;
             $question->categoryId = null;
@@ -70,6 +71,28 @@ class ReviewerController extends Controller
         });
 
         EventLogController::add($request, "REJECT ANSWER FOR QUESTION", TargetName::QUESTION, $question->id);
+
+        return ["success" => true];
+    }
+
+    public function deleteQuestion(Request $request)
+    {
+        $questionId = Input::get("questionId");
+        $question = Question::find($questionId);
+
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        DB::transaction(function (){
+            $question = Question::find(Input::get("questionId"));
+            if (!is_null($question->image))
+                Storage::delete("public/".$question->image);
+
+            QuestionTag::where('questionId',$question->id)->delete();
+            $question->delete();
+        });
+
+        EventLogController::add($request, "THE REVIEWER IS DELETING THE QUESTION", TargetName::QUESTION, $question->id);
 
         return ["success" => true];
     }

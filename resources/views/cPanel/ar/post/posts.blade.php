@@ -13,8 +13,8 @@
         <div class="column">
             <div class="ui four item teal big menu">
                 <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/posts">المنشورات</a>
                 <a class="item" href="/control-panel/{{$lang}}/post/create">اضافة منشور</a>
+                <a class="item active" href="/control-panel/{{$lang}}/posts">المنشورات</a>
                 <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
             </div>
         </div>

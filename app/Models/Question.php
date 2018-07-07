@@ -25,6 +25,11 @@ class Question extends Model
     protected $table = "question";
     public $timestamps = false;
 
+    public function User()
+    {
+        return $this->hasOne('App\Models\User','id','userId');
+    }
+
     public function Admin()
     {
         return $this->hasOne('App\Models\Admin','id','adminId');
