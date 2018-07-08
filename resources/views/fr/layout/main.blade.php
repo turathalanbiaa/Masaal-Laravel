@@ -4,9 +4,7 @@
 
     @include("fr.layout.head")
 
-    @if(isset($page_title))
-        <title>{{$page_title}}</title>
-    @endif
+    <title>Principale</title>
 
 </head>
 <body class="pushable">
