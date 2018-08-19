@@ -34,3 +34,4 @@ Route::get("/{lang}/single-question/{id}" , "QuestionController@showQuestion")->
 
 Route::get("/{lang}/tagQuestion/{tag}" , "QuestionController@tagQuestion")->where("lang" , "en|ar|fr")->middleware("loginFromCookie");
 Route::post("/{lang}/send" , "QuestionController@send")->where("lang" , "en|ar|fr");
+Route::get("/{lang}/send" , "QuestionController@send")->where("lang" , "en|ar|fr");
