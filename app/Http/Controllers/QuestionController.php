@@ -95,7 +95,7 @@ class QuestionController extends Controller
             ->leftJoin('category', 'question.categoryId', '=', 'category.id')
             ->leftJoin('user', 'question.userId', '=', 'user.id')
             ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
-            ->where("question.lang", $lang)->where("content", "LIKE", $searchtext)->orwhere("answer", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(100);
+            ->where("question.lang", $lang)->where("content", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orwhere("answer", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(100);
 
 
         return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions, "searchtext" => $searchtext0 ,"unlink" => $unlink]);

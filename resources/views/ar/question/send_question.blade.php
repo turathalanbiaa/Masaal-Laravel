@@ -13,17 +13,34 @@
             <div class="grouped fields">
                 <label>ماهو نوع السؤال؟</label>
                 <div class="field">
-                    <div class="ui radio checkbox">
-                        <input value="1" type="radio" name="privacy" checked="checked">
-                        <label>خاص</label>
+
+
+                    <div class="inline field">
+
+                        <div class="ui radio checkbox">
+                            <input value="1" type="radio" name="privacy" checked="checked">
+                            <label>خاص</label>
+                        </div>
+                        <div class="ui right pointing label">
+                            سوف تظهر الاجابة على سؤال في قسم اسئلتي فقط , ولا تظهر في الاسئلة العامة  * يرجى انشاء حساب قبل ارسال سؤال خاص -اضغط هنا
+                            <a style="text-align: center" href="/ar/login" > تسجيل دخول</a> </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input value="2" type="radio" name="privacy">
-                        <label>عام</label>
+
+
+                    <div class="inline field">
+
+                        <div class="ui radio checkbox">
+                            <input value="2" type="radio" name="privacy">
+                            <label>عام</label>
+                        </div>
+                        <div class="ui right pointing label">
+                          سوف تجد الاجابة على سؤالك في الاسئلة العامة وفي قسم اسئلتي
+                        </div>
                     </div>
+
+
                 </div>
+
             </div>
             <div class="ui form">
                 <div class="grouped fields">

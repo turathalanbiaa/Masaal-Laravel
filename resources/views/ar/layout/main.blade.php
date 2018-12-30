@@ -16,7 +16,8 @@
 
     <div class="ui container">
 
-        @include("ar.layout.page_header")
+        
+            @include("ar.layout.page_header")
 
         @include("ar.layout.nav_bar")
 

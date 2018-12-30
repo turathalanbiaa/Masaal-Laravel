@@ -16,6 +16,9 @@
     </style>
 
     <div class="ui grid">
+
+
+
         <div class="sixteen wide column">
             @include("cPanel.ar.layout.welcome")
         </div>
