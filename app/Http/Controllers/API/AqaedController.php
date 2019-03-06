@@ -16,9 +16,15 @@ class AqaedController extends Controller
 
     public function getSubject($id)
     {
-        $obj_subject = Subject::find($id);
-        $obj_subject->downloads = $obj_subject->downloads + 1;
-        $obj_subject->save();
+
+        if( $obj_subject = Subject::find($id))
+        {
+
+            $obj_subject->downloads = $obj_subject->downloads + 1;
+            $obj_subject->save();
+        }
+
+
         $subject = Subject::where("root_id", "=", $id)->get()->toJson(JSON_UNESCAPED_UNICODE);
         return $subject;
     }
