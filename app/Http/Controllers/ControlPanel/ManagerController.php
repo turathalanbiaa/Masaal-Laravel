@@ -12,6 +12,11 @@ use Illuminate\Validation\Rule;
 class ManagerController extends Controller
 {
 
+    /**
+     * Display managers
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function managers()
     {
         $currentAdmin = Input::get("currentAdmin");
@@ -37,6 +42,12 @@ class ManagerController extends Controller
         ]);
     }
 
+    /**
+     * Remove manager
+     *
+     * @param Request $request
+     * @return array
+     */
     public function delete(Request $request)
     {
         $id = Input::get("id");
@@ -54,18 +65,16 @@ class ManagerController extends Controller
         return ["success"=>true];
     }
 
+    /**
+     * Edit account
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function info()
     {
         $currentAdmin = Input::get("currentAdmin");
         $id = Input::get("id");
-        $admin = Admin::find($id);
-
-        if (!$admin)
-            return redirect("/control-panel/$currentAdmin->lang/managers")->with([
-                "ArInfoMessage" => "لا يوجد مثل هذا الحساب لكي يتم عرض معلوماته.",
-                "EnInfoMessage" => "There is no such account to display its information.",
-                "FrInfoMessage" => "Il n'y a pas un tel compte pour afficher ses informations."
-            ]);
+        $admin = Admin::findOrFail($id);
 
         return view("cPanel.$currentAdmin->lang.manager.info")->with([
             "admin"=>$admin,
@@ -73,23 +82,23 @@ class ManagerController extends Controller
         ]);
     }
 
+    /**
+     * Update account
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Request $request)
     {
         $currentAdmin = Input::get("currentAdmin");
         $id = Input::get("id");
-        $admin = Admin::find($id);
-
-        if (!$admin)
-            return redirect("/control-panel/$currentAdmin->lang/managers")->with([
-                "ArInfoMessage" => "لا يوجد مثل هذا الحساب لكي يتم عرض معلوماته.",
-                "EnInfoMessage" => "There is no such account to display its information.",
-                "FrInfoMessage" => "Il n'y a pas un tel compte pour afficher ses informations."
-            ]);
+        $admin = Admin::findOrFail($id);
 
         $rules = [
             "name" => "required|min:6",
             "username" => ['required','min:6',Rule::unique('admin')->ignore($id)],
-            'password' => "confirmed"
+            'password' => "min:6|confirmed"
         ];
 
         $rulesMessage = [
@@ -99,6 +108,7 @@ class ManagerController extends Controller
                 "username.required" => "اسم المستخدم فارغ.",
                 "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
                 "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
+                'password.min' => 'يجب ان تكون كلمة المرور لا تقل عن 6 حروف.',
                 'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
             ],
             "fr"=>[
@@ -107,6 +117,7 @@ class ManagerController extends Controller
                 "username.required" => "Le nom d'utilisateur est vide.",
                 "username.min" => "Le nom d'utilisateur doit comporter au moins 6 caractères.",
                 "username.unique" => "Un autre utilisateur portant le même nom, veuillez utiliser un nouveau nom d'utilisateur.",
+                'password.min' => 'Le mot de passe doit comporter au moins 6 caractères.',
                 'password.confirmed' => 'Les deux mots de passe ne correspondent pas.'
             ]
         ];
@@ -148,13 +159,27 @@ class ManagerController extends Controller
         ]);
     }
 
+    /**
+     * Create new account
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $currentAdmin = Input::get("currentAdmin");
-        return view("cPanel.$currentAdmin->lang.manager.create")->with(["lang" => $currentAdmin->lang]);
+        return view("cPanel.$currentAdmin->lang.manager.create")->with([
+            "lang" => $currentAdmin->lang
+        ]);
     }
 
-    public function createValidation(Request $request)
+    /**
+     * Store account
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request)
     {
         $currentAdmin = Input::get("currentAdmin");
 

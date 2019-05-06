@@ -9,12 +9,26 @@ use Illuminate\Support\Facades\Input;
 
 class LoginController extends Controller
 {
+    /**
+     * Login
+     *
+     * @param $lang
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function login($lang)
     {
         return view("cPanel.$lang.main.login")->with(["lang"=>$lang]);
     }
 
-    public function loginValidation(Request $request ,$lang)
+    /**
+     * Login Validation
+     *
+     * @param Request $request
+     * @param $lang
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function loginValidation(Request $request , $lang)
     {
         $rules = [
             "username" => "required",
@@ -44,16 +58,20 @@ class LoginController extends Controller
         $username = Input::get("username");
         $password = md5(Input::get("password"));
 
-        $admin = Admin::where("username","=",$username)->where("password","=",$password)->first();
+        $admin = Admin::where("username",$username)
+            ->where("password",$password)
+            ->first();
 
         if (!$admin)
-            return redirect("/control-panel/$lang/login")->with('ErrorRegisterMessage', "فشل تسجيل الدخول !!! أعد المحاولة مرة أخرى.");
+            return redirect("/control-panel/$lang/login")->with([
+                'ErrorRegisterMessage' => "فشل تسجيل الدخول !!! أعد المحاولة مرة أخرى."
+            ]);
 
-        $session = md5(uniqid());
-        $admin->session = $session;
+        $admin->session = md5(uniqid());
         $admin->save();
         $request->session()->put('ADMIN_SESSION' , $admin->session);
 
-        return redirect("/control-panel/$lang/main")->withCookie(cookie('ADMIN_SESSION' , $admin->session , 1000000000));
+        return redirect("/control-panel/$lang/")
+            ->withCookie(cookie('ADMIN_SESSION' , $admin->session , 1000000000));
     }
 }

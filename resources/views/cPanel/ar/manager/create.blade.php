@@ -11,21 +11,21 @@
         </div>
 
         <div class="column">
-            <div class="ui four item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">
-                    <i class="home big icon"></i>&nbsp;
+            <div class="ui four item teal big menu" id="special-menu">
+                <a class="item" href="/control-panel/{{$lang}}">
+                    <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
                 </a>
                 <a class="item" href="/control-panel/{{$lang}}/managers">
-                    <i class="setting big icon"></i>&nbsp;
+                    <i class="setting big icon" style="margin: 0;"></i>&nbsp;
                     <span>ادارة الحسابات</span>
                 </a>
                 <a class="item active" href="/control-panel/{{$lang}}/admin/create">
-                    <i class="add big icon"></i>&nbsp;
+                    <i class="add big icon" style="margin: 0;"></i>&nbsp;
                     <span>اضافة حساب</span>
                 </a>
                 <a class="item" href="/control-panel/{{$lang}}/logout">
-                    <i class="shutdown big icon"></i>&nbsp;
+                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
                     <span>تسجيل خروج</span>
                 </a>
             </div>
@@ -53,10 +53,10 @@
 
         <div class="column">
             <div class="ui right aligned segment">
-                <h3 class="ui center aligned green dividing header">انشاء حساب جديد</h3>
+                <h3 class="ui center aligned green dividing header" style="padding: 10px 0; margin-bottom: 30px;">انشاء حساب جديد</h3>
                 <div class="ui one column grid">
                     <div class="column">
-                        <form class="ui form" method="post" action="/control-panel/{{$lang}}/admin/create">
+                        <form class="ui big form" method="post" action="/control-panel/{{$lang}}/admin/create">
                             {!! csrf_field() !!}
                             <div class="field">
                                 <label for="name">الاسم الحقيقي</label>

@@ -7,20 +7,22 @@
  */
 
 /*route of main*/
-Route::get("/control-panel/{lang}/", "ControlPanel\\MainController@index")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie");
-Route::get("/control-panel/{lang}/main", "ControlPanel\\MainController@index")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie");
-Route::get("/control-panel/{lang}/login", "ControlPanel\\LoginController@login")->where("lang" , "en|ar|fr");
-Route::post("/control-panel/{lang}/login", "ControlPanel\\LoginController@loginValidation")->where("lang" , "en|ar|fr");
-Route::get("/control-panel/{lang}/logout", "ControlPanel\\MainController@logout")->where("lang" , "en|ar|fr");
+Route::get("/control-panel/{lang}", "ControlPanel\\MainController@index")->middleware("loginAdminFromCookie");
+Route::get("/control-panel/{lang}/login", "ControlPanel\\LoginController@login");
+Route::post("/control-panel/{lang}/login", "ControlPanel\\LoginController@loginValidation");
+Route::get("/control-panel/{lang}/logout", "ControlPanel\\MainController@logout");
 
 
-/*route of manager*/
-Route::get("/control-panel/{lang}/managers", "ControlPanel\\ManagerController@managers")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::post("/control-panel/admin/delete", "ControlPanel\\ManagerController@delete")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::get("/control-panel/{lang}/admin/info", "ControlPanel\\ManagerController@info")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::post("/control-panel/{lang}/admin/update", "ControlPanel\\ManagerController@update")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::get("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@create")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::post("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@createValidation")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
+/*routes group for manager*/
+Route::middleware(["loginAdminFromCookie", "permission:manager"])->group(function () {
+    Route::get("/control-panel/{lang}/managers", "ControlPanel\\ManagerController@managers");
+    Route::post("/control-panel/admin/delete", "ControlPanel\\ManagerController@delete");
+    Route::get("/control-panel/{lang}/admin/info", "ControlPanel\\ManagerController@info");
+    Route::post("/control-panel/{lang}/admin/update", "ControlPanel\\ManagerController@update");
+    Route::get("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@create");
+    Route::post("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@store");
+});
+
 
 
 /*route of distributor*/

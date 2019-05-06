@@ -9,7 +9,7 @@
         i.special.icon {
             padding: 25px 5px;
             margin: 0;
-            font-size: 6em;
+            font-size: 6rem;
             line-height: 1;
             vertical-align: middle;
             box-sizing: content-box;
@@ -30,9 +30,6 @@
     </style>
 
     <div class="ui grid">
-
-
-
         <div class="sixteen wide column">
             @include("cPanel.ar.layout.welcome")
         </div>
@@ -46,7 +43,9 @@
         @endif
 
         <div class="sixteen wide column">
-            <div class="ui segment">
+            <div class="ui big segment">
+                <div class="ui hidden divider"></div>
+
                 <div class="ui center aligned relaxed grid">
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
@@ -54,7 +53,7 @@
                                 <i class="user special blue icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">ادارة الحسابات</a>
+                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">الحسابات</a>
                             </div>
                         </div>
                     </div>
@@ -116,11 +115,12 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="ui hidden divider"></div>
             </div>
         </div>
     </div>
 @endsection
-
 
 @section("script")
     <script>

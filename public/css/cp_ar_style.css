@@ -2,7 +2,6 @@ body {
     direction: rtl;
     text-align: right;
     background: #f1f1f1;
-    font-family: JF-Flat;
 }
 
 .ui.checkbox input[type=checkbox],
@@ -75,6 +74,10 @@ body {
 .paragraph {
     text-indent: 32px;
     text-align: justify;
+}
+#special-menu>.item {
+    display: flex;
+    flex-direction: column;
 }
 /******************** Add JS-Flat Fount ********************/
 @font-face {

@@ -1,7 +1,7 @@
 @extends("cPanel.ar.layout.main_layout")
 
 @section("title")
-    <title>ادارة الحسابات</title>
+    <title>الحسابات</title>
 @endsection
 
 @section("content")
@@ -11,39 +11,31 @@
         </div>
 
         <div class="column">
-            <div class="ui four item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">
-                    <i class="home big icon"></i>&nbsp;
+            <div class="ui four item teal big menu" id="special-menu">
+                <a class="item" href="/control-panel/{{$lang}}">
+                    <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
                 </a>
                 <a class="item active" href="/control-panel/{{$lang}}/managers">
-                    <i class="setting big icon"></i>&nbsp;
-                    <span>ادارة الحسابات</span>
+                    <i class="setting big icon" style="margin: 0;"></i>&nbsp;
+                    <span>الحسابات</span>
                 </a>
                 <a class="item" href="/control-panel/{{$lang}}/admin/create">
-                    <i class="add big icon"></i>&nbsp;
+                    <i class="add big icon" style="margin: 0;"></i>&nbsp;
                     <span>اضافة حساب</span>
                 </a>
                 <a class="item" href="/control-panel/{{$lang}}/logout">
-                    <i class="shutdown big icon"></i>&nbsp;
+                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
                     <span>تسجيل خروج</span>
                 </a>
             </div>
         </div>
 
-        @if(session("ArInfoMessage"))
-            <div class="column">
-                <div class="ui info message">
-                    <h2 class="ui center aligned header">{{session("ArInfoMessage")}}</h2>
-                </div>
-            </div>
-        @endif
-
         <div class="column">
             <div class="ui segment">
                 <div class="ui grid">
                     <div class="sixteen wide column">
-                        <form class="ui form" method="get" action="/control-panel/{{$lang}}/managers" dir="rtl">
+                        <form class="ui big form" method="get" action="/control-panel/{{$lang}}/managers" dir="rtl">
                             <div class="ui left icon input" style="width: 100%; text-align: right;">
                                 <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
                                 <i class="search icon"></i>
@@ -52,7 +44,7 @@
                     </div>
 
                     <div class="sixteen wide column">
-                        <table class="ui celled unstackable table">
+                        <table class="ui celled stackable large table">
                             <thead>
                             <tr>
                                 <th class="center aligned">الرقم</th>
@@ -64,22 +56,18 @@
                             </thead>
 
                             <tbody>
-                            @if(count($admins) > 0)
-                                @foreach($admins as $admin)
-                                    <tr>
-                                        <td class="center aligned">{{$admin->id}}</td>
-                                        <td class="center aligned">{{$admin->name}}</td>
-                                        <td class="center aligned">{{$admin->username}}</td>
-                                        <td class="center aligned">{{$admin->date}}</td>
-                                        <td class="center aligned">
-                                            <div class="ui fluid buttons">
-                                                <a href="/control-panel/{{$lang}}/admin/info?id={{$admin->id}}" class="ui teal button">تحرير</a>
-                                                <button class="ui red button" data-action="delete" data-id="{{$admin->id}}" data-name="{{$admin->name}}">حذف</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
+                            @forelse($admins as $admin)
+                                <tr>
+                                    <td class="center aligned">{{$admin->id}}</td>
+                                    <td class="center aligned">{{$admin->name}}</td>
+                                    <td class="center aligned">{{$admin->username}}</td>
+                                    <td class="center aligned">{{$admin->date}}</td>
+                                    <td class="center aligned">
+                                        <a class="ui blue button" href="/control-panel/{{$lang}}/admin/info?id={{$admin->id}}" >تحرير</a>
+                                        <a class="ui red button" data-action="delete" data-id="{{$admin->id}}" data-name="{{$admin->name}}">حذف</a>
+                                    </td>
+                                </tr>
+                            @empty
                                 <tr>
                                     <td colspan="5">
                                         <div class="ui center aligned header">
@@ -93,7 +81,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endif
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -150,12 +138,12 @@
             pagination.find('li').addClass('item');
         });
 
-        $("button[data-action='delete']").click(function () {
-            var button = $(this);
-            button.parent().parent().parent().attr("id", "row-delete");
-            button.addClass("loading");
-            $("#number").html(button.data("id"));
-            $("#name").html(button.data("name"));
+        $("a[data-action='delete']").click(function () {
+            var a = $(this);
+            a.parent().parent().attr("id", "row-delete");
+            a.addClass("loading");
+            $("#number").html(a.data("id"));
+            $("#name").html(a.data("name"));
             $(".modal")
                 .modal({
                     'closable' : false,
@@ -193,7 +181,7 @@
                 complete : function() {
                     var tr = $("#row-delete");
                     tr.removeAttr("id");
-                    tr.find("button").removeClass("loading");
+                    tr.find("a").removeClass("loading");
                     if(success)
                     {
                         setTimeout(function () {
@@ -202,7 +190,6 @@
                                 animation  : 'scale',
                                 duration   : '1s'
                             });
-
                         }, 250);
                     }
                 }
@@ -212,7 +199,7 @@
         $("button.negative.button").click(function () {
             var tr = $("#row-delete");
             tr.removeAttr("id");
-            tr.find("button").removeClass("loading");
+            tr.find("a").removeClass("loading");
         });
 
         $('.ui.info.message').transition({
