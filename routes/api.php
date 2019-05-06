@@ -18,3 +18,8 @@ Route::get("notification/send-to-device" , "API\\NotificationController@sendToDe
 Route::post("notification/set-firebase-token" , "API\\NotificationController@registerToken");
 
 Route::post("setup" , "API\\SettingsController@setup");
+
+
+
+Route::get("aqaed/getSubject/{root_id}" , "API\\AqaedController@getSubject");
+Route::get("aqaed/getContent/{id}" , "API\\AqaedController@getContent");

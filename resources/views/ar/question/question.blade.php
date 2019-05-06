@@ -41,24 +41,27 @@
 
             {!! $questionContent !!}
         @else
-            <p>{{$one_question->content}}</p>
+            <p style="height:60px; line-height:20px;  overflow:hidden;">{{$one_question->content}}</p>
 
         @endif
         <div class="ui divider"></div>
-        <p>الجواب :</p>
 
-            @if($one_question->answer != null)
+        @if($one_question->answer != null)
 
 
 
             @if(isset($searchtext))
                 <?php
-                $questionAnswer = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>',  $one_question->answer);
+                $questionAnswer = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->answer);
                 ?>
-
                 {!! $questionAnswer !!}
             @else
-                <p> {{$one_question->answer}}</p>
+                <div style="height: auto">
+                    <p style="height: 4em; white-space: normal; overflow: hidden;  text-overflow: ellipsis;"> {{$one_question->answer}}</p>
+                </div>
+
+                <p>
+                    ... <a href="/ar/single-question/{{$one_question->id}}" class="ui right ">اكمال القراءة</a></p>
 
             @endif
 
@@ -87,13 +90,12 @@
                 <br>
                 <i class="video icon"></i>
                 <label>الفيديو : </label>
-                <a  href="{{$one_question->videoLink}}">                   اضغظ هنا لمشاهدة الفيديو</a>
-
+                <a href="{{$one_question->videoLink}}"> اضغظ هنا لمشاهدة الفيديو</a>
 
 
                 {{--<div class="ui embed" data-url="{{$one_question->videoLink}}" data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
                 {{--<div class="ui embed" data-source="youtube" data-id="{{$one_question->videoLink}}" data-icon="play"--}}
-                     {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
+                {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
 
 
             </div>
@@ -148,5 +150,9 @@
     <script>
         $('.ui.embed').embed();
         $('.url.example .ui.embed').embed();
+        $('.ui.accordion')
+            .accordion()
+        ;
     </script>
+
 @endforeach
