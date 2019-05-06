@@ -12,9 +12,18 @@
 
         <div class="column">
             <div class="ui three item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/distribution-questions">توزيع الاسئلة</a>
-                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+                <a class="item" href="/control-panel/{{$lang}}/main">
+                    <i class="home big icon"></i> &nbsp;
+                    <span>الرئيسية</span>
+                </a>
+                <a class="item active" href="/control-panel/{{$lang}}/distribution-questions">
+                    <i class="recycle big icon"></i> &nbsp;
+                    <span>توزيع الاسئلة</span>
+                </a>
+                <a class="item" href="/control-panel/{{$lang}}/logout">
+                    <i class="shutdown big icon"></i>&nbsp;&nbsp;
+                    <span>تسجيل خروج</span>
+                </a>
             </div>
         </div>
 
@@ -39,7 +48,6 @@
                             </p>
                             <div class="ui divider"></div>
                             <div class="ui form">
-                                {!! csrf_field() !!}
                                 <input type="hidden" name="questionId" value="{{$question->id}}">
                                 <div class="sixteen wide field">
                                     <div class="ui selection dropdown" style="width: 100%;">
@@ -109,7 +117,7 @@
 
         $("button[data-action='distribute-question']").click(function () {
             var button = $(this);
-            var _token = button.parent().parent().find("input[type='hidden'][name='_token']").val();
+            var _token = "{!! csrf_token() !!}";
             var questionId = button.parent().parent().find("input[type='hidden'][name='questionId']").val();
             var respondentId = button.parent().parent().find("input[type='hidden'][name='respondentId']").val();
             var currentDimmer = button.parent().parent().parent().find('#dimmer');
@@ -160,7 +168,7 @@
 
         $("button[data-action='delete-question']").click(function () {
             var button = $(this);
-            var _token = button.parent().parent().find("input[type='hidden'][name='_token']").val();
+            var _token = "{!! csrf_token() !!}";
             var questionId = button.parent().parent().find("input[type='hidden'][name='questionId']").val();
             var currentDimmer = button.parent().parent().parent().find('#dimmer');
             var success = false;

@@ -11,10 +11,23 @@
     </div>
 
     <div class="column">
-        <div class="ui three item teal big menu">
-            <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-            <a class="item active" href="/control-panel/{{$lang}}/my-questions">اسئلتي</a>
-            <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+        <div class="ui four item teal big menu">
+            <a class="item" href="/control-panel/{{$lang}}/main">
+                <i class="home big icon"></i>&nbsp;
+                <span>الرئيسية</span>
+            </a>
+            <a class="item active" href="/control-panel/{{$lang}}/my-questions">
+                <i class="bars big icon"></i>&nbsp;
+                <span>اسئلتي</span>
+            </a>
+            <a class="item" href="">
+                <i class="history big icon"></i>&nbsp;
+                <span>ارشيف الاسئلة</span>
+            </a>
+            <a class="item" href="/control-panel/{{$lang}}/logout">
+                <i class="shutdown big icon"></i>&nbsp;
+                <span>تسجيل خروج</span>
+            </a>
         </div>
     </div>
 

@@ -7,11 +7,25 @@
 @section("content")
     <style>
         i.special.icon {
-            padding: 5px;
+            padding: 25px 5px;
             margin: 0;
-            font-size: 10em;
+            font-size: 6em;
             line-height: 1;
             vertical-align: middle;
+            box-sizing: content-box;
+        }
+
+        .ui.card>.content {
+            background-color: #00b5ad;
+        }
+
+        .ui.card>.content>a {
+            color: white !important;
+        }
+
+        .ui.card>.content>a:hover,
+        .ui.card>.content>a:focus {
+            color: black !important;
         }
     </style>
 
@@ -34,7 +48,7 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="user special teal icon"></i>
+                                <i class="user special blue icon"></i>
                             </div>
                             <div class="content">
                                 <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">ادارة الحسابات</a>
@@ -45,7 +59,7 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="recycle special teal icon"></i>
+                                <i class="recycle special green icon"></i>
                             </div>
                             <div class="content">
                                 <a class="ui center aligned header" href="/control-panel/{{$lang}}/distribution-questions">الموزع</a>
@@ -56,7 +70,7 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="microphone alternate special teal icon"></i>
+                                <i class="microphone alternate special yellow icon"></i>
                             </div>
                             <div class="content">
                                 <a class="ui center aligned header" href="/control-panel/{{$lang}}/my-questions">المجيب</a>
@@ -67,7 +81,7 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="eye special teal icon"></i>
+                                <i class="eye special purple icon"></i>
                             </div>
                             <div class="content">
                                 <a class="ui center aligned header" href="/control-panel/{{$lang}}/reviewed-questions">المدقق</a>
@@ -79,7 +93,7 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="newspaper special teal icon"></i>
+                                <i class="newspaper special pink icon"></i>
                             </div>
                             <div class="content">
                                 <a class="ui center aligned header" href="/control-panel/{{$lang}}/posts">المنشورات</a>
@@ -91,7 +105,7 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="bullhorn special teal icon"></i>
+                                <i class="bullhorn special red icon"></i>
                             </div>
                             <div class="content">
                                 <a class="ui center aligned header" href="/control-panel/{{$lang}}/announcements">الاعلانات</a>

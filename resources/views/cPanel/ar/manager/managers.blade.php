@@ -12,10 +12,22 @@
 
         <div class="column">
             <div class="ui four item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/managers">ادارة الحسابات</a>
-                <a class="item" href="/control-panel/{{$lang}}/admin/create">اضافة حساب</a>
-                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+                <a class="item" href="/control-panel/{{$lang}}/main">
+                    <i class="home big icon"></i>&nbsp;
+                    <span>الرئيسية</span>
+                </a>
+                <a class="item active" href="/control-panel/{{$lang}}/managers">
+                    <i class="setting big icon"></i>&nbsp;
+                    <span>ادارة الحسابات</span>
+                </a>
+                <a class="item" href="/control-panel/{{$lang}}/admin/create">
+                    <i class="add big icon"></i>&nbsp;
+                    <span>اضافة حساب</span>
+                </a>
+                <a class="item" href="/control-panel/{{$lang}}/logout">
+                    <i class="shutdown big icon"></i>&nbsp;
+                    <span>تسجيل خروج</span>
+                </a>
             </div>
         </div>
 
