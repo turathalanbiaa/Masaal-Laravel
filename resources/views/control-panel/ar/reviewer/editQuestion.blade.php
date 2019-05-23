@@ -1,4 +1,4 @@
-@extends("cPanel.ar.layout.main_layout")
+@extends("control-panel.ar.layout.main_layout")
 
 @section("title")
     <title>تحرير السؤال</title>
@@ -7,7 +7,7 @@
 @section("content")
     <div class="ui one column grid">
         <div class="column">
-            @include("cPanel.ar.layout.welcome")
+            @include("control-panel.ar.layout.welcome")
         </div>
 
         <div class="column">

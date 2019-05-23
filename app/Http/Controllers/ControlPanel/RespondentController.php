@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
-use App\Enums\TargetName;
+use App\Enums\EventLogType;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionTag;
@@ -51,7 +51,7 @@ class RespondentController extends Controller
                 "FrInfoMessage" => "Désolé, il n'y a pas de telle question."
             ]);
 
-        EventLogController::add($request, "SHOW QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "SHOW QUESTION", EventLogType::QUESTION, $question->id);
 
         return view("cPanel.$currentAdmin->lang.respondent.question")->with([
             "lang" => $currentAdmin->lang,
@@ -143,7 +143,7 @@ class RespondentController extends Controller
             }
         });
 
-        EventLogController::add($request, "ANSWER QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "ANSWER QUESTION", EventLogType::QUESTION, $question->id);
 
         return redirect("/control-panel/$currentAdmin->lang/my-questions")->with([
             "ArInfoMessage" => "تمت الأجابة على السؤال.",
@@ -165,7 +165,7 @@ class RespondentController extends Controller
         if (!$success)
             return ["success" => false];
 
-        EventLogController::add($request, "THE RESPONDENT IS DELETING THE QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "THE RESPONDENT IS DELETING THE QUESTION", EventLogType::QUESTION, $question->id);
 
         return ["success" => true];
     }

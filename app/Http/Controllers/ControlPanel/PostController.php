@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\ControlPanel;
 
-use App\Enums\TargetName;
+use App\Enums\EventLogType;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,7 +46,7 @@ class PostController extends Controller
         if (!$success)
             return ["success"=>false];
 
-        EventLogController::add($request, "DELETE POST", TargetName::POST, $id);
+        EventLogController::add($request, "DELETE POST", EventLogType::POST, $id);
         return ["success"=>true];
     }
 
@@ -115,7 +115,7 @@ class PostController extends Controller
                 "FrInfoMessage" => "La publication n'a pas été enregistrée."
             ]);
 
-        EventLogController::add($request, "CREATE POST", TargetName::POST, $post->id);
+        EventLogController::add($request, "CREATE POST", EventLogType::POST, $post->id);
 
         return redirect("/control-panel/$currentAdmin->lang/post/create")->with([
             "ArInfoMessage" => "تم حفظ المنشور.",

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
-use App\Enums\TargetName;
+use App\Enums\EventLogType;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionTag;
@@ -42,7 +42,7 @@ class ReviewerController extends Controller
         if (!$success)
             return ["success" => false];
 
-        EventLogController::add($request, "ACCEPT ANSWER FOR QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "ACCEPT ANSWER FOR QUESTION", EventLogType::QUESTION, $question->id);
 
         return ["success" => true];
     }
@@ -70,7 +70,7 @@ class ReviewerController extends Controller
             QuestionTag::where('questionId',$question->id)->delete();
         });
 
-        EventLogController::add($request, "REJECT ANSWER FOR QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "REJECT ANSWER FOR QUESTION", EventLogType::QUESTION, $question->id);
 
         return ["success" => true];
     }
@@ -92,7 +92,7 @@ class ReviewerController extends Controller
             $question->delete();
         });
 
-        EventLogController::add($request, "THE REVIEWER IS DELETING THE QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "THE REVIEWER IS DELETING THE QUESTION", EventLogType::QUESTION, $question->id);
 
         return ["success" => true];
     }
@@ -223,7 +223,7 @@ class ReviewerController extends Controller
             }
         });
 
-        EventLogController::add($request, "UPDATE AND ACCEPT ANSWER FOR QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "UPDATE AND ACCEPT ANSWER FOR QUESTION", EventLogType::QUESTION, $question->id);
 
         return redirect("/control-panel/$currentAdmin->lang/reviewed-questions")->with([
             "ArInfoMessage" => "رائع، تم تعديل وقبول الاجابة بنجاح.",

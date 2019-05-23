@@ -8,4 +8,9 @@ class Admin extends Model
 {
     protected $table = "admin";
     public $timestamps = false;
+
+    public function permission()
+    {
+        return $this->hasOne("App\Models\Permission");
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\ControlPanel;
 
-use App\Enums\TargetName;
+use App\Enums\EventLogType;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class AnnouncementController extends Controller
         if (!$success)
             return ["success"=>false];
 
-        EventLogController::add($request, "DELETE ANNOUNCEMENT", TargetName::ANNOUNCEMENT, $id);
+        EventLogController::add($request, "DELETE ANNOUNCEMENT", EventLogType::ANNOUNCEMENT, $id);
         return ["success"=>true];
     }
 
@@ -95,7 +95,7 @@ class AnnouncementController extends Controller
                 "FrInfoMessage" => "Annonce non enregistrée"
             ]);
 
-        EventLogController::add($request, "CREATE ANNOUNCEMENT", TargetName::ANNOUNCEMENT, $announcement->id);
+        EventLogController::add($request, "CREATE ANNOUNCEMENT", EventLogType::ANNOUNCEMENT, $announcement->id);
 
         return redirect("/control-panel/$currentAdmin->lang/announcement/create")->with([
             "ArInfoMessage" => "تم حفظ الاعلان.",
@@ -118,9 +118,9 @@ class AnnouncementController extends Controller
             return ["success"=>false];
 
         if ($announcement->active == 0)
-            EventLogController::add($request, "INACTIVE ANNOUNCEMENT", TargetName::ANNOUNCEMENT, $id);
+            EventLogController::add($request, "INACTIVE ANNOUNCEMENT", EventLogType::ANNOUNCEMENT, $id);
         else
-            EventLogController::add($request, "ACTIVE ANNOUNCEMENT", TargetName::ANNOUNCEMENT, $id);
+            EventLogController::add($request, "ACTIVE ANNOUNCEMENT", EventLogType::ANNOUNCEMENT, $id);
 
         return ["success"=>true];
     }

@@ -7,21 +7,13 @@
  */
 
 /*route of main*/
-Route::get("/control-panel/{lang}", "ControlPanel\\MainController@index")->middleware("loginAdminFromCookie");
-Route::get("/control-panel/{lang}/login", "ControlPanel\\LoginController@login");
-Route::post("/control-panel/{lang}/login", "ControlPanel\\LoginController@loginValidation");
-Route::get("/control-panel/{lang}/logout", "ControlPanel\\MainController@logout");
+Route::get("control-panel", "ControlPanel\\MainController@index");
+Route::get("control-panel/login", "ControlPanel\\LoginController@login");
+Route::post("control-panel/login", "ControlPanel\\LoginController@loginValidation");
+Route::get("control-panel/logout", "ControlPanel\\MainController@logout");
 
 
-/*routes group for manager*/
-Route::middleware(["loginAdminFromCookie", "permission:manager"])->group(function () {
-    Route::get("/control-panel/{lang}/managers", "ControlPanel\\ManagerController@managers");
-    Route::post("/control-panel/admin/delete", "ControlPanel\\ManagerController@delete");
-    Route::get("/control-panel/{lang}/admin/info", "ControlPanel\\ManagerController@info");
-    Route::post("/control-panel/{lang}/admin/update", "ControlPanel\\ManagerController@update");
-    Route::get("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@create");
-    Route::post("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@store");
-});
+Route::resource('control-panel/admins', 'ControlPanel\\AdminController');
 
 
 

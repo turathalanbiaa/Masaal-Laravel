@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
 use App\Enums\QuestionType;
-use App\Enums\TargetName;
+use App\Enums\EventLogType;
 use App\Models\Admin;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -54,7 +54,7 @@ class DistributorController extends Controller
         if (!$success)
             return ["success" => false];
 
-        EventLogController::add($request, "DISTRIBUTE QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "DISTRIBUTE QUESTION", EventLogType::QUESTION, $question->id);
 
         return ["success" => true];
     }
@@ -84,7 +84,7 @@ class DistributorController extends Controller
         if (!$success)
             return ["success" => false];
 
-        EventLogController::add($request, "CHANGE TYPE QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "CHANGE TYPE QUESTION", EventLogType::QUESTION, $question->id);
 
         return ["success" => true];
     }
@@ -102,7 +102,7 @@ class DistributorController extends Controller
         if (!$success)
             return ["success" => false];
 
-        EventLogController::add($request, "THE DISTRIBUTOR IS DELETING THE QUESTION", TargetName::QUESTION, $question->id);
+        EventLogController::add($request, "THE DISTRIBUTOR IS DELETING THE QUESTION", EventLogType::QUESTION, $question->id);
 
         return ["success" => true];
     }

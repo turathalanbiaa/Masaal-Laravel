@@ -10,25 +10,18 @@ class MainController extends Controller
     /**
      * Main page for Control Panel
      *
-     * @param $lang
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index($lang)
+    public function index()
     {
-        return view("cPanel.$lang.main.main")->with(["lang"=>$lang]);
+        Auth::check();
+        $lang = session()->get("MASAEL_CP_ADMIN_LANG");
+        return view("control-panel.$lang.main");
     }
 
-    /**
-     * Logout
-     *
-     * @param Request $request
-     * @param $lang
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function logout(Request $request, $lang)
+
+    public function logout(Request $request)
     {
-        $request->session()->remove("ADMIN_SESSION");
-        return redirect("/control-panel/$lang/")
-            ->cookie("ADMIN_SESSION", null, -1);
+        return "Logout";
     }
 }

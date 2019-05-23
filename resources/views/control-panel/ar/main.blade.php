@@ -1,4 +1,4 @@
-@extends("cPanel.ar.layout.main_layout")
+@extends("control-panel.ar.layout.main_layout")
 
 @section("title")
     <title>الاجوبة الميسرة</title>
@@ -31,16 +31,8 @@
 
     <div class="ui grid">
         <div class="sixteen wide column">
-            @include("cPanel.ar.layout.welcome")
+            @include("control-panel.ar.layout.welcome")
         </div>
-
-        @if(session("ArPermissionMessage"))
-            <div class="column">
-                <div class="ui info message">
-                    <h2 class="ui center aligned header">{{session("ArPermissionMessage")}}</h2>
-                </div>
-            </div>
-        @endif
 
         <div class="sixteen wide column">
             <div class="ui big segment">
@@ -53,7 +45,7 @@
                                 <i class="user special blue icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/managers">الحسابات</a>
+                                <a class="ui center aligned header" href="/control-panel/admins">الحسابات</a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +56,7 @@
                                 <i class="recycle special green icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/distribution-questions">الموزع</a>
+                                <a class="ui center aligned header" href="/control-panel/distribution-questions">الموزع</a>
                             </div>
                         </div>
                     </div>
@@ -75,7 +67,7 @@
                                 <i class="microphone alternate special yellow icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/my-questions">المجيب</a>
+                                <a class="ui center aligned header" href="/control-panel/my-questions">المجيب</a>
                             </div>
                         </div>
                     </div>
@@ -86,7 +78,7 @@
                                 <i class="eye special purple icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/reviewed-questions">المدقق</a>
+                                <a class="ui center aligned header" href="/control-panel/reviewed-questions">المدقق</a>
                             </div>
                         </div>
                     </div>
@@ -98,7 +90,7 @@
                                 <i class="newspaper special pink icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/posts">المنشورات</a>
+                                <a class="ui center aligned header" href="/control-panel/}/posts">المنشورات</a>
                             </div>
                         </div>
                     </div>
@@ -110,7 +102,40 @@
                                 <i class="bullhorn special red icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/{{$lang}}/announcements">الاعلانات</a>
+                                <a class="ui center aligned header" href="/control-panel/}/announcements">الاعلانات</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="five wide computer five wide tablet eight wide mobile column">
+                        <div class="ui fluid card">
+                            <div class="image">
+                                <i class="bullhorn special red icon"></i>
+                            </div>
+                            <div class="content">
+                                <a class="ui center aligned header" href="/control-panel/}/announcements">الترجمة</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="five wide computer five wide tablet eight wide mobile column">
+                        <div class="ui fluid card">
+                            <div class="image">
+                                <i class="bullhorn special red icon"></i>
+                            </div>
+                            <div class="content">
+                                <a class="ui center aligned header" href="/control-panel/}/announcements">الاقسام</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="five wide computer five wide tablet eight wide mobile column">
+                        <div class="ui fluid card">
+                            <div class="image">
+                                <i class="bullhorn special red icon"></i>
+                            </div>
+                            <div class="content">
+                                <a class="ui center aligned header" href="/control-panel/}/announcements">تسجيل الخروج</a>
                             </div>
                         </div>
                     </div>

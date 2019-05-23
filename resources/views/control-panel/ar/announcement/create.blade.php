@@ -1,20 +1,20 @@
-@extends("cPanel.ar.layout.main_layout")
+@extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>المنشورات</title>
+    <title>الاعلانات</title>
 @endsection
 
 @section("content")
     <div class="ui one column grid">
         <div class="column">
-            @include("cPanel.ar.layout.welcome")
+            @include("control-panel.ar.layout.welcome")
         </div>
 
         <div class="column">
             <div class="ui four item teal big menu">
                 <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/post/create">اضافة منشور</a>
-                <a class="item" href="/control-panel/{{$lang}}/posts">المنشورات</a>
+                <a class="item active" href="/control-panel/{{$lang}}/announcement/create">اضافة اعلان</a>
+                <a class="item" href="/control-panel/{{$lang}}/announcements">الأعلانات</a>
                 <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
             </div>
         </div>
@@ -41,30 +41,38 @@
 
         <div class="column">
             <div class="ui right aligned segment">
-                <h3 class="ui center aligned green dividing header">اضافة منشور جديد</h3>
+                <h3 class="ui center aligned green dividing header">اضافة اعلان جديد</h3>
 
                 <div class="ui one column grid">
                     <div class="column">
-                        <form class="ui form" method="post" action="/control-panel/{{$lang}}/post/create" enctype="multipart/form-data">
+                        <form class="ui form" method="post" action="/control-panel/{{$lang}}/announcement/create">
                             {!! csrf_field() !!}
 
                             <div class="field">
-                                <label for="title">عنوان المنشور</label>
-                                <input type="text" name="title" id="title" value="{{old("title")}}">
-                            </div>
-
-                            <div class="field">
-                                <label for="content">بعض التفاصيل حول المنشور</label>
+                                <label for="content">الاعلان</label>
                                 <textarea rows="5" name="content" id="content">{{old("content")}}</textarea>
                             </div>
 
-                            <div class="field">
-                                <label for="image">اختر الصورة ... حقل أخياري</label>
-                                <input type="file" name="image" id="image" placeholder="أختر الصورة من هنا .. أختياري">
+                            <h4 class="ui green dividing header">حالة الاعلان</h4>
+
+                            <div class="inline fields">
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <label>مفعل</label>
+                                        <input type="radio" name="active" value="1" tabindex="0" class="hidden">
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <label>غير مفعل</label>
+                                        <input type="radio" name="active" value="0" checked tabindex="0" class="hidden">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="field" style="text-align: center;">
-                                <button type="submit" class="ui green button">اضافة منشور</button>
+                                <button type="submit" class="ui green button">اضافة اعلان</button>
                             </div>
                         </form>
                     </div>
@@ -76,6 +84,8 @@
 
 @section("script")
     <script>
+        $('.ui.checkbox').checkbox();
+
         $('.ui.info.message').transition({
             animation  : 'flash',
             duration   : '1s'
