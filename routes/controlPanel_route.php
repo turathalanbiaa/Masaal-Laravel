@@ -13,10 +13,10 @@ Route::get("control-panel/logout", "ControlPanel\\MainController@logout");
 
 Route::resource('control-panel/admins', 'ControlPanel\\AdminController');
 
-Route::get("/control-panel/distributors", "ControlPanel\\DistributorController@index");
-Route::post("/control-panel/distributors/distribute-question", "ControlPanel\\DistributorController@distributeQuestion");
-Route::post("/control-panel/distributors/delete-question", "ControlPanel\\DistributorController@deleteQuestion");
-Route::post("/control-panel/distributors/change-type-question", "ControlPanel\\DistributorController@changeTypeQuestion");
+Route::get("/control-panel/distributor", "ControlPanel\\DistributorController@index");
+Route::post("/control-panel/distributor/distribute-question", "ControlPanel\\DistributorController@distributeQuestion");
+Route::post("/control-panel/distributor/delete-question", "ControlPanel\\DistributorController@deleteQuestion");
+Route::post("/control-panel/distributor/change-type-question", "ControlPanel\\DistributorController@changeTypeQuestion");
 
 
 /*route of respondent*/

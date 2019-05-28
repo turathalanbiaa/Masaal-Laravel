@@ -16,7 +16,7 @@
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
                 </a>
-                <a class="item active" href="/control-panel/distributors">
+                <a class="item active" href="/control-panel/distributor">
                     <i class="recycle big icon" style="margin: 0;"></i> &nbsp;
                     <span>توزيع الاسئلة</span>
                 </a>
@@ -133,7 +133,7 @@
             </div>
         </div>
     </div>
-    <form id="form-delete-question" method="post" action="/control-panel/distributors/delete-question">
+    <form id="form-delete-question" method="post" action="/control-panel/distributor/delete-question">
         @csrf()
         <input type="hidden" name="question" value="">
     </form>
@@ -148,7 +148,7 @@
             </div>
         </div>
     </div>
-    <form id="form-change-type-question" method="post" action="/control-panel/distributors/change-type-question">
+    <form id="form-change-type-question" method="post" action="/control-panel/distributor/change-type-question">
         @csrf()
         <input type="hidden" name="question" value="">
     </form>
@@ -182,7 +182,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: "POST",
-                url: '/control-panel/distributors/distribute-question',
+                url: '/control-panel/distributor/distribute-question',
                 data: {questionId:questionId, respondentId:respondentId},
                 datatype: 'json',
                 success: function(result) {
