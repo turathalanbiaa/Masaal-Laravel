@@ -22,8 +22,8 @@ class AdminController extends Controller
     public function index()
     {
         Auth::check();
-        $lang = self::getLanguage();
-        $type = self::getType();
+        $lang = MainController::getLanguage();
+        $type = MainController::getType();
         $query = Input::get("query");
 
         $admins = is_null($query)?
@@ -48,7 +48,7 @@ class AdminController extends Controller
     public function create()
     {
         Auth::check();
-        $lang = self::getLanguage();
+        $lang = MainController::getLanguage();
         return view("control-panel.$lang.admin.create");
     }
 
@@ -63,8 +63,8 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         Auth::check();
-        $lang = self::getLanguage();
-        $type = self::getType();
+        $lang = MainController::getLanguage();
+        $type = MainController::getType();
         $rules = [
             "name" => "required|min:6",
             "username" => "required|min:6|unique:admin,username",
@@ -138,7 +138,7 @@ class AdminController extends Controller
             return redirect("/control-panel/admins/create")->with([
                 "ArCreateAdminMessage" => "تم انشاء الحساب بنجاح.",
                 "EnCreateAdminMessage" => "Account successfully created.",
-                "FrCreateAdminMessage" => "Compte créé avec succès."
+                "FrCreateAdminMessage" => "compte supprimé avec succès."
             ]);
         else
             return redirect("/control-panel/admins/create")->with([
@@ -169,7 +169,7 @@ class AdminController extends Controller
     public function edit(Admin $admin)
     {
         Auth::check();
-        $lang = self::getLanguage();
+        $lang = MainController::getLanguage();
         return view("control-panel.$lang.admin.edit")->with([
             "admin"=>$admin
         ]);
@@ -186,7 +186,7 @@ class AdminController extends Controller
     public function update(Request $request, Admin $admin)
     {
         Auth::check();
-        $lang = self::getLanguage();
+        $lang = MainController::getLanguage();
         $rules = [
             "name" => "required|min:6",
             "username" => ['required','min:6',Rule::unique('admin')->ignore($admin->id)]
@@ -293,25 +293,5 @@ class AdminController extends Controller
             return ["success"=>true];
         else
             return ["success"=>false];
-    }
-
-    /**
-     * Get Admin Language
-     *
-     * @return mixed
-     */
-    private static function getLanguage()
-    {
-        return session()->get("MASAEL_CP_ADMIN_LANG");
-    }
-
-    /**
-     * Get Admin Type
-     *
-     * @return mixed
-     */
-    private static function getType()
-    {
-        return session()->get("MASAEL_CP_ADMIN_TYPE");
     }
 }

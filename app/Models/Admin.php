@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\QuestionStatus;
 use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model
@@ -12,5 +13,12 @@ class Admin extends Model
     public function permission()
     {
         return $this->hasOne("App\Models\Permission");
+    }
+
+    public function unansweredQuestions()
+    {
+        return $this->hasMany("App\Models\Question", "adminId", "id")
+            ->where("status", QuestionStatus::NO_ANSWER)
+            ->get();
     }
 }

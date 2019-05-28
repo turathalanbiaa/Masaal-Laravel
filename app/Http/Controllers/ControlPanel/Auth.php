@@ -33,5 +33,8 @@ class Auth extends Controller
 
         if (request()->is("control-panel/admins*") && ($permission["manager"] != 1))
             abort("404");
+
+        if (request()->is("control-panel/distributor*") && ($permission["distributor"] != 1))
+            abort("404");
     }
 }

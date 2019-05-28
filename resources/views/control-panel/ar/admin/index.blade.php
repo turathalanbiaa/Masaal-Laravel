@@ -158,7 +158,6 @@
 
         $("button.positive.button").click(function () {
             var id = $("#number").html();
-            var _token = "{{ csrf_token() }}";
             var success = false;
 
             $.ajax({

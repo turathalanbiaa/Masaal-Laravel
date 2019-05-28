@@ -56,7 +56,7 @@
                                 <i class="recycle special green icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/distribution-questions">الموزع</a>
+                                <a class="ui center aligned header" href="/control-panel/distributors">الموزع</a>
                             </div>
                         </div>
                     </div>

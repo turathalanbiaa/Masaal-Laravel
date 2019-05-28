@@ -6,22 +6,17 @@
  * Time: 2:12 PM
  */
 
-/*route of main*/
 Route::get("control-panel", "ControlPanel\\MainController@index");
 Route::get("control-panel/login", "ControlPanel\\LoginController@login");
 Route::post("control-panel/login", "ControlPanel\\LoginController@loginValidation");
 Route::get("control-panel/logout", "ControlPanel\\MainController@logout");
 
-
 Route::resource('control-panel/admins', 'ControlPanel\\AdminController');
 
-
-
-/*route of distributor*/
-Route::get("/control-panel/{lang}/distribution-questions", "ControlPanel\\DistributorController@distributeQuestionsToRespondents")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
-Route::post("/control-panel/distributor/delete-question", "ControlPanel\\DistributorController@deleteQuestion")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
-Route::post("/control-panel/distribution", "ControlPanel\\DistributorController@distribution")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
-Route::post("/control-panel/change-question-type", "ControlPanel\\DistributorController@changeQuestionType")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
+Route::get("/control-panel/distributors", "ControlPanel\\DistributorController@index");
+Route::post("/control-panel/distributors/distribute-question", "ControlPanel\\DistributorController@distributeQuestion");
+Route::post("/control-panel/distributors/delete-question", "ControlPanel\\DistributorController@deleteQuestion");
+Route::post("/control-panel/distributors/change-type-question", "ControlPanel\\DistributorController@changeTypeQuestion");
 
 
 /*route of respondent*/
