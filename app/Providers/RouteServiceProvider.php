@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::pattern("lang" , "en|ar|fr");
+        //
 
         parent::boot();
     }

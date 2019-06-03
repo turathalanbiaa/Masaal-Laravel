@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\ControlPanel\AdminController;
 use Illuminate\Database\Eloquent\Model;
 
 class EventLog extends Model
@@ -12,7 +13,7 @@ class EventLog extends Model
     public static function create($target, $type, $event)
     {
         $eventLog = new EventLog();
-        $eventLog->admin_id = session()->get("MASAEL_CP_ADMIN_ID");
+        $eventLog->admin_id = AdminController::getId();
         $eventLog->event = $event;
         $eventLog->type = $type;
         $eventLog->target = $target;

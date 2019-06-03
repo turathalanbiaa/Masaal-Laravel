@@ -4,7 +4,10 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
 use App\Enums\EventLogType;
+use App\Enums\QuestionType;
+use App\Models\Admin;
 use App\Models\Category;
+use App\Models\EventLog;
 use App\Models\Question;
 use App\Models\QuestionTag;
 use App\Models\Tag;
@@ -16,70 +19,78 @@ use Illuminate\Support\Facades\Storage;
 
 class RespondentController extends Controller
 {
-    public function questions()
+    /**
+     * Display questions.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
     {
-        $currentAdmin = Input::get("currentAdmin");
-        $questions = Question::where('type', $currentAdmin->type)
-            ->where('lang', $currentAdmin->lang)
-            ->where('adminId', $currentAdmin->id)
-            ->where('status',QuestionStatus::NO_ANSWER)
-            ->orderBy('id')
-            ->simplePaginate(20);
+        Auth::check();
+        $currentAdmin = Admin::findOrFail(AdminController::getId());
+        $lang = $currentAdmin->lang;
+        $questions = $currentAdmin->unansweredQuestions()->simplePaginate(20);
 
-        return view("cPanel.$currentAdmin->lang.respondent.questions")->with([
-            "lang" => $currentAdmin->lang,
+        return view("control-panel.$lang.respondent.index")->with([
             "questions" => $questions
         ]);
     }
 
-    public function question(Request $request)
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Show the form for editing the question.
+     *
+     * @param $question
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editQuestion($question)
     {
-        $currentAdmin = Input::get("currentAdmin");
-        $questionId = Input::get("id");
-        $question = Question::find($questionId);
-        $categories = Category::where('type', $currentAdmin->type)
-            ->where('lang', $currentAdmin->lang)
+        Auth::check();
+        $lang = AdminController::getLang();
+        $type = AdminController::getType();
+        $question = Question::findOrFail($question);
+        $categories = Category::where('type', $type)
+            ->where('lang', $lang)
+            ->get();
+        $tags = Tag::where('lang', $lang)
             ->get();
 
-        $tags = Tag::where('lang', $currentAdmin->lang)
-            ->get();
-
-        if (!$question)
-            return redirect("/control-panel/$currentAdmin->lang/my-questions")->with([
-                "ArInfoMessage" => "عذرا، لايوجد مثل هذا السؤال.",
-                "EnInfoMessage" => "Sorry, there is no such question.",
-                "FrInfoMessage" => "Désolé, il n'y a pas de telle question."
-            ]);
-
-        EventLogController::add($request, "SHOW QUESTION", EventLogType::QUESTION, $question->id);
-
-        return view("cPanel.$currentAdmin->lang.respondent.question")->with([
-            "lang" => $currentAdmin->lang,
+        return view("control-panel.$lang.respondent.question")->with([
             "question" => $question,
             "categories" => $categories,
             "tags" => $tags
         ]);
     }
 
-    public function answer(Request $request)
+    /**
+     * Answer the question.
+     *
+     * @param Request $request
+     * @param $question
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function answerQuestion(Request $request, $question)
     {
-        $currentAdmin = Input::get("currentAdmin");
-        $question = Question::find(Input::get("questionId"));
-
-        if (!$question)
-            return redirect("/control-panel/$currentAdmin->lang/my-questions")->with([
-                "ArInfoMessage" => "عذرا، لايوجد مثل هذا السؤال.",
-                "EnInfoMessage" => "Sorry, there is no such question.",
-                "FrInfoMessage" => "Désolé, il n'y a pas de telle question."
-            ]);
-
+        Auth::check();
+        $lang = AdminController::getLang();
+        $question = Question::findOrFail($question);
         $rules = [
             "answer" => 'required',
             "categoryId" => "required|numeric",
             "tags" => "required",
-            "image" => 'file|image|min:50|max:200',
+            "image" => 'file|image|min:50|max:500',
         ];
-
         $rulesMessage = [
             "ar"=>[
                 "answer.required" => "لاتوجد اجابة !!!",
@@ -88,7 +99,7 @@ class RespondentController extends Controller
                 "image.file" => "انت تحاول رفع ملف ليس بصورة.",
                 "image.image" => "انت تحاول رفع ملف ليس بصورة.",
                 "image.min" => "انت تقوم برفع صورة صغيرة جداً.",
-                "image.max" => "حجم الصورة يجب ان لايتعدى 200KB."
+                "image.max" => "حجم الصورة يجب ان لايتعدى 500KB."
             ],
             "fr"=>[
                 "answer.required" => "Il n'y a pas de réponse !!!",
@@ -97,43 +108,40 @@ class RespondentController extends Controller
                 "image.file" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
                 "image.image" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
                 "image.min" => "Vous soulevez une très petite image.",
-                "image.max" => "La taille de l'image ne doit pas dépasser 200 Ko."
+                "image.max" => "La taille de l'image ne doit pas dépasser 500 Ko."
             ]
         ];
 
-        if ($currentAdmin->lang == "en")
+        if ($lang == "en")
             $this->validate($request, $rules, []);
 
-        if ($currentAdmin->lang == "ar")
+        if ($lang == "ar")
             $this->validate($request, $rules, $rulesMessage["ar"]);
 
-        if ($currentAdmin->lang == "fr")
+        if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        DB::transaction(function () {
-            $question = Question::find(Input::get("questionId"));
-
-            if (!is_null(request()->file("image")))
-            {
-                if (Storage::exists($question->image))
-                {
-                    Storage::delete($question->image);
-                    $question->image = null;
-                }
-                $Path = Storage::putFile("public", request()->file("image"));
-                $imagePath = explode('/',$Path);
-                $question->image = $imagePath[1];
-            }
-
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Store answer
             $question->answer = Input::get("answer");
             $question->categoryId = Input::get("categoryId");
             $question->status = QuestionStatus::TEMP_ANSWER;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
+            if (!is_null(request()->file("image")))
+            {
+                if (Storage::exists($question->image))
+                    Storage::delete($question->image);
+
+                $Path = Storage::putFile("public", request()->file("image"));
+                $imagePath = explode('/',$Path);
+                $question->image = $imagePath[1];
+            }
             $question->save();
 
+            //Store tags
             $tags = explode(',', Input::get("tags"));
-
             foreach ($tags as $tag)
             {
                 $questionTag = new QuestionTag();
@@ -141,32 +149,132 @@ class RespondentController extends Controller
                 $questionTag->tagId = $tag;
                 $questionTag->save();
             }
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "اجابة السؤال من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
         });
 
-        EventLogController::add($request, "ANSWER QUESTION", EventLogType::QUESTION, $question->id);
-
-        return redirect("/control-panel/$currentAdmin->lang/my-questions")->with([
-            "ArInfoMessage" => "تمت الأجابة على السؤال.",
-            "EnInfoMessage" => "The question has been answered.",
-            "FrInfoMessage" => "La question a été répondue."
-        ]);
+        if (is_null($exception))
+            return redirect("/control-panel/respondent")->with([
+                "ArAnswerQuestionMessage" => "تمت الأجابة على السؤال.",
+                "EnAnswerQuestionMessage" => "The question has been answered.",
+                "FrAnswerQuestionMessage" => "La question a été répondue."
+            ]);
+        else
+            return redirect("/control-panel/respondent")->with([
+                "ArAnswerQuestionMessage" => "لم يتم الأجابة على السؤال.",
+                "EnAnswerQuestionMessage" => "The question has been not answered.",
+                "FrAnswerQuestionMessage" => "La question n'a pas été répondu.",
+                "TypeMessage" => "Error"
+            ]);
     }
 
-    public function deleteQuestion(Request $request)
-    {
-        $questionId = Input::get("questionId");
-        $question = Question::find($questionId);
 
+
+
+
+
+
+
+    /**
+     * Return the question to distributor.
+     *
+     * @return array
+     */
+    public function returnQuestion()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
         if (!$question)
             return ["question" => "NotFound"];
 
-        $success = $question->delete();
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Update question
+            $question->adminId = null;
+            $question->save();
 
-        if (!$success)
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم ارجاع السؤال الى الموزع من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
             return ["success" => false];
-
-        EventLogController::add($request, "THE RESPONDENT IS DELETING THE QUESTION", EventLogType::QUESTION, $question->id);
-
-        return ["success" => true];
     }
+
+    /**
+     * Remove the question.
+     *
+     * @return array
+     */
+    public function deleteQuestion()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Remove question
+            $question->delete();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم حذف السؤال من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
+    }
+
+    /**
+     * Change type the question.
+     *
+     * @return array
+     */
+    public function changeTypeQuestion()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Update question
+            $question->adminId = null;
+            switch ($question->type)
+            {
+                case QuestionType::FEQHI: $question->type = QuestionType::AKAEDI; break;
+                case QuestionType::AKAEDI: $question->type = QuestionType::FEQHI; break;
+                default: $question->type = QuestionType::FEQHI;
+            }
+            $question->save();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم تغيير نوع السؤال من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
+    }
+
 }

@@ -51,33 +51,19 @@ body {
     border-left: none;
 }
 
-/* for button*/
-.ui.button {
-    margin-right: 0!important;
-}
-
-.ui.buttons .button:first-child {
-    border-radius: 0 0.28571429rem 0.28571429rem 0;
-}
-
-.ui.buttons .button:last-child {
-    border-radius: 0.28571429rem  0  0 0.28571429rem;
-}
-
-/* for accordion*/
 .ui.accordion .title .dropdown.icon
 {
     transform: rotate(180deg);
     margin: 0;
 }
 
-.paragraph {
-    text-indent: 32px;
-    text-align: justify;
-}
 #special-menu>.item {
     display: flex;
     flex-direction: column;
+}
+
+.ui.menu#special-menu .item:before {
+    width: 0!important;
 }
 /******************** Add JS-Flat Fount ********************/
 @font-face {

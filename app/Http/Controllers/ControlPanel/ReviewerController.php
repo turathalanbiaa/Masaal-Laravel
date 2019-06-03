@@ -4,7 +4,9 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
 use App\Enums\EventLogType;
+use App\Models\Admin;
 use App\Models\Category;
+use App\Models\EventLog;
 use App\Models\Question;
 use App\Models\QuestionTag;
 use App\Models\Tag;
@@ -16,47 +18,73 @@ use Illuminate\Support\Facades\Storage;
 
 class ReviewerController extends Controller
 {
-    public function questions()
+    /**
+     * Display the questions.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
     {
-        $currentAdmin = Input::get("currentAdmin");
-        $questions = Question::where('type', $currentAdmin->type)
-            ->where('lang', $currentAdmin->lang)
-            ->where('status', QuestionStatus::TEMP_ANSWER)
-            ->orderBy('id')
-            ->paginate(20);
+        Auth::check();
+        $currentAdmin = Admin::findOrFail(AdminController::getId());
+        $lang = $currentAdmin->lang;
+        $questions = $currentAdmin->answeredQuestions()->simplePaginate(20);
 
-        return view("cPanel.$currentAdmin->lang.reviewer.questions")->with(["lang" => $currentAdmin->lang,"questions" => $questions]);
+        return view("control-panel.$lang.reviewer.index")->with([
+            "questions" => $questions
+        ]);
     }
 
-    public function acceptAnswer(Request $request)
+    /**
+     * Accept answer for the question.
+     *
+     * @return array
+     */
+    public function acceptAnswer()
     {
-        $questionId = Input::get("questionId");
-        $question = Question::find($questionId);
-
+        Auth::check();
+        $question = Question::find(Input::get("question"));
         if (!$question)
             return ["question" => "NotFound"];
 
-        $question->status = QuestionStatus::APPROVED;
-        $success = $question->save();
+        //Transaction
+        $exception = DB::transaction(function () use ($question){
+            //update question
+            $question->status = QuestionStatus::APPROVED;
+            $question->save();
 
-        if (!$success)
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم قبول الاجابة من قبل المدقق " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
             return ["success" => false];
-
-        EventLogController::add($request, "ACCEPT ANSWER FOR QUESTION", EventLogType::QUESTION, $question->id);
-
-        return ["success" => true];
     }
 
-    public function rejectAnswer(Request $request)
+    /**
+     * Reject answer for the question.
+     *
+     * @return array
+     */
+    public function rejectAnswer()
     {
-        $questionId = Input::get("questionId");
-        $question = Question::find($questionId);
-
+        Auth::check();
+        $question = Question::find(Input::get("question"));
         if (!$question)
             return ["question" => "NotFound"];
 
-        DB::transaction(function (){
-            $question = Question::find(Input::get("questionId"));
+        //Transaction
+        $exception = DB::transaction(function () use ($question){
+            //Remove tags for the question
+            foreach ($question->QuestionTags as $tag)
+                $tag->delete();
+
+            //update question
             if (!is_null($question->image))
                 Storage::delete("public/".$question->image);
             $question->image = null;
@@ -67,84 +95,64 @@ class ReviewerController extends Controller
             $question->externalLink = null;
             $question->save();
 
-            QuestionTag::where('questionId',$question->id)->delete();
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم رفض الاجابة من قبل المدقق " . AdminController::getName();
+            EventLog::create($target, $type, $event);
         });
 
-        EventLogController::add($request, "REJECT ANSWER FOR QUESTION", EventLogType::QUESTION, $question->id);
-
-        return ["success" => true];
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
     }
 
-    public function deleteQuestion(Request $request)
+    /**
+     * Show the form for editing the question.
+     *
+     * @param $question
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editQuestion($question)
     {
-        $questionId = Input::get("questionId");
-        $question = Question::find($questionId);
-
-        if (!$question)
-            return ["question" => "NotFound"];
-
-        DB::transaction(function (){
-            $question = Question::find(Input::get("questionId"));
-            if (!is_null($question->image))
-                Storage::delete("public/".$question->image);
-
-            QuestionTag::where('questionId',$question->id)->delete();
-            $question->delete();
-        });
-
-        EventLogController::add($request, "THE REVIEWER IS DELETING THE QUESTION", EventLogType::QUESTION, $question->id);
-
-        return ["success" => true];
-    }
-
-    public function infoQuestion()
-    {
-        $currentAdmin = Input::get("currentAdmin");
-        $questionId = Input::get("id");
-        $question = Question::find($questionId);
-
-        if (!$question)
-            return redirect("/control-panel/$currentAdmin->lang/reviewed-questions")->with([
-                "ArInfoMessage" => "عذرا، لايوجد مثل هذا السؤال.",
-                "EnInfoMessage" => "Sorry, there is no such question.",
-                "FrInfoMessage" => "Désolé, il n'y a pas de telle question."
-            ]);
-
-        $categories = Category::where("type", $currentAdmin->type)
-            ->where("lang", $currentAdmin->lang)
+        Auth::check();
+        $question = Question::findOrFail($question);
+        $currentAdmin = Admin::findOrFail(AdminController::getId());
+        $lang = $currentAdmin->lang;
+        $type = $currentAdmin->type;
+        $categories = Category::where("type", $type)
+            ->where("lang", $lang)
+            ->get();
+        $tags = Tag::where("lang", $lang)
             ->get();
 
-        $tags = Tag::where("type", 0)
-            ->where("lang", $currentAdmin->lang)
-            ->get();
-
-        return view("cPanel.$currentAdmin->lang.reviewer.editQuestion")->with([
-            "lang" => $currentAdmin->lang,
+        return view("control-panel.$lang.reviewer.question")->with([
             "question" => $question,
             "categories" => $categories,
             "tags" => $tags
         ]);
     }
 
-    public function updateAnswer(Request $request)
+    /**
+     * Update the question in storage.
+     *
+     * @param Request $request
+     * @param $question
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function updateAnswer(Request $request, $question)
     {
-        $currentAdmin = Input::get("currentAdmin");
-        $question = Question::find(Input::get("id"));
-
-        if (!$question)
-            return redirect("/control-panel/$currentAdmin->lang/reviewed-questions")->with([
-                "ArInfoMessage" => "عذرا، لايوجد مثل هذا السؤال.",
-                "EnInfoMessage" => "Sorry, there is no such question.",
-                "FrInfoMessage" => "Désolé, il n'y a pas de telle question."
-            ]);
-
+        Auth::check();
+        $question = Question::findOrFail($question);
+        $lang = AdminController::getLang();
         $rules = [
             "answer" => 'required',
             "categoryId" => "required|numeric",
             "tags" => "required",
-            'image' => 'file|image|min:50|max:200',
+            'image' => 'file|image|min:50|max:500',
         ];
-
         $rulesMessage = [
             "ar"=>[
                 "answer.required" => "لاتوجد اجابة !!!",
@@ -153,7 +161,7 @@ class ReviewerController extends Controller
                 "image.file" => "انت تحاول رفع ملف ليس بصورة.",
                 "image.image" => "انت تحاول رفع ملف ليس بصورة.",
                 "image.min" => "انت تقوم برفع صورة صغيرة جداً.",
-                "image.max" => "حجم الصورة يجب ان لايتعدى 200KB."
+                "image.max" => "حجم الصورة يجب ان لايتعدى 500KB."
             ],
             "fr"=>[
                 "answer.required" => "Il n'y a pas de réponse !!!",
@@ -162,46 +170,44 @@ class ReviewerController extends Controller
                 "image.file" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
                 "image.image" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
                 "image.min" => "Vous soulevez une très petite image.",
-                "image.max" => "La taille de l'image ne doit pas dépasser 200 Ko."
+                "image.max" => "La taille de l'image ne doit pas dépasser 500 Ko."
             ]
         ];
 
-        if ($currentAdmin->lang == "en")
+        if ($lang == "en")
             $this->validate($request, $rules, []);
 
-        if ($currentAdmin->lang == "ar")
+        if ($lang == "ar")
             $this->validate($request, $rules, $rulesMessage["ar"]);
 
-        if ($currentAdmin->lang == "fr")
+        if ($lang == "fr")
             $this->validate($request, $rules, $rulesMessage["fr"]);
 
-        DB::transaction(function () {
-            $question = Question::find(Input::get("id"));
-
-            // Delete Old Image
-            if (Input::get("delete"))
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Delete Old Image
+            if (!is_null(Input::get("delete")) && Storage::exists($question->image) )
             {
-                if (Storage::exists($question->image))
-                {
-                    Storage::delete($question->image);
-                    $question->image = null;
-                }
+                Storage::delete($question->image);
+                $question->image = null;
             }
 
-            // Save new image if exist
+            //Store new image
             if (!is_null(request()->file("image")))
             {
                 if (Storage::exists($question->image))
-                {
                     Storage::delete($question->image);
-                    $question->image = null;
-                }
+
                 $Path = Storage::putFile("public", request()->file("image"));
                 $imagePath = explode('/',$Path);
                 $question->image = $imagePath[1];
             }
 
-            // Update info question
+            //Delete old tags
+            foreach ($question->QuestionTags as $tag)
+                $tag->delete();
+
+            //Update answer
             $question->answer = Input::get("answer");
             $question->categoryId = Input::get("categoryId");
             $question->status = QuestionStatus::APPROVED;
@@ -209,10 +215,7 @@ class ReviewerController extends Controller
             $question->externalLink = Input::get("externalLink");
             $question->save();
 
-            // Delete all old tags
-            QuestionTag::where('questionId',$question->id)->delete();
-
-            // Save new tags
+            //Store new tags
             $tags = explode(',', Input::get("tags"));
             foreach ($tags as $tag_id)
             {
@@ -221,14 +224,65 @@ class ReviewerController extends Controller
                 $questionTag->tagId = $tag_id;
                 $questionTag->save();
             }
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم تعديل وقبول الاجابة من قبل المدقق " . AdminController::getName();
+            EventLog::create($target, $type, $event);
         });
 
-        EventLogController::add($request, "UPDATE AND ACCEPT ANSWER FOR QUESTION", EventLogType::QUESTION, $question->id);
+        if (is_null($exception))
+            return redirect("/control-panel/reviewer")->with([
+                "ArUpdateAnswerMessage" => "تم تعديل وقبول الاجابة بنجاح.",
+                "EnUpdateAnswerMessage" => "The answer was successfully modified and accepted.",
+                "FrUpdateAnswerMessage" => "La réponse a été modifiée et acceptée avec succès."
+            ]);
+        else
+            return redirect("/control-panel/reviewer")->with([
+                "ArUpdateAnswerMessage" => "لم يتم تعديل وقبول الاجابة بنجاح.",
+                "EnUpdateAnswerMessage" => "The answer has not been successfully modified and accepted.",
+                "FrUpdateAnswerMessage" => "La réponse n'a pas été modifiée et acceptée avec succès.",
+                "TypeMessage" => "Error"
+            ]);
+    }
 
-        return redirect("/control-panel/$currentAdmin->lang/reviewed-questions")->with([
-            "ArInfoMessage" => "رائع، تم تعديل وقبول الاجابة بنجاح.",
-            "EnInfoMessage" => "Wonderful, have been modified and accept the answer successfully.",
-            "FrInfoMessage" => "Merveilleux, ont été modifiés et acceptent la réponse avec succès."
-        ]);
+    /**
+     * Remove the question
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function deleteQuestion(Request $request)
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question){
+            //Delete question tags
+            foreach ($question->QuestionTags as $tag)
+                $tag->delete();
+
+            //Delete image from storage
+            if (!is_null($question->image))
+                Storage::delete("public/".$question->image);
+
+            //Delete question
+            $question->delete();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم حذف السؤال من قبل المدقق " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
     }
 }

@@ -16,11 +16,11 @@
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
                 </a>
-                <a class="item active" href="/control-panel/admins">
+                <a class="item" href="/control-panel/admins">
                     <i class="setting big icon" style="margin: 0;"></i>&nbsp;
                     <span>الحسابات</span>
                 </a>
-                <a class="item" href="/control-panel/admins/create">
+                <a class="item active" href="/control-panel/admins/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
                     <span>اضافة حساب</span>
                 </a>
@@ -155,7 +155,6 @@
 @section("script")
     <script>
         $('.ui.checkbox').checkbox();
-
         $('.ui.message').transition({
             animation  : 'flash',
             duration   : '1s'

@@ -67,7 +67,7 @@
                                 <i class="microphone alternate special yellow icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/my-questions">المجيب</a>
+                                <a class="ui center aligned header" href="/control-panel/respondent">المجيب</a>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                                 <i class="eye special purple icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/reviewed-questions">المدقق</a>
+                                <a class="ui center aligned header" href="/control-panel/reviewer">المدقق</a>
                             </div>
                         </div>
                     </div>

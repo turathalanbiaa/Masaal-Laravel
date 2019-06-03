@@ -16,21 +16,19 @@ use Illuminate\Support\Facades\Input;
 class DistributorController extends Controller
 {
     /**
-     * Display questions to distribute it's to respondents
+     * Display questions to distribute it's to respondents.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         Auth::check();
-        $lang = MainController::getLanguage();
-        $type = MainController::getType();
-
+        $lang = AdminController::getLang();
+        $type = AdminController::getType();
         $questions = Question::where('type', $type)
             ->where('adminId', null)
             ->where('lang', $lang)
             ->simplePaginate(20);
-
         $respondents = Admin::where('type', $type)
             ->where('lang', $lang)
             ->get()
@@ -45,7 +43,7 @@ class DistributorController extends Controller
     }
 
     /**
-     * Distribution operation
+     * Distribute the question to the respondent.
      *
      * @param Request $request
      * @return array
@@ -73,99 +71,76 @@ class DistributorController extends Controller
         //Store event log
         $target = $question->id;
         $type = EventLogType::QUESTION;
-        $event = "توزيع السؤال على المجيب " . $respondent->name;
+        $event = "توزيع السؤال على المجيب " . $respondent->name . "من قبل الموزع " . AdminController::getName();
         EventLog::create($target, $type, $event);
 
         return ["success" => true];
     }
 
-
     /**
-     * Remove the question
+     * Remove the question.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return array
      */
-    public function deleteQuestion(Request $request)
+    public function deleteQuestion()
     {
         Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
 
         //Transaction
-        $exception = DB::transaction(function () {
+        $exception = DB::transaction(function () use ($question) {
             //Remove question
-           $question = Question::findOrFail(Input::get("question"));
-           $question->delete();
+            $question->delete();
 
-           //Store event log
+            //Store event log
             $target = $question->id;
             $type = EventLogType::QUESTION;
-            $event = "تم حذف السؤال من قبل الموزع " . MainController::getName();
+            $event = "تم حذف السؤال من قبل الموزع " . AdminController::getName();
             EventLog::create($target, $type, $event);
         });
 
         if (is_null($exception))
-            return redirect("/control-panel/distributors")->with([
-                "ArDeleteQuestionMessage" => "تم حذف السؤال بنجاح.",
-                "EnDeleteQuestionMessage" => "Question successfully deleted.",
-                "FrDeleteQuestionMessage" => "Question supprimée avec succès."
-            ]);
+            return ["success" => true];
         else
-            return redirect("/control-panel/distributors")->with([
-                "ArDeleteQuestionMessage" => "لم يتم حذف السؤال بنجاح.",
-                "EnDeleteQuestionMessage" => "The question was not deleted successfully.",
-                "FrDeleteQuestionMessage" => "La question n'a pas été supprimée avec succès.",
-                "TypeMessage" => "Error"
-            ]);
+            return ["success" => false];
     }
 
-
     /**
-     * Change type for the question
+     * Change type the question.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return array
      */
-    public function changeTypeQuestion(Request $request)
+    public function changeTypeQuestion()
     {
         Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
 
         //Transaction
-        $exception = DB::transaction(function () {
-            //Change type question
-            $question = Question::findOrFail(Input::get("question"));
-            $question->status = QuestionStatus::NO_ANSWER;
+        $exception = DB::transaction(function () use ($question) {
+            //Update question
             $question->adminId = null;
-            $question->categoryId = null;
-
             switch ($question->type)
             {
                 case QuestionType::FEQHI: $question->type = QuestionType::AKAEDI; break;
                 case QuestionType::AKAEDI: $question->type = QuestionType::FEQHI; break;
                 default: $question->type = QuestionType::FEQHI;
-
             }
-
             $question->save();
 
             //Store event log
             $target = $question->id;
             $type = EventLogType::QUESTION;
-            $event = "تم تغيير نوع السؤال من قبل الموزع " . MainController::getName();
+            $event = "تم تغيير نوع السؤال من قبل الموزع " . AdminController::getName();
             EventLog::create($target, $type, $event);
         });
 
         if (is_null($exception))
-            return redirect("/control-panel/distributors")->with([
-                "ArChangeTypeQuestionMessage" => "تم تغيير نوع السؤال بنجاح.",
-                "EnChangeTypeQuestionMessage" => "Question type changed successfully.",
-                "FrChangeTypeQuestionMessage" => "Le type de question a été modifié avec succès."
-            ]);
+            return ["success" => true];
         else
-            return redirect("/control-panel/distributors")->with([
-                "ArChangeTypeQuestionMessage" => "لم يتم تغيير نوع السؤال بنجاح.",
-                "EnChangeTypeQuestionMessage" => "The question type was not changed successfully.",
-                "FrChangeTypeQuestionMessage" => "Le type de question n'a pas été modifié avec succès.",
-                "TypeMessage" => "Error"
-            ]);
+            return ["success" => false];
     }
 }

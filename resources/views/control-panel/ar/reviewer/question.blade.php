@@ -11,10 +11,19 @@
         </div>
 
         <div class="column">
-            <div class="ui three item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/reviewed-questions">مراجعة الاسئلة</a>
-                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            <div class="ui three item teal big menu" id="special-menu">
+                <a class="item" href="/control-panel">
+                    <i class="home big icon" style="margin: 0;"></i>&nbsp;
+                    <span>الرئيسية</span>
+                </a>
+                <a class="item active" href="/control-panel/reviewer">
+                    <i class="eye big icon" style="margin: 0;"></i>&nbsp;
+                    <span>مراجعة الاسئلة</span>
+                </a>
+                <a class="item" href="/control-panel/logout">
+                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
+                    <span>تسجيل خروج</span>
+                </a>
             </div>
         </div>
 
@@ -33,10 +42,8 @@
         <div class="column">
             <div class="ui right aligned teal segment">
                 <h3><span style="color: #21ba45;">السؤال:- </span> {{$question->content}}</h3>
-                <form class="ui form" method="post" action="/control-panel/{{$lang}}/update-answer" enctype="multipart/form-data">
-                    {!! csrf_field() !!}
-
-                    <input type="hidden" name="id" value="{{$question->id}}">
+                <form class="ui form" method="post" action="/control-panel/reviewer/{{$question->id}}" enctype="multipart/form-data">
+                    @csrf()
 
                     <div class="field">
                         <label for="answer">الجواب</label>
@@ -80,21 +87,23 @@
                         </div>
                         
                         <div class="six wide field" id="filed-card">
-                            <div class="ui fluid card">
-                                <div class="blurring dimmable image">
-                                    <div class="ui dimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <button class="ui inverted red button" data-action="delete-image">حذف الصورة</button>
+                            @if(!is_null($question->image))
+                                <div class="ui fluid card">
+                                    <div class="blurring dimmable image">
+                                        <div class="ui dimmer">
+                                            <div class="content">
+                                                <div class="center">
+                                                    <button class="ui inverted red button" data-action="delete-image">حذف الصورة</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="ui fluid bordered image">
-                                        <img src="{{asset("storage/" . $question->image)}}">
+                                        <div class="ui fluid bordered image">
+                                            <img src="{{asset("storage/" . $question->image)}}">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
 
@@ -127,12 +136,14 @@
             '{{$questionTag->tagId}}',
             @endforeach
         ]);
+
+        //Remove image
         $('.ui.fluid.card .image').dimmer({
             on: 'hover'
         });
         $("button[data-action='delete-image']").click(function () {
             var h3 = "<h3 class='ui center aligned green header'>تم حذف الصورة بنجاح</h3>";
-            var input = "<input type='hidden' name='delete' value='yes'>";
+            var input = "<input type='hidden' name='delete' value='1'>";
             var filedCard = $("#filed-card").html(h3 + input);
         });
     </script>

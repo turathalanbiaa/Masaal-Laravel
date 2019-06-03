@@ -22,10 +22,9 @@ class AdminController extends Controller
     public function index()
     {
         Auth::check();
-        $lang = MainController::getLanguage();
-        $type = MainController::getType();
+        $lang = self::getLang();
+        $type = self::getType();
         $query = Input::get("query");
-
         $admins = is_null($query)?
             Admin::where("lang", $lang)
                 ->where("type", $type)
@@ -48,10 +47,9 @@ class AdminController extends Controller
     public function create()
     {
         Auth::check();
-        $lang = MainController::getLanguage();
+        $lang = self::getLang();
         return view("control-panel.$lang.admin.create");
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -63,8 +61,8 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         Auth::check();
-        $lang = MainController::getLanguage();
-        $type = MainController::getType();
+        $lang = self::getLang();
+        $type = self::getType();
         $rules = [
             "name" => "required|min:6",
             "username" => "required|min:6|unique:admin,username",
@@ -130,7 +128,7 @@ class AdminController extends Controller
             //Store event log
             $target = $admin->id;
             $type = EventLogType::ADMIN;
-            $event = "اضافة المدير " . $admin->name;
+            $event = "اضافة حساب من قبل المدير " . self::getName();
             EventLog::create($target, $type, $event);
         });
 
@@ -169,7 +167,7 @@ class AdminController extends Controller
     public function edit(Admin $admin)
     {
         Auth::check();
-        $lang = MainController::getLanguage();
+        $lang = self::getLang();
         return view("control-panel.$lang.admin.edit")->with([
             "admin"=>$admin
         ]);
@@ -186,7 +184,7 @@ class AdminController extends Controller
     public function update(Request $request, Admin $admin)
     {
         Auth::check();
-        $lang = MainController::getLanguage();
+        $lang = self::getLang();
         $rules = [
             "name" => "required|min:6",
             "username" => ['required','min:6',Rule::unique('admin')->ignore($admin->id)]
@@ -242,7 +240,7 @@ class AdminController extends Controller
             //Store event log
             $target = $admin->id;
             $type = EventLogType::ADMIN;
-            $event = "تحديث معلومات المدير " . $admin->name;
+            $event = "تحديث معلومات الحساب من قبل المدير " . self::getName();
             EventLog::create($target, $type, $event);
         });
 
@@ -259,7 +257,6 @@ class AdminController extends Controller
                 "FrUpdateAdminMessage" => "Aucun changement enregistré, veuillez réessayer."
             ]);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -285,7 +282,7 @@ class AdminController extends Controller
             //Store event log
             $target = $admin->id;
             $type = EventLogType::ADMIN;
-            $event = "حذف المدير" . $admin->name;
+            $event = "حذف الحساب من قبل المدير " . self::getName();
             EventLog::create($target, $type, $event);
         });
 
@@ -293,5 +290,44 @@ class AdminController extends Controller
             return ["success"=>true];
         else
             return ["success"=>false];
+    }
+
+    /**
+     * Get current admin id.
+     * @return mixed
+     */
+    public static function getId()
+    {
+        return session()->get("MASAEL_CP_ADMIN_ID");
+    }
+
+    /**
+     * Get current admin name.
+     *
+     * @return mixed
+     */
+    public static function getName()
+    {
+        return session()->get("MASAEL_CP_ADMIN_NAME");
+    }
+
+    /**
+     * Get current admin language.
+     *
+     * @return mixed
+     */
+    public static function getLang()
+    {
+        return session()->get("MASAEL_CP_ADMIN_LANG");
+    }
+
+    /**
+     * Get current admin type.
+     *
+     * @return mixed
+     */
+    public static function getType()
+    {
+        return session()->get("MASAEL_CP_ADMIN_TYPE");
     }
 }

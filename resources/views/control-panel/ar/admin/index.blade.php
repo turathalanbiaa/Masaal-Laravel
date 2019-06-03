@@ -112,7 +112,7 @@
 @section("extra-content")
     <div class="ui mini modal">
         <h3 class="ui center aligned top attached inverted header">
-            <span style="color: white;">هل انت متأكد من حذف المسؤول !!!</span>
+            <span style="color: white;">هل انت متأكد من حذف المسؤول؟</span>
         </h3>
         <div class="content">
             <h3 class="ui center aligned header">
@@ -141,10 +141,15 @@
             pagination.css("padding","0");
             pagination.find('li').addClass('item');
         });
+        $('.ui.message').transition({
+            animation  : 'flash',
+            duration   : '1s'
+        });
 
+        //Remove the admin
         $("a[data-action='delete']").click(function () {
             var a = $(this);
-            a.parent().parent().attr("id", "row-delete");
+            a.parent().parent().attr("id", "current-row");
             a.addClass("loading");
             $("#number").html(a.data("id"));
             $("#name").html(a.data("name"));
@@ -155,7 +160,6 @@
                 })
                 .modal("show");
         });
-
         $("button.positive.button").click(function () {
             var id = $("#number").html();
             var success = false;
@@ -169,13 +173,13 @@
                 data: {_method: "delete"},
                 datatype: 'json',
                 success: function(result) {
-                    if (result["notFound"] == true)
+                    if (result["notFound"] === true)
                         snackbar("هذا المسؤول غير موجود." , 3000 , "warning");
 
-                    else if (result["success"] == false)
+                    else if (result["success"] === false)
                         snackbar("لم يتم حذف المسؤول, يرجى اعدة المحاولة." , 3000 , "error");
 
-                    else if (result["success"] == true)
+                    else if (result["success"] === true)
                     {
                         snackbar("تم حذف المسؤول." , 3000 , "success");
                         success = true;
@@ -185,7 +189,7 @@
                     snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
                 } ,
                 complete : function() {
-                    var tr = $("#row-delete");
+                    var tr = $("#current-row");
                     tr.removeAttr("id");
                     tr.find("a").removeClass("loading");
                     if(success)
@@ -201,16 +205,10 @@
                 }
             });
         });
-
         $("button.negative.button").click(function () {
-            var tr = $("#row-delete");
+            var tr = $("#current-row");
             tr.removeAttr("id");
             tr.find("a").removeClass("loading");
-        });
-
-        $('.ui.message').transition({
-            animation  : 'flash',
-            duration   : '1s'
         });
     </script>
 @endsection

@@ -11,10 +11,20 @@
         </div>
 
         <div class="column">
-            <div class="ui three item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/my-questions">اسئلتي</a>
-                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            <div class="ui five item teal big menu" id="special-menu">
+                <a class="item" href="/control-panel">
+                    <i class="home big icon" style="margin: 0;"></i>&nbsp;
+                    <span>الرئيسية</span>
+                </a>
+                <a class="item active" href="/control-panel/respondent">
+                    <i class="bars big icon" style="margin: 0;"></i>&nbsp;
+                    <span>اسئلتي</span>
+                </a>
+
+                <a class="item" href="/control-panel/logout">
+                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
+                    <span>تسجيل خروج</span>
+                </a>
             </div>
         </div>
 
@@ -33,10 +43,8 @@
         <div class="column">
             <div class="ui right aligned teal segment">
                 <h3><span style="color: #21ba45;">السؤال:- </span> {{$question->content}}</h3>
-                <form class="ui form" method="post" action="/control-panel/{{$lang}}/question-answer"
-                      enctype="multipart/form-data">
-                    {!! csrf_field() !!}
-                    <input type="hidden" name="questionId" value="{{$question->id}}">
+                <form class="ui form" method="post" action="/control-panel/respondent/{{$question->id}}" enctype="multipart/form-data">
+                    @csrf()
 
                     <div class="field">
                         <label for="answer">الجواب</label>
