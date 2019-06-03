@@ -74,15 +74,21 @@
                                 <p>
                                     <span>صنف السؤال</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
-                                    <span>{{$question->Category->category}}</span>
+                                    @if(is_null($question->Category))
+                                        <span>لا يوجد صنف للسؤال.</span>
+                                    @else
+                                        <span>{{$question->Category->category}}</span>
+                                    @endif
                                 </p>
 
                                 <p>
                                     <span>الكلمات الدلالية</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
-                                    @foreach($question->QuestionTags as $questionTag)
+                                    @forelse($question->QuestionTags as $questionTag)
                                         <span>{{$questionTag->Tag->tag . "،"}}</span>
-                                    @endforeach
+                                    @empty
+                                        <span>لا توجد كلمات دلالية.</span>
+                                    @endforelse
                                 </p>
 
                                 <p>

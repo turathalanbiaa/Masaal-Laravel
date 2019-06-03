@@ -20,18 +20,6 @@ class Admin extends Model
         return $this->hasOne("App\Models\Permission");
     }
 
-
-    /**
-     * Get questions.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function Questions()
-    {
-        return $this->hasMany("App\Models\Question", "adminId", "id");
-    }
-
-
     /**
      * Get unanswered questions.
      *
@@ -41,16 +29,5 @@ class Admin extends Model
     {
         return $this->hasMany("App\Models\Question", "adminId", "id")
             ->where("status", QuestionStatus::NO_ANSWER);
-    }
-
-    /**
-     * Get answered questions.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function answeredQuestions()
-    {
-        return $this->hasMany("App\Models\Question", "adminId", "id")
-            ->where("status", QuestionStatus::TEMP_ANSWER);
     }
 }

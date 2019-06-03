@@ -20,11 +20,11 @@
                 <i class="bars big icon" style="margin: 0;"></i>&nbsp;
                 <span>اسئلتي</span>
             </a>
-            <a class="item" href="/control-panel/respondent">
+            <a class="item" href="/control-panel/respondent/my-answers">
                 <i class="folder open big icon" style="margin: 0;"></i>&nbsp;
                 <span>اجوبتي</span>
             </a>
-            <a class="item" href="">
+            <a class="item" href="/control-panel/respondent/answers">
                 <i class="history big icon" style="margin: 0;"></i>&nbsp;
                 <span>ارشيف الاسئلة</span>
             </a>
@@ -180,7 +180,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            type: "POST",
+            type: "post",
             url: "/control-panel/respondent/return-question",
             data: {question: question},
             datatype: 'json',

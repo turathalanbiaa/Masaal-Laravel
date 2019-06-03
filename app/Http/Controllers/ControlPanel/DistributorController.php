@@ -45,10 +45,9 @@ class DistributorController extends Controller
     /**
      * Distribute the question to the respondent.
      *
-     * @param Request $request
      * @return array
      */
-    public function distributeQuestion(Request $request)
+    public function distributeQuestion()
     {
         Auth::check();
         $questionId = Input::get("questionId");

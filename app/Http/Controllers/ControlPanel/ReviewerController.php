@@ -26,86 +26,16 @@ class ReviewerController extends Controller
     public function index()
     {
         Auth::check();
-        $currentAdmin = Admin::findOrFail(AdminController::getId());
-        $lang = $currentAdmin->lang;
-        $questions = $currentAdmin->answeredQuestions()->simplePaginate(20);
+        $lang = AdminController::getLang();
+        $type = AdminController::getType();
+        $questions = Question::where('type', $type)
+            ->where('lang', $lang)
+            ->where("status", QuestionStatus::TEMP_ANSWER)
+            ->simplePaginate(20);
 
         return view("control-panel.$lang.reviewer.index")->with([
             "questions" => $questions
         ]);
-    }
-
-    /**
-     * Accept answer for the question.
-     *
-     * @return array
-     */
-    public function acceptAnswer()
-    {
-        Auth::check();
-        $question = Question::find(Input::get("question"));
-        if (!$question)
-            return ["question" => "NotFound"];
-
-        //Transaction
-        $exception = DB::transaction(function () use ($question){
-            //update question
-            $question->status = QuestionStatus::APPROVED;
-            $question->save();
-
-            //Store event log
-            $target = $question->id;
-            $type = EventLogType::QUESTION;
-            $event = "تم قبول الاجابة من قبل المدقق " . AdminController::getName();
-            EventLog::create($target, $type, $event);
-        });
-
-        if (is_null($exception))
-            return ["success" => true];
-        else
-            return ["success" => false];
-    }
-
-    /**
-     * Reject answer for the question.
-     *
-     * @return array
-     */
-    public function rejectAnswer()
-    {
-        Auth::check();
-        $question = Question::find(Input::get("question"));
-        if (!$question)
-            return ["question" => "NotFound"];
-
-        //Transaction
-        $exception = DB::transaction(function () use ($question){
-            //Remove tags for the question
-            foreach ($question->QuestionTags as $tag)
-                $tag->delete();
-
-            //update question
-            if (!is_null($question->image))
-                Storage::delete("public/".$question->image);
-            $question->image = null;
-            $question->answer = null;
-            $question->categoryId = null;
-            $question->status = QuestionStatus::NO_ANSWER;
-            $question->videoLink = null;
-            $question->externalLink = null;
-            $question->save();
-
-            //Store event log
-            $target = $question->id;
-            $type = EventLogType::QUESTION;
-            $event = "تم رفض الاجابة من قبل المدقق " . AdminController::getName();
-            EventLog::create($target, $type, $event);
-        });
-
-        if (is_null($exception))
-            return ["success" => true];
-        else
-            return ["success" => false];
     }
 
     /**
@@ -127,7 +57,7 @@ class ReviewerController extends Controller
         $tags = Tag::where("lang", $lang)
             ->get();
 
-        return view("control-panel.$lang.reviewer.question")->with([
+        return view("control-panel.$lang.reviewer.edit")->with([
             "question" => $question,
             "categories" => $categories,
             "tags" => $tags
@@ -245,6 +175,79 @@ class ReviewerController extends Controller
                 "FrUpdateAnswerMessage" => "La réponse n'a pas été modifiée et acceptée avec succès.",
                 "TypeMessage" => "Error"
             ]);
+    }
+
+    /**
+     * Accept answer for the question.
+     *
+     * @return array
+     */
+    public function acceptAnswer()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question){
+            //update question
+            $question->status = QuestionStatus::APPROVED;
+            $question->save();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم قبول الاجابة من قبل المدقق " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
+    }
+
+    /**
+     * Reject answer for the question.
+     *
+     * @return array
+     */
+    public function rejectAnswer()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question){
+            //Remove tags for the question
+            foreach ($question->QuestionTags as $tag)
+                $tag->delete();
+
+            //update question
+            if (!is_null($question->image))
+                Storage::delete("public/".$question->image);
+            $question->image = null;
+            $question->answer = null;
+            $question->categoryId = null;
+            $question->status = QuestionStatus::NO_ANSWER;
+            $question->videoLink = null;
+            $question->externalLink = null;
+            $question->save();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم رفض الاجابة من قبل المدقق " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
     }
 
     /**

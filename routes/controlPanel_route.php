@@ -26,20 +26,27 @@ Route::post("/control-panel/distributor/change-type-question", "ControlPanel\\Di
 
 /*route for respondent*/
 Route::get("/control-panel/respondent", "ControlPanel\\RespondentController@index");
+Route::get("/control-panel/respondent/{question}/edit", "ControlPanel\\RespondentController@editQuestion");
+Route::post("/control-panel/respondent/{question}", "ControlPanel\\RespondentController@answerQuestion");
 Route::post("/control-panel/respondent/return-question", "ControlPanel\\RespondentController@returnQuestion");
 Route::post("/control-panel/respondent/delete-question", "ControlPanel\\RespondentController@deleteQuestion");
 Route::post("/control-panel/respondent/change-type-question", "ControlPanel\\RespondentController@changeTypeQuestion");
-Route::get("/control-panel/respondent/{question}/edit", "ControlPanel\\RespondentController@editQuestion");
-Route::post("/control-panel/respondent/{question}", "ControlPanel\\RespondentController@answerQuestion");
+
+Route::get("/control-panel/respondent/my-answers", "ControlPanel\\RespondentController@myAnswers");
+Route::get("/control-panel/respondent/my-answers/{question}/edit-answer", "ControlPanel\\RespondentController@editMyAnswer");
+Route::post("/control-panel/respondent/my-answers/{question}/update-answer", "ControlPanel\\RespondentController@updateMyAnswer");
+
+Route::get("/control-panel/respondent/answers", "ControlPanel\\RespondentController@answers");
 
 
 /*route for reviewer*/
 Route::get("/control-panel/reviewer", "ControlPanel\\ReviewerController@index");
+Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editQuestion");
+Route::post("/control-panel/reviewer/{question}", "ControlPanel\\ReviewerController@updateAnswer");
 Route::post("/control-panel/reviewer/accept-answer", "ControlPanel\\ReviewerController@acceptAnswer");
 Route::post("/control-panel/reviewer/reject-answer", "ControlPanel\\ReviewerController@rejectAnswer");
 Route::post("/control-panel/reviewer/delete-question", "ControlPanel\\ReviewerController@deleteQuestion");
-Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editQuestion");
-Route::post("/control-panel/reviewer/{question}", "ControlPanel\\ReviewerController@updateAnswer");
+
 
 
 

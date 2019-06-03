@@ -330,4 +330,9 @@ class AdminController extends Controller
     {
         return session()->get("MASAEL_CP_ADMIN_TYPE");
     }
+
+    public static function getPermission()
+    {
+        return session()->get("MASAEL_CP_PERMISSION");
+    }
 }
