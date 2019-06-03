@@ -19,18 +19,18 @@ Route::resource('control-panel/admins', 'ControlPanel\\AdminController');
 
 /*routes for distributor*/
 Route::get("/control-panel/distributor", "ControlPanel\\DistributorController@index");
-Route::post("/control-panel/distributor/distribute-question", "ControlPanel\\DistributorController@distributeQuestion");
-Route::post("/control-panel/distributor/delete-question", "ControlPanel\\DistributorController@deleteQuestion");
-Route::post("/control-panel/distributor/change-type-question", "ControlPanel\\DistributorController@changeTypeQuestion");
+Route::post("/control-panel/distributor/distribute-question/ajax", "ControlPanel\\DistributorController@distributeQuestion");
+Route::post("/control-panel/distributor/delete-question/ajax", "ControlPanel\\DistributorController@deleteQuestion");
+Route::post("/control-panel/distributor/change-type-question/ajax", "ControlPanel\\DistributorController@changeTypeQuestion");
 
 
 /*route for respondent*/
 Route::get("/control-panel/respondent", "ControlPanel\\RespondentController@index");
 Route::get("/control-panel/respondent/{question}/edit", "ControlPanel\\RespondentController@editQuestion");
 Route::post("/control-panel/respondent/{question}", "ControlPanel\\RespondentController@answerQuestion");
-Route::post("/control-panel/respondent/return-question", "ControlPanel\\RespondentController@returnQuestion");
-Route::post("/control-panel/respondent/delete-question", "ControlPanel\\RespondentController@deleteQuestion");
-Route::post("/control-panel/respondent/change-type-question", "ControlPanel\\RespondentController@changeTypeQuestion");
+Route::post("/control-panel/respondent/return-question/ajax", "ControlPanel\\RespondentController@returnQuestion");
+Route::post("/control-panel/respondent/delete-question/ajax", "ControlPanel\\RespondentController@deleteQuestion");
+Route::post("/control-panel/respondent/change-type-question/ajax", "ControlPanel\\RespondentController@changeTypeQuestion");
 
 Route::get("/control-panel/respondent/my-answers", "ControlPanel\\RespondentController@myAnswers");
 Route::get("/control-panel/respondent/my-answers/{question}/edit-answer", "ControlPanel\\RespondentController@editMyAnswer");
@@ -43,9 +43,9 @@ Route::get("/control-panel/respondent/answers", "ControlPanel\\RespondentControl
 Route::get("/control-panel/reviewer", "ControlPanel\\ReviewerController@index");
 Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editQuestion");
 Route::post("/control-panel/reviewer/{question}", "ControlPanel\\ReviewerController@updateAnswer");
-Route::post("/control-panel/reviewer/accept-answer", "ControlPanel\\ReviewerController@acceptAnswer");
-Route::post("/control-panel/reviewer/reject-answer", "ControlPanel\\ReviewerController@rejectAnswer");
-Route::post("/control-panel/reviewer/delete-question", "ControlPanel\\ReviewerController@deleteQuestion");
+Route::post("/control-panel/reviewer/accept-answer/ajax", "ControlPanel\\ReviewerController@acceptAnswer");
+Route::post("/control-panel/reviewer/reject-answer/ajax", "ControlPanel\\ReviewerController@rejectAnswer");
+Route::post("/control-panel/reviewer/delete-question/ajax", "ControlPanel\\ReviewerController@deleteQuestion");
 
 
 

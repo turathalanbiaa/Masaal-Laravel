@@ -181,7 +181,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
-            url: "/control-panel/respondent/return-question",
+            url: "/control-panel/respondent/return-question/ajax",
             data: {question: question},
             datatype: 'json',
             success: function(result) {
@@ -243,7 +243,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "POST",
-            url: "/control-panel/respondent/delete-question",
+            url: "/control-panel/respondent/delete-question/ajax",
             data: {question: question},
             datatype: 'json',
             success: function(result) {
@@ -305,7 +305,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "POST",
-            url: "/control-panel/respondent/change-type-question",
+            url: "/control-panel/respondent/change-type-question/ajax",
             data: {question: question},
             datatype: 'json',
             success: function(result) {

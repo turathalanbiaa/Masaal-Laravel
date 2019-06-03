@@ -159,20 +159,20 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: "POST",
-                url: '/control-panel/distributor/distribute-question',
+                url: '/control-panel/distributor/distribute-question/ajax',
                 data: {questionId:questionId, respondentId:respondentId},
                 datatype: 'json',
                 success: function(result) {
-                    if (result["question"] == "NotFound")
+                    if (result["question"] === "NotFound")
                         snackbar("لايوجد مثل هذا السؤال." , 3000 , "warning");
 
-                    else if(result["respondent"] == "NotFound")
+                    else if(result["respondent"] === "NotFound")
                         snackbar("لم يتم اختيار المجيب." , 3000 , "warning");
 
-                    else if (result["success"] == false)
+                    else if (result["success"] === false)
                         snackbar("لم يتم تحويل السؤال الى المجيب !!، حاول مرة اخرى." , 3000 , "error");
 
-                    else if (result["success"] == true)
+                    else if (result["success"] === true)
                     {
                         snackbar("تم تحويل السؤال الى المجيب بنجاح." , 3000 , "success");
                         success = true;
@@ -229,7 +229,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: "POST",
-                url: "/control-panel/distributor/delete-question",
+                url: "/control-panel/distributor/delete-question/ajax",
                 data: {question: question},
                 datatype: 'json',
                 success: function(result) {
@@ -291,7 +291,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: "POST",
-                url: "/control-panel/distributor/change-type-question",
+                url: "/control-panel/distributor/change-type-question/ajax",
                 data: {question: question},
                 datatype: 'json',
                 success: function(result) {
