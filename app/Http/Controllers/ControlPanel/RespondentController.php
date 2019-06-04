@@ -118,14 +118,12 @@ class RespondentController extends Controller
             $question->status = QuestionStatus::TEMP_ANSWER;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
+            //Store image
             if (!is_null(request()->file("image")))
             {
-                if (Storage::exists($question->image))
-                    Storage::delete($question->image);
-
-                $Path = Storage::putFile("public", request()->file("image"));
-                $imagePath = explode('/',$Path);
-                $question->image = $imagePath[1];
+                if (Storage::disk('public')->exists($question->image))
+                    Storage::disk('public')->delete($question->image);
+                $question->image = Storage::disk('public')->put('', request()->file("image"));
             }
             $question->save();
 
@@ -371,21 +369,18 @@ class RespondentController extends Controller
         //Transaction
         $exception = DB::transaction(function () use ($question) {
             //Delete Old Image
-            if (!is_null(Input::get("delete")) && Storage::exists($question->image) )
+            if (!is_null(Input::get("delete")) && Storage::disk('public')->exists($question->image))
             {
-                Storage::delete($question->image);
+                Storage::disk('public')->delete($question->image);
                 $question->image = null;
             }
 
             //Store new image
             if (!is_null(request()->file("image")))
             {
-                if (Storage::exists($question->image))
-                    Storage::delete($question->image);
-
-                $Path = Storage::putFile("public", request()->file("image"));
-                $imagePath = explode('/',$Path);
-                $question->image = $imagePath[1];
+                if (Storage::disk('public')->exists($question->image))
+                    Storage::disk('public')->delete($question->image);
+                $question->image = Storage::disk('public')->put('', request()->file("image"));
             }
 
             //Delete old tags

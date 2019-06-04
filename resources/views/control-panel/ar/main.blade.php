@@ -90,7 +90,7 @@
                                 <i class="newspaper special pink icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/}/posts">المنشورات</a>
+                                <a class="ui center aligned header" href="/control-panel/posts">المنشورات</a>
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                                 <i class="bullhorn special red icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/}/announcements">الاعلانات</a>
+                                <a class="ui center aligned header" href="/control-panel/announcements">الاعلانات</a>
                             </div>
                         </div>
                     </div>
