@@ -11,11 +11,23 @@
         </div>
 
         <div class="column">
-            <div class="ui four item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item active" href="/control-panel/{{$lang}}/announcement/create">اضافة اعلان</a>
-                <a class="item" href="/control-panel/{{$lang}}/announcements">الأعلانات</a>
-                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            <div class="ui four item teal big menu" id="special-menu">
+                <a class="item" href="/control-panel">
+                    <i class="home big icon" style="margin: 0;"></i>&nbsp;
+                    <span>الرئيسية</span>
+                </a>
+                <a class="item" href="/control-panel/announcements">
+                    <i class="bullhorn big icon" style="margin: 0;"></i>&nbsp;
+                    <span>الأعلانات</span>
+                </a>
+                <a class="item active" href="/control-panel/announcements/create">
+                    <i class="add big icon" style="margin: 0;"></i>&nbsp;
+                    <span>اضافة اعلان</span>
+                </a>
+                <a class="item" href="/control-panel/logout">
+                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
+                    <span>تسجيل خروج</span>
+                </a>
             </div>
         </div>
 
@@ -31,10 +43,10 @@
             </div>
         @endif
 
-        @if(session("ArInfoMessage"))
+        @if(session("ArCreateAnnouncementMessage"))
             <div class="column">
-                <div class="ui info message">
-                    <h2 class="ui center aligned header">{{session("ArInfoMessage")}}</h2>
+                <div class="ui {{(session('TypeMessage')=="Error")?"error":"success"}} message">
+                    <h2 class="ui center aligned header">{{session("ArCreateAnnouncementMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -45,8 +57,8 @@
 
                 <div class="ui one column grid">
                     <div class="column">
-                        <form class="ui form" method="post" action="/control-panel/{{$lang}}/announcement/create">
-                            {!! csrf_field() !!}
+                        <form class="ui form" method="post" action="/control-panel/announcements">
+                            @csrf()
 
                             <div class="field">
                                 <label for="content">الاعلان</label>
@@ -72,7 +84,7 @@
                             </div>
 
                             <div class="field" style="text-align: center;">
-                                <button type="submit" class="ui green button">اضافة اعلان</button>
+                                <button type="submit" class="ui green button">حفظ</button>
                             </div>
                         </form>
                     </div>
@@ -85,8 +97,7 @@
 @section("script")
     <script>
         $('.ui.checkbox').checkbox();
-
-        $('.ui.info.message').transition({
+        $('.ui.message').transition({
             animation  : 'flash',
             duration   : '1s'
         });

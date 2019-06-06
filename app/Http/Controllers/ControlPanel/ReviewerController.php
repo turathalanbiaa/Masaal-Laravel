@@ -115,22 +115,14 @@ class ReviewerController extends Controller
 
         //Transaction
         $exception = DB::transaction(function () use ($question) {
-            //Delete Old Image
-            if (!is_null(Input::get("delete")) && Storage::disk('public')->exists($question->image))
+            //Remove Old Image
+            if (!is_null(Input::get("delete")))
             {
                 Storage::disk('public')->delete($question->image);
                 $question->image = null;
             }
 
-            //Store new image
-            if (!is_null(request()->file("image")))
-            {
-                if (Storage::disk('public')->exists($question->image))
-                    Storage::disk('public')->delete($question->image);
-                $question->image = Storage::disk('public')->put('', request()->file("image"));
-            }
-
-            //Delete old tags
+            //Remove old tags
             foreach ($question->QuestionTags as $tag)
                 $tag->delete();
 
@@ -140,6 +132,15 @@ class ReviewerController extends Controller
             $question->status = QuestionStatus::APPROVED;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
+
+            //Store new image
+            if (!is_null(request()->file("image")))
+            {
+                Storage::disk('public')->delete($question->image);
+                $question->image = Storage::disk('public')->put('', request()->file("image"));
+            }
+
+            //Update question
             $question->save();
 
             //Store new tags
@@ -219,13 +220,14 @@ class ReviewerController extends Controller
 
         //Transaction
         $exception = DB::transaction(function () use ($question){
-            //Remove tags for the question
+            //Remove tags
             foreach ($question->QuestionTags as $tag)
                 $tag->delete();
 
+            //Remove image
+            Storage::disk('public')->delete($question->image);
+
             //update question
-            if (!is_null($question->image))
-                Storage::disk('public')->delete($question->image);
             $question->image = null;
             $question->answer = null;
             $question->categoryId = null;
@@ -262,15 +264,14 @@ class ReviewerController extends Controller
 
         //Transaction
         $exception = DB::transaction(function () use ($question){
-            //Delete question tags
+            //Remove tags
             foreach ($question->QuestionTags as $tag)
                 $tag->delete();
 
-            //Delete image from storage
-            if (!is_null($question->image))
-                Storage::disk('public')->delete($question->image);
+            //Remove image
+            Storage::disk('public')->delete($question->image);
 
-            //Delete question
+            //Remove question
             $question->delete();
 
             //Store event log

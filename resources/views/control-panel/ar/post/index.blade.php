@@ -11,18 +11,38 @@
         </div>
 
         <div class="column">
-            <div class="ui four item teal big menu">
-                <a class="item" href="/control-panel/{{$lang}}/main">الرئيسية</a>
-                <a class="item" href="/control-panel/{{$lang}}/post/create">اضافة منشور</a>
-                <a class="item active" href="/control-panel/{{$lang}}/posts">المنشورات</a>
-                <a class="item" href="/control-panel/{{$lang}}/logout">تسجيل خروج</a>
+            <div class="ui four item teal big menu" id="special-menu">
+                <a class="item" href="/control-panel">
+                    <i class="home big icon" style="margin: 0;"></i>&nbsp;
+                    <span>الرئيسية</span>
+                </a>
+                <a class="item active" href="/control-panel/posts">
+                    <i class="newspaper big icon" style="margin: 0;"></i>&nbsp;
+                    <span>المنشورات</span>
+                </a>
+                <a class="item" href="/control-panel/posts/create">
+                    <i class="add big icon" style="margin: 0;"></i>&nbsp;
+                    <span>اضافة منشور</span>
+                </a>
+                <a class="item" href="/control-panel/logout">
+                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
+                    <span>تسجيل خروج</span>
+                </a>
             </div>
         </div>
 
-        @if(session("ArInfoMessage"))
+        @if(session("ArUpdatePostMessage"))
             <div class="column">
-                <div class="ui info message">
-                    <h2 class="ui center aligned header">{{session("ArInfoMessage")}}</h2>
+                <div class="ui success message">
+                    <h2 class="ui center aligned header">{{session("ArUpdatePostMessage")}}</h2>
+                </div>
+            </div>
+        @endif
+
+        @if(session("ArDeletePostMessage"))
+            <div class="column">
+                <div class="ui {{(session('TypeMessage')=="Error")?"error":"success"}} message">
+                    <h2 class="ui center aligned header">{{session("ArDeletePostMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -31,9 +51,9 @@
             <div class="ui segment">
                 <div class="ui grid">
                     <div class="sixteen wide column">
-                        <form class="ui form" method="get" action="/control-panel/{{$lang}}/posts" dir="rtl">
+                        <form class="ui form" method="get" action="/control-panel/posts" dir="rtl">
                             <div class="ui left icon input" style="width: 100%; text-align: right;">
-                                <input type="text" placeholder="بحث عن منشور" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
+                                <input type="text" name="q" value="@if(isset($_GET["q"])) {{$_GET["q"]}} @endif" placeholder="بحث عن منشور" style="text-align: right;">
                                 <i class="search icon"></i>
                             </div>
                         </form>
@@ -45,26 +65,23 @@
                             <tr>
                                 <th class="center aligned">الرقم</th>
                                 <th class="center aligned">عنوان المنشور</th>
-                                <th class="center aligned">التاريخ</th>
+                                <th class="center aligned">تاريخ النشر</th>
                                 <th class="center aligned">خيارات</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @if(count($posts) > 0)
-                                @foreach($posts as $post)
-                                    <tr>
-                                        <td class="center aligned">{{$post->id}}</td>
-                                        <td class="center aligned">{{$post->title}}</td>
-                                        <td class="center aligned">{{$post->time}}</td>
-                                        <td class="center aligned">
-                                            <div class="ui fluid buttons">
-                                                <button class="ui red button" data-action="delete" data-id="{{$post->id}}">حذف</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
+                            @forelse($posts as $post)
+                                <tr>
+                                    <td class="center aligned">{{$post->id}}</td>
+                                    <td class="center aligned">{{$post->title}}</td>
+                                    <td class="center aligned">{{$post->time}}</td>
+                                    <td class="center aligned">
+                                        <a class="ui blue button" href="/control-panel/posts/{{$post->id}}/edit">تحرير</a>
+                                        <button class="ui red button" data-action="delete-post" data-content="{{$post->id}}">حذف</button>
+                                    </td>
+                                </tr>
+                            @empty
                                 <tr>
                                     <td colspan="5">
                                         <div class="ui center aligned header">
@@ -78,15 +95,15 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endif
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
 
                     @if($posts->hasPages())
                         <div class="sixteen wide teal center aligned column">
-                            @if(isset($_GET["query"]))
-                                {{$posts->appends(['query' => $_GET["query"]])->links()}}
+                            @if(isset($_GET["q"]))
+                                {{$posts->appends(['q' => $_GET["q"]])->links()}}
                             @else
                                 {{$posts->links()}}
                             @endif
@@ -99,28 +116,21 @@
 @endsection
 
 @section("extra-content")
-    <div class="ui mini modal">
-        <h3 class="ui center aligned top attached grey inverted header">
-            <span>هل انت متأكد من حذف المنشور !!!</span>
+    <div class="ui mini modal" id="modal-delete-post">
+        <h3 class="ui center aligned top attached inverted header">
+            <span style="color: white;">هل انت متأكد من حذف المنشور؟</span>
         </h3>
         <div class="content">
-            <div class="ui hidden divider"></div>
-
-            <h3 class="ui center aligned header">
-                <span>رقم المنشور - </span>
-                <span id="number"></span>
-            </h3>
-
-            <div class="ui divider"></div>
-
             <div class="actions" style="text-align: center;">
-                <button class="ui positive button">نعم</button>
+                <button class="ui positive button" onclick="$('#form-delete-post').submit();">نعم</button>
                 <button class="ui negative button">لا</button>
             </div>
-
-            <div class="ui hidden divider"></div>
         </div>
     </div>
+    <form method="post" action="" id="form-delete-post">
+        @csrf()
+        @method("DELETE")
+    </form>
 @endsection
 
 @section("script")
@@ -131,74 +141,20 @@
             pagination.css("padding","0");
             pagination.find('li').addClass('item');
         });
-
-        $("button[data-action='delete']").click(function () {
-            var button = $(this);
-            button.parent().parent().parent().attr("id", "row-delete");
-            button.addClass("loading");
-            $("#number").html(button.data("id"));
-            $(".modal")
+        $('.ui.message').transition({
+            animation  : 'flash',
+            duration   : '1s'
+        });
+        $("button[data-action='delete-post']").click(function () {
+            //Show modal delete post
+            $("#modal-delete-post")
                 .modal({
                     'closable' : false,
                     'transition': 'horizontal flip'
                 })
                 .modal("show");
-        });
-
-        $("button.positive.button").click(function () {
-            var id = $("#number").html();
-            var _token = "{{ csrf_token() }}";
-            var success = false;
-
-            $.ajax({
-                type: "POST",
-                url: "/control-panel/post/delete",
-                data: {_token:_token, id:id},
-                datatype: 'json',
-                success: function(result) {
-                    if (result["notFound"] == true)
-                        snackbar("هذا المنشور غير موجود." , 3000 , "warning");
-
-                    else if (result["success"] == false)
-                        snackbar("لم يتم حذف المنشور, يرجى اعدة المحاولة." , 3000 , "error");
-
-                    else if (result["success"] == true)
-                    {
-                        snackbar("تم حذف المنشور." , 3000 , "success");
-                        success = true;
-                    }
-                },
-                error: function() {
-                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
-                } ,
-                complete : function() {
-                    var tr = $("#row-delete");
-                    tr.removeAttr("id");
-                    tr.find("button").removeClass("loading");
-                    if(success)
-                    {
-                        setTimeout(function () {
-                            tr.addClass("scale");
-                            tr.transition({
-                                animation  : 'scale',
-                                duration   : '1s'
-                            });
-
-                        }, 250);
-                    }
-                }
-            });
-        });
-
-        $("button.negative.button").click(function () {
-            var tr = $("#row-delete");
-            tr.removeAttr("id");
-            tr.find("button").removeClass("loading");
-        });
-
-        $('.ui.info.message').transition({
-            animation  : 'flash',
-            duration   : '1s'
+            //Fill form delete post
+            $("#form-delete-post").attr("action","/control-panel/posts/"+$(this).data("content"))
         });
     </script>
 @endsection

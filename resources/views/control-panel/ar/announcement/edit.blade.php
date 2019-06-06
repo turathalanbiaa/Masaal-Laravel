@@ -1,7 +1,7 @@
 @extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>المنشورات</title>
+    <title>{{$announcement->content}}</title>
 @endsection
 
 @section("content")
@@ -16,13 +16,13 @@
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
                 </a>
-                <a class="item" href="/control-panel/posts">
-                    <i class="newspaper big icon" style="margin: 0;"></i>&nbsp;
-                    <span>المنشورات</span>
+                <a class="item active" href="/control-panel/announcements">
+                    <i class="bullhorn big icon" style="margin: 0;"></i>&nbsp;
+                    <span>الأعلانات</span>
                 </a>
-                <a class="item active" href="/control-panel/posts/create">
+                <a class="item" href="/control-panel/announcements/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
-                    <span>اضافة منشور</span>
+                    <span>اضافة اعلان</span>
                 </a>
                 <a class="item" href="/control-panel/logout">
                     <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
@@ -43,40 +43,31 @@
             </div>
         @endif
 
-        @if(session("ArCreatePostMessage"))
+        @if(session("ArUpdateAnnouncementMessage"))
             <div class="column">
-                <div class="ui {{(session('TypeMessage')=="Error")?"error":"success"}} message">
-                    <h2 class="ui center aligned header">{{session("ArCreatePostMessage")}}</h2>
+                <div class="ui error message">
+                    <h2 class="ui center aligned header">{{session("ArUpdateAnnouncementMessage")}}</h2>
                 </div>
             </div>
         @endif
 
         <div class="column">
             <div class="ui right aligned segment">
-                <h3 class="ui center aligned green dividing header">اضافة منشور جديد</h3>
+                <h3 class="ui center aligned green dividing header">تحرير الاعلان</h3>
 
                 <div class="ui one column grid">
                     <div class="column">
-                        <form class="ui form" method="post" action="/control-panel/posts" enctype="multipart/form-data">
+                        <form class="ui form" method="post" action="/control-panel/announcements/{{$announcement->id}}">
                             @csrf()
+                            @method("PUT")
 
                             <div class="field">
-                                <label for="title">عنوان المنشور</label>
-                                <input type="text" name="title" id="title" value="{{old("title")}}">
-                            </div>
-
-                            <div class="field">
-                                <label for="content">بعض التفاصيل حول المنشور</label>
-                                <textarea rows="5" name="content" id="content">{{old("content")}}</textarea>
-                            </div>
-
-                            <div class="field">
-                                <label for="image">اختر الصورة ... حقل أخياري</label>
-                                <input type="file" name="image" id="image" placeholder="أختر الصورة من هنا .. أختياري">
+                                <label for="content">الاعلان</label>
+                                <textarea rows="5" name="content" id="content">{{$announcement->content}}</textarea>
                             </div>
 
                             <div class="field" style="text-align: center;">
-                                <button type="submit" class="ui green button">حفظ</button>
+                                <button type="submit" class="ui green button">حفظ التغييرات</button>
                             </div>
                         </form>
                     </div>

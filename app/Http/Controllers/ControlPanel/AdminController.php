@@ -24,12 +24,11 @@ class AdminController extends Controller
         Auth::check();
         $lang = self::getLang();
         $type = self::getType();
-        $query = Input::get("query");
-        $admins = is_null($query)?
+        $admins = is_null(Input::get("q"))?
             Admin::where("lang", $lang)
                 ->where("type", $type)
                 ->simplePaginate(20):
-            $admins = Admin::where("name", "like", "%" . $query . "%")
+            Admin::where("name", "like", "%".Input::get("q")."%")
                 ->where("lang", $lang)
                 ->where("type", $type)
                 ->simplePaginate(20);
@@ -155,7 +154,7 @@ class AdminController extends Controller
      */
     public function show(Admin $admin)
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -221,12 +220,12 @@ class AdminController extends Controller
 
         //Transaction
         $exception = DB::transaction(function () use ($lang, $admin) {
-            //Update Admin
+            //Update admin
             $admin->name = Input::get("name");
             $admin->username = Input::get("username");
             $admin->save();
 
-            //Update permission for the admin
+            //Update permission
             $permission = $admin->permission;
             $permission->manager = Input::get("manager") ?: 0;
             $permission->distributor = Input::get("distributor") ?: 0;

@@ -203,7 +203,11 @@
 
                 @if($questions->hasPages())
                     <div class="ui bottom teal center aligned inverted segment">
-                        {{$questions->links()}}
+                        @if(isset($_GET["q"]) && isset($_GET["t"]))
+                            {{$questions->appends(['t' => $_GET["t"], 'q' => $_GET["q"]])->links()}}
+                        @else
+                            {{$questions->links()}}
+                        @endif
                     </div>
                 @endif
             </div>

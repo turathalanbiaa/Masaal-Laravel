@@ -42,5 +42,11 @@ class Auth extends Controller
 
         if (request()->is("control-panel/reviewer*") && ($permission["reviewer"] != 1))
             abort("404");
+
+        if (request()->is("control-panel/posts*") && ($permission["post"] != 1))
+            abort("404");
+
+        if (request()->is("control-panel/announcements*") && ($permission["announcement"] != 1))
+            abort("404");
     }
 }

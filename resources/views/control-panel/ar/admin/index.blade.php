@@ -45,7 +45,7 @@
                     <div class="sixteen wide column">
                         <form class="ui big form" method="get" action="/control-panel/admins" dir="rtl">
                             <div class="ui left icon input" style="width: 100%; text-align: right;">
-                                <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["query"])) {{$_GET["query"]}} @endif" name="query" style="text-align: right;">
+                                <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["q"])) {{$_GET["q"]}} @endif" name="q" style="text-align: right;">
                                 <i class="search icon"></i>
                             </div>
                         </form>
@@ -96,8 +96,8 @@
 
                     @if($admins->hasPages())
                         <div class="sixteen wide teal center aligned column">
-                            @if(isset($_GET["query"]))
-                                {{$admins->appends(['query' => $_GET["query"]])->links()}}
+                            @if(isset($_GET["q"]))
+                                {{$admins->appends(['q' => $_GET["q"]])->links()}}
                             @else
                                 {{$admins->links()}}
                             @endif

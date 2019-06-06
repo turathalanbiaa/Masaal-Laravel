@@ -14,7 +14,7 @@ Route::get("control-panel/logout", "ControlPanel\\MainController@logout");
 
 
 /*routes for admin*/
-Route::resource('control-panel/admins', 'ControlPanel\\AdminController');
+Route::resource("control-panel/admins", "ControlPanel\\AdminController");
 
 
 /*routes for distributor*/
@@ -24,7 +24,7 @@ Route::post("/control-panel/distributor/delete-question/ajax", "ControlPanel\\Di
 Route::post("/control-panel/distributor/change-type-question/ajax", "ControlPanel\\DistributorController@changeTypeQuestion");
 
 
-/*route for respondent*/
+/*routes for respondent*/
 Route::get("/control-panel/respondent", "ControlPanel\\RespondentController@index");
 Route::get("/control-panel/respondent/{question}/edit", "ControlPanel\\RespondentController@editQuestion");
 Route::post("/control-panel/respondent/{question}", "ControlPanel\\RespondentController@answerQuestion");
@@ -39,7 +39,7 @@ Route::post("/control-panel/respondent/my-answers/{question}/update-answer", "Co
 Route::get("/control-panel/respondent/answers", "ControlPanel\\RespondentController@answers");
 
 
-/*route for reviewer*/
+/*routes for reviewer*/
 Route::get("/control-panel/reviewer", "ControlPanel\\ReviewerController@index");
 Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editQuestion");
 Route::post("/control-panel/reviewer/{question}", "ControlPanel\\ReviewerController@updateAnswer");
@@ -48,23 +48,9 @@ Route::post("/control-panel/reviewer/reject-answer/ajax", "ControlPanel\\Reviewe
 Route::post("/control-panel/reviewer/delete-question/ajax", "ControlPanel\\ReviewerController@deleteQuestion");
 
 
+/*routes of post*/
+Route::resource("/control-panel/posts", "ControlPanel\\PostController");
 
 
-
-
-
-
-
-/*route of post*/
-Route::get("/control-panel/posts", "ControlPanel\\PostController@posts");
-Route::post("/control-panel/post/delete", "ControlPanel\\PostController@delete")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:post");
-Route::get("/control-panel/{lang}/post/create", "ControlPanel\\PostController@create")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:post");
-Route::post("/control-panel/{lang}/post/create", "ControlPanel\\PostController@createValidation")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:post");
-
-
-/*route of announcement*/
-Route::get("/control-panel/{lang}/announcements", "ControlPanel\\AnnouncementController@announcements")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::post("/control-panel/announcement/delete", "ControlPanel\\AnnouncementController@delete")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::post("/control-panel/announcement/active", "ControlPanel\\AnnouncementController@active")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::get("/control-panel/{lang}/announcement/create", "ControlPanel\\AnnouncementController@create")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::post("/control-panel/{lang}/announcement/create", "ControlPanel\\AnnouncementController@createValidation")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
+/*routes of announcement*/
+Route::resource("/control-panel/announcements", "ControlPanel\\AnnouncementController");

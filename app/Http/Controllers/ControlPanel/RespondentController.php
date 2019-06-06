@@ -118,13 +118,9 @@ class RespondentController extends Controller
             $question->status = QuestionStatus::TEMP_ANSWER;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
-            //Store image
-            if (!is_null(request()->file("image")))
-            {
-                if (Storage::disk('public')->exists($question->image))
-                    Storage::disk('public')->delete($question->image);
-                $question->image = Storage::disk('public')->put('', request()->file("image"));
-            }
+            $question->image = is_null(request()->file("image"))?
+                null:
+                Storage::disk('public')->put('', request()->file("image"));
             $question->save();
 
             //Store tags
@@ -368,22 +364,14 @@ class RespondentController extends Controller
 
         //Transaction
         $exception = DB::transaction(function () use ($question) {
-            //Delete Old Image
-            if (!is_null(Input::get("delete")) && Storage::disk('public')->exists($question->image))
+            //Remove Old Image
+            if (!is_null(Input::get("delete")))
             {
                 Storage::disk('public')->delete($question->image);
                 $question->image = null;
             }
 
-            //Store new image
-            if (!is_null(request()->file("image")))
-            {
-                if (Storage::disk('public')->exists($question->image))
-                    Storage::disk('public')->delete($question->image);
-                $question->image = Storage::disk('public')->put('', request()->file("image"));
-            }
-
-            //Delete old tags
+            //Remove old tags
             foreach ($question->QuestionTags as $tag)
                 $tag->delete();
 
@@ -392,6 +380,15 @@ class RespondentController extends Controller
             $question->categoryId = Input::get("categoryId");
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
+
+            //Store new image
+            if (!is_null(request()->file("image")))
+            {
+                Storage::disk('public')->delete($question->image);
+                $question->image = Storage::disk('public')->put('', request()->file("image"));
+            }
+
+            //Update question
             $question->save();
 
             //Store new tags
