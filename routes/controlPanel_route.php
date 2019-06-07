@@ -54,3 +54,13 @@ Route::resource("/control-panel/posts", "ControlPanel\\PostController");
 
 /*routes of announcement*/
 Route::resource("/control-panel/announcements", "ControlPanel\\AnnouncementController");
+
+/*routes of category*/
+Route::resource("/control-panel/categories", "ControlPanel\\CategoryController");
+
+/*routes of translator*/
+Route::get("/control-panel/translator", function (){
+    echo "<h1 style='text-align: center; margin-top: 300px;'>قريبا</h1>";
+    return "";
+});
+

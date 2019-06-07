@@ -16,6 +16,7 @@ class EventLogType
     const QUESTION = 2;
     const POST = 3;
     const ANNOUNCEMENT = 4;
+    const CATEGORY = 5;
 
 
     public static function getType($key) {
@@ -25,6 +26,7 @@ class EventLogType
             case self::QUESTION: return "الأسئلة";  break;
             case self::POST: return "النشورات";  break;
             case self::ANNOUNCEMENT: return "الاعلانات";  break;
+            case self::CATEGORY: return "الاصناف";  break;
         }
 
         return "";

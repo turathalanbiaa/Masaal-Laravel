@@ -1,7 +1,7 @@
 @extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>الحسابات</title>
+    <title>الاصناف</title>
 @endsection
 
 @section("content")
@@ -16,29 +16,29 @@
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
                 </a>
-                <a class="item active" href="/control-panel/admins">
-                    <i class="setting big icon" style="margin: 0;"></i>&nbsp;
-                    <span>الحسابات</span>
+                <a class="item active" href="/control-panel/categories">
+                    <i class="clipboard list big flipped icon" style="margin: 0;"></i>&nbsp;
+                    <span>الاصناف</span>
                 </a>
-                <a class="item" href="/control-panel/admins/create">
+                <a class="item" href="/control-panel/categories/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
-                    <span>اضافة حساب</span>
+                    <span>اضافة صنف</span>
                 </a>
             </div>
         </div>
 
-        @if(session("ArUpdateAdminMessage"))
+        @if(session("ArUpdateCategoryMessage"))
             <div class="column">
                 <div class="ui success message">
-                    <h2 class="ui center aligned header">{{session("ArUpdateAdminMessage")}}</h2>
+                    <h2 class="ui center aligned header">{{session("ArUpdateCategoryMessage")}}</h2>
                 </div>
             </div>
         @endif
 
-        @if(session("ArDeleteAdminMessage"))
+        @if(session("ArDeleteCategoryMessage"))
             <div class="column">
                 <div class="ui {{(session('TypeMessage')=="Error")?"error":"success"}} message">
-                    <h2 class="ui center aligned header">{{session("ArDeleteAdminMessage")}}</h2>
+                    <h2 class="ui center aligned header">{{session("ArDeleteCategoryMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -47,36 +47,32 @@
             <div class="ui segment">
                 <div class="ui grid">
                     <div class="sixteen wide column">
-                        <form class="ui big form" method="get" action="/control-panel/admins" dir="rtl">
+                        <form class="ui form" method="get" action="/control-panel/categories" dir="rtl">
                             <div class="ui left icon input" style="width: 100%; text-align: right;">
-                                <input type="text" placeholder="بحث عن مسؤول" value="@if(isset($_GET["q"])) {{$_GET["q"]}} @endif" name="q" style="text-align: right;">
+                                <input type="text" name="q" value="@if(isset($_GET["q"])) {{$_GET["q"]}} @endif" placeholder="بحث عن منشور" style="text-align: right;">
                                 <i class="search icon"></i>
                             </div>
                         </form>
                     </div>
 
                     <div class="sixteen wide column">
-                        <table class="ui celled stackable large table">
+                        <table class="ui celled unstackable table">
                             <thead>
                             <tr>
                                 <th class="center aligned">الرقم</th>
-                                <th class="center aligned">الاسم الحقيقي</th>
-                                <th class="center aligned">اسم المستخدم</th>
-                                <th class="center aligned">آخر تسجيل دخول</th>
+                                <th class="center aligned">الصنف</th>
                                 <th class="center aligned">خيارات</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @forelse($admins as $admin)
+                            @forelse($categories as $category)
                                 <tr>
-                                    <td class="center aligned">{{$admin->id}}</td>
-                                    <td class="center aligned">{{$admin->name}}</td>
-                                    <td class="center aligned">{{$admin->username}}</td>
-                                    <td class="center aligned">{{is_null($admin->last_login_date)? "لم يقم بتسجيل الدخول":$admin->last_login_date}}</td>
+                                    <td class="center aligned">{{$category->id}}</td>
+                                    <td class="center aligned">{{$category->category}}</td>
                                     <td class="center aligned">
-                                        <a class="ui blue button" href="/control-panel/admins/{{$admin->id}}/edit" >تحرير</a>
-                                        <button class="ui red button" data-action="delete-admin" data-content="{{$admin->id}}">حذف</button>
+                                        <a class="ui blue button" href="/control-panel/categories/{{$category->id}}/edit">تحرير</a>
+                                        <button class="ui red button" data-action="delete-category" data-content="{{$category->id}}">حذف</button>
                                     </td>
                                 </tr>
                             @empty
@@ -98,12 +94,12 @@
                         </table>
                     </div>
 
-                    @if($admins->hasPages())
+                    @if($categories->hasPages())
                         <div class="sixteen wide teal center aligned column">
                             @if(isset($_GET["q"]))
-                                {{$admins->appends(['q' => $_GET["q"]])->links()}}
+                                {{$posts->appends(['q' => $_GET["q"]])->links()}}
                             @else
-                                {{$admins->links()}}
+                                {{$posts->links()}}
                             @endif
                         </div>
                     @endif
@@ -114,18 +110,18 @@
 @endsection
 
 @section("extra-content")
-    <div class="ui mini modal" id="modal-delete-admin">
+    <div class="ui mini modal" id="modal-delete-category">
         <h3 class="ui center aligned top attached inverted header">
-            <span style="color: white;">هل انت متأكد من حذف الحساب؟</span>
+            <span style="color: white;">هل انت متأكد من حذف الصنف؟</span>
         </h3>
         <div class="content">
             <div class="actions" style="text-align: center;">
-                <button class="ui positive button" onclick="$('#form-delete-admin').submit();">نعم</button>
+                <button class="ui positive button" onclick="$('#form-delete-category').submit();">نعم</button>
                 <button class="ui negative button">لا</button>
             </div>
         </div>
     </div>
-    <form method="post" action="" id="form-delete-admin">
+    <form method="post" action="" id="form-delete-category">
         @csrf()
         @method("DELETE")
     </form>
@@ -143,16 +139,16 @@
             animation  : 'flash',
             duration   : '1s'
         });
-        $("button[data-action='delete-admin']").click(function () {
-            //Show modal delete admin
-            $("#modal-delete-admin")
+        $("button[data-action='delete-category']").click(function () {
+            //Show modal delete category
+            $("#modal-delete-category")
                 .modal({
                     'closable' : false,
                     'transition': 'horizontal flip'
                 })
                 .modal("show");
-            //Fill form delete admin
-            $("#form-delete-admin").attr("action","/control-panel/admins/"+$(this).data("content"))
+            //Fill form delete category
+            $("#form-delete-category").attr("action","/control-panel/categories/"+$(this).data("content"))
         });
     </script>
 @endsection

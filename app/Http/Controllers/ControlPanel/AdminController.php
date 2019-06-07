@@ -267,9 +267,6 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         Auth::check();
-        if (!$admin)
-            return ["notFound"=>true];
-
         //Transaction
         $exception = DB::transaction(function () use ($admin){
             //Remove permission
@@ -286,9 +283,18 @@ class AdminController extends Controller
         });
 
         if (is_null($exception))
-            return ["success"=>true];
+            return redirect("/control-panel/admins")->with([
+                "ArDeleteAdminMessage" => "تم حذف الحساب بنجاح.",
+                "EnDeleteAdminMessage" => "Account successfully deleted.",
+                "FrDeleteAdminMessage" => "Compte supprimé avec succès."
+            ]);
         else
-            return ["success"=>false];
+            return redirect("/control-panel/admins")->with([
+                "ArDeleteAdminMessage" => "لم يتم حذف الحساب بنجاح.",
+                "EnDeleteAdminMessage" => "The account was not deleted successfully.",
+                "FrDeleteAdminMessage" => "Le compte n'a pas été supprimé avec succès.",
+                "TypeMessage" => "Error"
+            ]);
     }
 
     /**

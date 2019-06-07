@@ -137,7 +137,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return abort(404);
+        Auth::check();
+        $lang = AdminController::getLang();
+        return view("control-panel.$lang.post.show")->with([
+            "post" => $post
+        ]);
     }
 
     /**

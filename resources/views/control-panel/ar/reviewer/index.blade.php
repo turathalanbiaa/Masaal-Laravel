@@ -11,7 +11,7 @@
         </div>
 
         <div class="column">
-            <div class="ui three item teal big menu" id="special-menu">
+            <div class="ui two item teal big menu" id="special-menu">
                 <a class="item" href="/control-panel">
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
@@ -19,10 +19,6 @@
                 <a class="item active" href="/control-panel/reviewer">
                     <i class="eye big icon" style="margin: 0;"></i>&nbsp;
                     <span>مراجعة الاسئلة</span>
-                </a>
-                <a class="item" href="/control-panel/logout">
-                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
-                    <span>تسجيل خروج</span>
                 </a>
             </div>
         </div>

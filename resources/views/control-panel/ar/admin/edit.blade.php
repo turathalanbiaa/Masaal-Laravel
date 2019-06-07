@@ -11,7 +11,7 @@
         </div>
 
         <div class="column">
-            <div class="ui four item teal big menu" id="special-menu">
+            <div class="ui three item teal big menu" id="special-menu">
                 <a class="item" href="/control-panel">
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
@@ -23,10 +23,6 @@
                 <a class="item" href="/control-panel/admins/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
                     <span>اضافة حساب</span>
-                </a>
-                <a class="item" href="/control-panel/logout">
-                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
-                    <span>تسجيل خروج</span>
                 </a>
             </div>
         </div>

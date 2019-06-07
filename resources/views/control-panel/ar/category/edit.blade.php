@@ -1,7 +1,7 @@
 @extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>{{$announcement->content}}</title>
+    <title>{{$category->category}}</title>
 @endsection
 
 @section("content")
@@ -16,13 +16,13 @@
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
                 </a>
-                <a class="item active" href="/control-panel/announcements">
-                    <i class="bullhorn big icon" style="margin: 0;"></i>&nbsp;
-                    <span>الأعلانات</span>
+                <a class="item active" href="/control-panel/categories">
+                    <i class="clipboard list big flipped icon" style="margin: 0;"></i>&nbsp;
+                    <span>الاصناف</span>
                 </a>
-                <a class="item" href="/control-panel/announcements/create">
+                <a class="item" href="/control-panel/categories/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
-                    <span>اضافة اعلان</span>
+                    <span>اضافة صنف</span>
                 </a>
             </div>
         </div>
@@ -39,31 +39,31 @@
             </div>
         @endif
 
-        @if(session("ArUpdateAnnouncementMessage"))
+        @if(session("ArUpdateCategoryMessage"))
             <div class="column">
                 <div class="ui error message">
-                    <h2 class="ui center aligned header">{{session("ArUpdateAnnouncementMessage")}}</h2>
+                    <h2 class="ui center aligned header">{{session("ArUpdateCategoryMessage")}}</h2>
                 </div>
             </div>
         @endif
 
         <div class="column">
             <div class="ui right aligned segment">
-                <h3 class="ui center aligned green dividing header">تحرير الاعلان</h3>
+                <h3 class="ui center aligned green dividing header">تحرير الصنف</h3>
 
                 <div class="ui one column grid">
                     <div class="column">
-                        <form class="ui form" method="post" action="/control-panel/announcements/{{$announcement->id}}">
+                        <form class="ui form" method="post" action="/control-panel/categories/{{$category->id}}">
                             @csrf()
                             @method("PUT")
 
                             <div class="field">
-                                <label for="content">الاعلان</label>
-                                <textarea rows="5" name="content" id="content">{{$announcement->content}}</textarea>
+                                <label for="category">عنوان المنشور</label>
+                                <input type="text" name="category" id="category" value="{{$category->category}}">
                             </div>
 
                             <div class="field" style="text-align: center;">
-                                <button type="submit" class="ui green button">حفظ التغييرات</button>
+                                <button type="submit" class="ui green button">حفظ التعديلات</button>
                             </div>
                         </form>
                     </div>

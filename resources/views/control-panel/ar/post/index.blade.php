@@ -11,7 +11,7 @@
         </div>
 
         <div class="column">
-            <div class="ui four item teal big menu" id="special-menu">
+            <div class="ui three item teal big menu" id="special-menu">
                 <a class="item" href="/control-panel">
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
                     <span>الرئيسية</span>
@@ -23,10 +23,6 @@
                 <a class="item" href="/control-panel/posts/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
                     <span>اضافة منشور</span>
-                </a>
-                <a class="item" href="/control-panel/logout">
-                    <i class="shutdown big icon" style="margin: 0;"></i>&nbsp;
-                    <span>تسجيل خروج</span>
                 </a>
             </div>
         </div>
@@ -77,6 +73,7 @@
                                     <td class="center aligned">{{$post->title}}</td>
                                     <td class="center aligned">{{$post->time}}</td>
                                     <td class="center aligned">
+                                        <a class="ui green button" href="/control-panel/posts/{{$post->id}}">عرض</a>
                                         <a class="ui blue button" href="/control-panel/posts/{{$post->id}}/edit">تحرير</a>
                                         <button class="ui red button" data-action="delete-post" data-content="{{$post->id}}">حذف</button>
                                     </td>

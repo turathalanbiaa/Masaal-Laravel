@@ -83,7 +83,6 @@
                         </div>
                     </div>
 
-
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
@@ -94,7 +93,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
@@ -110,10 +108,10 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="bullhorn special red icon"></i>
+                                <i class="clipboard list special orange flipped icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/}/announcements">الترجمة</a>
+                                <a class="ui center aligned header" href="/control-panel/categories">الاصناف</a>
                             </div>
                         </div>
                     </div>
@@ -121,10 +119,10 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="bullhorn special red icon"></i>
+                                <i class="language special brown icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/}/announcements">الاقسام</a>
+                                <a class="ui center aligned header" href="/control-panel/translator">الترجمة</a>
                             </div>
                         </div>
                     </div>
@@ -132,10 +130,10 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="bullhorn special red icon"></i>
+                                <i class="shutdown special black icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/}/announcements">تسجيل الخروج</a>
+                                <a class="ui center aligned header" href="/control-panel/logout">تسجيل الخروج</a>
                             </div>
                         </div>
                     </div>
