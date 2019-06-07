@@ -133,7 +133,7 @@
                                 <i class="shutdown special black icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/logout">تسجيل الخروج</a>
+                                <a class="ui center aligned header" data-action="logout">تسجيل الخروج</a>
                             </div>
                         </div>
                     </div>
@@ -145,11 +145,29 @@
     </div>
 @endsection
 
+@section("extra-content")
+    <div class="ui modal" id="modal-logout">
+        <h2 class="ui center aligned top attached inverted header">
+            <span style="color: white;">تسجيل الخروج</span>
+        </h2>
+        <div class="content">
+            <div class="actions" style="text-align: center;">
+                <a class="ui massive inverted green button" href="/control-panel/logout?device=current">تسجيل الخروج من الجهاز الحالي</a>
+                <a class="ui massive inverted green button" href="/control-panel/logout?device=all">تسجيل الخروج من جميع الاجهزة</a>
+            </div>
+        </div>
+    </div>
+@endsection
+
 @section("script")
     <script>
-        $('.ui.info.message').transition({
-            animation  : 'flash',
-            duration   : '1s'
+        $("a[data-action='logout']").click(function () {
+            //Show modal
+            $("#modal-logout")
+                .modal({
+                    'transition': 'scale'
+                })
+                .modal("show");
         });
     </script>
 @endsection

@@ -49,6 +49,10 @@
                     <div class="ui center aligned small bounce animated header">{{session("ErrorLoginMessage")}}</div>
                 @endif
 
+                @if(session("LogoutMessage"))
+                    <div class="ui center aligned small bounce animated header">{{session("LogoutMessage")}}</div>
+                @endif
+
                 <form class="ui big form" dir="ltr" method="post" action="">
                     {!! csrf_field() !!}
                     <div class="field">
