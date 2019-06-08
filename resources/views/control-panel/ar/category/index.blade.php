@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="sixteen wide column">
-                        <table class="ui celled unstackable table">
+                        <table class="ui celled stackable large table">
                             <thead>
                             <tr>
                                 <th class="center aligned">الرقم</th>
