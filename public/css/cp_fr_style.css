@@ -3,7 +3,7 @@ body
     direction: rtl;
     text-align: right;
     background: #f1f1f1;
-    font-family: JF-Flat;
+    font-family: JF-Flat sans-serif;
 }
 /******************** Add JS-Flat Fount ********************/
 @font-face {
