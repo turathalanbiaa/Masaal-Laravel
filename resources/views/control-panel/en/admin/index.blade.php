@@ -1,44 +1,44 @@
-@extends("control-panel.ar.layout.main_layout")
+@extends("control-panel.en.layout.main_layout")
 
 @section("title")
-    <title>الحسابات</title>
+    <title>Accounts</title>
 @endsection
 
 @section("content")
     <div class="ui one column grid">
         <div class="column">
-            @include("control-panel.ar.layout.welcome")
+            @include("control-panel.en.layout.welcome")
         </div>
 
         <div class="column">
             <div class="ui three item teal big menu" id="special-menu">
                 <a class="item" href="/control-panel">
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
-                    <span>الرئيسية</span>
+                    <span>Home</span>
                 </a>
                 <a class="item active" href="/control-panel/admins">
                     <i class="setting big icon" style="margin: 0;"></i>&nbsp;
-                    <span>الحسابات</span>
+                    <span>Accounts</span>
                 </a>
                 <a class="item" href="/control-panel/admins/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
-                    <span>اضافة حساب</span>
+                    <span>Add Account</span>
                 </a>
             </div>
         </div>
 
-        @if(session("ArUpdateAdminMessage"))
+        @if(session("EnUpdateAdminMessage"))
             <div class="column">
                 <div class="ui success message">
-                    <h2 class="ui center aligned header">{{session("ArUpdateAdminMessage")}}</h2>
+                    <h2 class="ui center aligned header">{{session("EnUpdateAdminMessage")}}</h2>
                 </div>
             </div>
         @endif
 
-        @if(session("ArDeleteAdminMessage"))
+        @if(session("EnDeleteAdminMessage"))
             <div class="column">
                 <div class="ui {{(session('TypeMessage')=="Error")?"error":"success"}} message">
-                    <h2 class="ui center aligned header">{{session("ArDeleteAdminMessage")}}</h2>
+                    <h2 class="ui center aligned header">{{session("EnDeleteAdminMessage")}}</h2>
                 </div>
             </div>
         @endif
@@ -47,9 +47,9 @@
             <div class="ui segment">
                 <div class="ui grid">
                     <div class="sixteen wide column">
-                        <form class="ui big form" method="get" action="/control-panel/admins" dir="rtl">
-                            <div class="ui left icon input" style="width: 100%; text-align: right;">
-                                <input type="text" placeholder="بحث عن حساب..." value="@if(isset($_GET["q"])){{$_GET["q"]}}@endif" name="q" style="text-align: right;">
+                        <form class="ui big form" method="get" action="/control-panel/admins" dir="ltr">
+                            <div class="ui icon input" style="width: 100%;">
+                                <input type="text" placeholder="search for account..." value="@if(isset($_GET["q"])){{$_GET["q"]}}@endif" name="q">
                                 <i class="search icon"></i>
                             </div>
                         </form>
@@ -59,11 +59,11 @@
                         <table class="ui celled stackable large table">
                             <thead>
                             <tr>
-                                <th class="center aligned">الرقم</th>
-                                <th class="center aligned">الاسم الحقيقي</th>
-                                <th class="center aligned">اسم المستخدم</th>
-                                <th class="center aligned">آخر تسجيل دخول</th>
-                                <th class="center aligned">خيارات</th>
+                                <th class="center aligned">No.</th>
+                                <th class="center aligned">Real Name</th>
+                                <th class="center aligned">Username</th>
+                                <th class="center aligned">Last login Date</th>
+                                <th class="center aligned">Options</th>
                             </tr>
                             </thead>
 
@@ -73,10 +73,10 @@
                                     <td class="center aligned">{{$admin->id}}</td>
                                     <td class="center aligned">{{$admin->name}}</td>
                                     <td class="center aligned">{{$admin->username}}</td>
-                                    <td class="center aligned">{{is_null($admin->last_login_date)? "لم يقم بتسجيل الدخول":$admin->last_login_date}}</td>
+                                    <td class="center aligned">{{is_null($admin->last_login_date)? "Not logged in":$admin->last_login_date}}</td>
                                     <td class="center aligned">
-                                        <a class="ui blue button" href="/control-panel/admins/{{$admin->id}}/edit" >تحرير</a>
-                                        <button class="ui red button" data-action="delete-admin" data-content="{{$admin->id}}">حذف</button>
+                                        <a class="ui blue button" href="/control-panel/admins/{{$admin->id}}/edit" >Edit</a>
+                                        <button class="ui red button" data-action="delete-admin" data-content="{{$admin->id}}">Delete</button>
                                     </td>
                                 </tr>
                             @empty
@@ -86,7 +86,7 @@
                                             <div class="ui hidden divider"></div>
                                             <div class="ui hidden divider"></div>
                                             <div class="ui hidden divider"></div>
-                                            <span>لا توجد نتائج</span>
+                                            <span>There are no results</span>
                                             <div class="ui hidden divider"></div>
                                             <div class="ui hidden divider"></div>
                                             <div class="ui hidden divider"></div>
@@ -116,12 +116,12 @@
 @section("extra-content")
     <div class="ui mini modal" id="modal-delete-admin">
         <h3 class="ui center aligned top attached inverted header">
-            <span style="color: white;">هل انت متأكد من حذف الحساب؟</span>
+            <span style="color: white;">Are you sure you want to delete the account?</span>
         </h3>
         <div class="content">
             <div class="actions" style="text-align: center;">
-                <button class="ui positive button" onclick="$('#form-delete-admin').submit();">نعم</button>
-                <button class="ui negative button">لا</button>
+                <button class="ui positive button" onclick="$('#form-delete-admin').submit();">Yes</button>
+                <button class="ui negative button">No</button>
             </div>
         </div>
     </div>
@@ -135,7 +135,7 @@
     <script>
         $(document).ready(function () {
             var pagination = $(".pagination");
-            pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
+            pagination.removeClass("pagination").addClass("ui mini pagination menu");
             pagination.css("padding","0");
             pagination.find('li').addClass('item');
         });

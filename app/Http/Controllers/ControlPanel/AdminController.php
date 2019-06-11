@@ -27,11 +27,11 @@ class AdminController extends Controller
         $admins = is_null(Input::get("q"))?
             Admin::where("lang", $lang)
                 ->where("type", $type)
-                ->simplePaginate(20):
+                ->paginate(1):
             Admin::where("name", "like", "%".Input::get("q")."%")
                 ->where("lang", $lang)
                 ->where("type", $type)
-                ->simplePaginate(20);
+                ->paginate(25);
 
         return view("control-panel.$lang.admin.index")->with([
             "admins" => $admins

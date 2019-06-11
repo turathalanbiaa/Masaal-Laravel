@@ -438,7 +438,7 @@ class RespondentController extends Controller
             $questions = Question::where("lang", $lang)
                 ->where("status", "!=", QuestionStatus::NO_ANSWER)
                 ->orderBy("id", "DESC")
-                ->simplePaginate(20);
+                ->paginate(20);
         else
             if (Input::get("t") == 1)
                 $questions = Question::where("lang", $lang)

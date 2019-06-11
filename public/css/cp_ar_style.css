@@ -66,6 +66,12 @@ body {
 .ui.menu#special-menu .item:before {
     width: 0!important;
 }
+
+/* pagination */
+.ui.menu .item:before {
+    left: 0;
+    right: auto;
+}
 /******************** Add JS-Flat Fount ********************/
 @font-face {
     font-family: JF-Flat;

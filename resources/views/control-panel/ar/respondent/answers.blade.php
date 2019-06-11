@@ -206,11 +206,11 @@
                 @endforelse
 
                 @if($questions->hasPages())
-                    <div class="ui bottom teal center aligned inverted segment">
+                    <div class="ui center aligned segment">
                         @if(isset($_GET["q"]) && isset($_GET["t"]))
-                            {{$questions->appends(['t' => $_GET["t"], 'q' => $_GET["q"]])->links()}}
+                            {{$questions->appends(['t' => $_GET["t"], 'q' => $_GET["q"]])->links("pagination::semantic-ui")}}
                         @else
-                            {{$questions->links()}}
+                            {{$questions->links("pagination::semantic-ui")}}
                         @endif
                     </div>
                 @endif
@@ -221,12 +221,12 @@
 
 @section("script")
     <script>
-        $(document).ready(function () {
-            var pagination = $(".pagination");
-            pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
-            pagination.css("padding","0");
-            pagination.find('li').addClass('item');
-        });
+        // $(document).ready(function () {
+        //     var pagination = $(".pagination");
+        //     pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
+        //     pagination.css("padding","0");
+        //     pagination.find('li').addClass('item');
+        // });
         $('.ui.accordion').accordion();
         $('.ui.embed').embed();
         $('.ui.message').transition({
