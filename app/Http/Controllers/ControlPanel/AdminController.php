@@ -27,7 +27,7 @@ class AdminController extends Controller
         $admins = is_null(Input::get("q"))?
             Admin::where("lang", $lang)
                 ->where("type", $type)
-                ->paginate(1):
+                ->paginate(25):
             Admin::where("name", "like", "%".Input::get("q")."%")
                 ->where("lang", $lang)
                 ->where("type", $type)
@@ -112,7 +112,7 @@ class AdminController extends Controller
             $admin->remember_token = null;
             $admin->save();
 
-            //Store permission for the admin
+            //Store permission
             $permission = new Permission();
             $permission->admin_id = $admin->id;
             $permission->manager = Input::get("manager") ?: 0;
@@ -133,15 +133,15 @@ class AdminController extends Controller
 
         if (is_null($exception))
             return redirect("/control-panel/admins/create")->with([
-                "ArCreateAdminMessage" => "تم انشاء الحساب بنجاح.",
-                "EnCreateAdminMessage" => "Account successfully created.",
-                "FrCreateAdminMessage" => "compte supprimé avec succès."
+                "ArCreateAdminMessage" => "تم انشاء الحساب بنجاح",
+                "EnCreateAdminMessage" => "Account successfully created",
+                "FrCreateAdminMessage" => "compte supprimé avec succès"
             ]);
         else
             return redirect("/control-panel/admins/create")->with([
-                "ArCreateAdminMessage" => "لم يتم انشاء الحساب بصورة صحيحة، يرجى اعادة المحاولة.",
-                "EnCreateAdminMessage" => "Account not created correctly, please try again.",
-                "FrCreateAdminMessage" => "Le compte n'a pas été créé correctement. Veuillez réessayer.",
+                "ArCreateAdminMessage" => "لم يتم انشاء الحساب بصورة صحيحة، يرجى اعادة المحاولة",
+                "EnCreateAdminMessage" => "Account not created correctly, please try again",
+                "FrCreateAdminMessage" => "Le compte n'a pas été créé correctement. Veuillez réessayer",
                 "TypeMessage" => "Error"
             ]);
     }
@@ -245,15 +245,15 @@ class AdminController extends Controller
 
         if (is_null($exception))
             return redirect("/control-panel/admins")->with([
-                "ArUpdateAdminMessage" => "تم حفظ التغييرات بنجاح.",
-                "EnUpdateAdminMessage" => "Changes saved successfully.",
-                "FrUpdateAdminMessage" => "Les modifications ont bien été enregistrées."
+                "ArUpdateAdminMessage" => "تم حفظ التغييرات بنجاح",
+                "EnUpdateAdminMessage" => "Changes saved successfully",
+                "FrUpdateAdminMessage" => "Les modifications ont bien été enregistrées"
             ]);
         else
             return redirect("/control-panel/admins/$admin->id/edit")->with([
-                "ArUpdateAdminMessage" => "لم يتم حفظ أي تغييرات ، يرجى اعادة المحاولة.",
-                "EnUpdateAdminMessage" => "No changes saved, please try again.",
-                "FrUpdateAdminMessage" => "Aucun changement enregistré, veuillez réessayer."
+                "ArUpdateAdminMessage" => "لم يتم حفظ أي تغييرات ، يرجى اعادة المحاولة",
+                "EnUpdateAdminMessage" => "No changes saved, please try again",
+                "FrUpdateAdminMessage" => "Aucun changement enregistré, veuillez réessayer"
             ]);
     }
 
@@ -284,15 +284,15 @@ class AdminController extends Controller
 
         if (is_null($exception))
             return redirect("/control-panel/admins")->with([
-                "ArDeleteAdminMessage" => "تم حذف الحساب بنجاح.",
-                "EnDeleteAdminMessage" => "Account successfully deleted.",
-                "FrDeleteAdminMessage" => "Compte supprimé avec succès."
+                "ArDeleteAdminMessage" => "تم حذف الحساب بنجاح",
+                "EnDeleteAdminMessage" => "Account successfully deleted",
+                "FrDeleteAdminMessage" => "Compte supprimé avec succès"
             ]);
         else
             return redirect("/control-panel/admins")->with([
-                "ArDeleteAdminMessage" => "لم يتم حذف الحساب بنجاح.",
-                "EnDeleteAdminMessage" => "The account was not deleted successfully.",
-                "FrDeleteAdminMessage" => "Le compte n'a pas été supprimé avec succès.",
+                "ArDeleteAdminMessage" => "لم يتم حذف الحساب بنجاح",
+                "EnDeleteAdminMessage" => "The account was not deleted successfully",
+                "FrDeleteAdminMessage" => "Le compte n'a pas été supprimé avec succès",
                 "TypeMessage" => "Error"
             ]);
     }

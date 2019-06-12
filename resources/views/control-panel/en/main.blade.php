@@ -42,7 +42,7 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="user special blue icon"></i>
+                                <i class="users special blue icon"></i>
                             </div>
                             <div class="content">
                                 <a class="ui center aligned header" href="/control-panel/admins">Accounts</a>

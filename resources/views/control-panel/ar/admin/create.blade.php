@@ -1,7 +1,7 @@
 @extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>انشاء حساب جديد</title>
+    <title>انشاء حساب</title>
 @endsection
 
 @section("content")
@@ -17,7 +17,7 @@
                     <span>الرئيسية</span>
                 </a>
                 <a class="item" href="/control-panel/admins">
-                    <i class="setting big icon" style="margin: 0;"></i>&nbsp;
+                    <i class="users big icon" style="margin: 0;"></i>&nbsp;
                     <span>الحسابات</span>
                 </a>
                 <a class="item active" href="/control-panel/admins/create">

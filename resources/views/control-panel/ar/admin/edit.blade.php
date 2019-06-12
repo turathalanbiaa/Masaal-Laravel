@@ -17,7 +17,7 @@
                     <span>الرئيسية</span>
                 </a>
                 <a class="item active" href="/control-panel/admins">
-                    <i class="setting big icon" style="margin: 0;"></i>&nbsp;
+                    <i class="users big icon" style="margin: 0;"></i>&nbsp;
                     <span>الحسابات</span>
                 </a>
                 <a class="item" href="/control-panel/admins/create">
@@ -128,7 +128,7 @@
 
                             <div style="text-align: center;">
                                 <button type="submit" class="ui green button">حفظ التعديلات</button>
-                            </div>>
+                            </div>
                         </form>
                     </div>
                 </div>

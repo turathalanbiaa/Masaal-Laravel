@@ -1,4 +1,4 @@
-@extends("control-panel.ar.layout.main_layout")
+@extends("control-panel.en.layout.main_layout")
 
 @section("title")
     <title>{{$admin->name}}</title>
@@ -7,29 +7,29 @@
 @section("content")
     <div class="ui one column grid">
         <div class="column">
-            @include("control-panel.ar.layout.welcome")
+            @include("control-panel.en.layout.welcome")
         </div>
 
         <div class="column">
             <div class="ui three item teal big menu" id="special-menu">
                 <a class="item" href="/control-panel">
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
-                    <span>الرئيسية</span>
+                    <span>Home</span>
                 </a>
                 <a class="item active" href="/control-panel/admins">
-                    <i class="setting big icon" style="margin: 0;"></i>&nbsp;
-                    <span>الحسابات</span>
+                    <i class="users big icon" style="margin: 0;"></i>&nbsp;
+                    <span>Accounts</span>
                 </a>
                 <a class="item" href="/control-panel/admins/create">
                     <i class="add big icon" style="margin: 0;"></i>&nbsp;
-                    <span>اضافة حساب</span>
+                    <span>Add Account</span>
                 </a>
             </div>
         </div>
 
         @if(count($errors))
             <div class="column">
-                <div class="ui error message" id="message">
+                <div class="ui error message">
                     <ul class="list">
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -39,18 +39,18 @@
             </div>
         @endif
 
-        @if(session("ArUpdateAdminMessage"))
+        @if(session("EnUpdateAdminMessage"))
             <div class="column">
                 <div class="ui error message">
-                    <h2 class="ui center aligned header">{{session("ArUpdateAdminMessage")}}</h2>
+                    <h2 class="ui center aligned header">{{session("EnUpdateAdminMessage")}}</h2>
                 </div>
             </div>
         @endif
 
         <div class="column">
-            <div class="ui right aligned segment">
+            <div class="ui left aligned segment">
                 <h3 class="ui center aligned green dividing header" style="padding: 10px 0; margin-bottom: 30px;">
-                    <span>حساب </span>
+                    <span>Account for </span>
                     <span>{{$admin->name}}</span>
                 </h3>
                 <div class="ui one column grid">
@@ -60,75 +60,75 @@
                             @csrf()
 
                             <div class="field">
-                                <label for="name">الاسم الحقيقي</label>
+                                <label for="name">Name</label>
                                 <div class="sixteen wide field">
                                     <input type="text" name="name" value="{{$admin->name}}" id="name">
                                 </div>
                             </div>
 
                             <div class="field">
-                                <label for="username">اسم المستخدم</label>
+                                <label for="username">Username</label>
                                 <div class="sixteen wide field">
                                     <input type="text" name="username" value="{{$admin->username}}" id="username">
                                 </div>
                             </div>
 
-                            <h4 class="ui green dividing header">الصلاحيات</h4>
+                            <h4 class="ui green dividing header">Permission</h4>
 
                             <div class="inline fields">
                                 <div class="field">
                                     <div class="ui checkbox">
-                                        <label for="manager">مدير</label>
+                                        <label for="manager">Manager</label>
                                         <input type="checkbox" name="manager" value="1" tabindex="0" @if($admin->permission->manager == 1) {{"checked"}} @endif class="hidden" id="manager">
                                     </div>
                                 </div>
 
                                 <div class="field">
                                     <div class="ui checkbox">
-                                        <label for="distributor">موزع</label>
+                                        <label for="distributor">Distributor</label>
                                         <input type="checkbox" name="distributor" value="1" tabindex="0" @if($admin->permission->distributor == 1) {{"checked"}} @endif class="hidden" id="distributor">
                                     </div>
                                 </div>
 
                                 <div class="field">
                                     <div class="ui checkbox">
-                                        <label for="respondent">مجيب</label>
+                                        <label for="respondent">Respondent</label>
                                         <input type="checkbox" name="respondent" value="1" tabindex="0" @if($admin->permission->respondent == 1) {{"checked"}} @endif class="hidden" id="respondent">
                                     </div>
                                 </div>
 
                                 <div class="field">
                                     <div class="ui checkbox">
-                                        <label for="reviewer">مدقق</label>
+                                        <label for="reviewer">Reviewer</label>
                                         <input type="checkbox" name="reviewer" value="1" tabindex="0" @if($admin->permission->reviewer == 1) {{"checked"}} @endif class="hidden" id="reviewer">
                                     </div>
                                 </div>
 
                                 <div class="field">
                                     <div class="ui checkbox">
-                                        <label for="announcement">اعلانات</label>
+                                        <label for="announcement">Announcement</label>
                                         <input type="checkbox" name="announcement" value="1" tabindex="0" @if($admin->permission->announcement == 1) {{"checked"}} @endif class="hidden" id="announcement">
                                     </div>
                                 </div>
 
                                 <div class="field">
                                     <div class="ui checkbox">
-                                        <label for="post">منشورات</label>
+                                        <label for="post">Post</label>
                                         <input type="checkbox" name="post" value="1" tabindex="0" @if($admin->permission->post == 1) {{"checked"}} @endif class="hidden" id="post">
                                     </div>
                                 </div>
 
                                 <div class="field">
                                     <div class="ui checkbox">
-                                        <label for="translator">مترجم</label>
+                                        <label for="translator">Translator</label>
                                         <input type="checkbox" name="translator" value="1" tabindex="0" @if($admin->permission->translator == 1) {{"checked"}} @endif class="hidden" id="translator">
                                     </div>
                                 </div>
                             </div>
 
                             <div style="text-align: center;">
-                                <button type="submit" class="ui green button">حفظ التعديلات</button>
-                            </div>>
+                                <button type="submit" class="ui green button">Save</button>
+                            </div>
                         </form>
                     </div>
                 </div>

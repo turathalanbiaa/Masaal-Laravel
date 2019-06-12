@@ -17,7 +17,7 @@
                     <span>Home</span>
                 </a>
                 <a class="item active" href="/control-panel/admins">
-                    <i class="setting big icon" style="margin: 0;"></i>&nbsp;
+                    <i class="users big icon" style="margin: 0;"></i>&nbsp;
                     <span>Accounts</span>
                 </a>
                 <a class="item" href="/control-panel/admins/create">
@@ -60,7 +60,7 @@
                             <thead>
                             <tr>
                                 <th class="center aligned">No.</th>
-                                <th class="center aligned">Real Name</th>
+                                <th class="center aligned">Name</th>
                                 <th class="center aligned">Username</th>
                                 <th class="center aligned">Last login Date</th>
                                 <th class="center aligned">Options</th>
