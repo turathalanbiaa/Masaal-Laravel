@@ -56,7 +56,7 @@
                                 <i class="recycle special green icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/distributor">الموزع</a>
+                                <a class="ui center aligned header" href="/control-panel/distributor">Distributor</a>
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                                 <i class="microphone alternate special yellow icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/respondent">المجيب</a>
+                                <a class="ui center aligned header" href="/control-panel/respondent">Respondent</a>
                             </div>
                         </div>
                     </div>

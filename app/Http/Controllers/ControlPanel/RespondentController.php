@@ -29,7 +29,7 @@ class RespondentController extends Controller
         Auth::check();
         $currentAdmin = Admin::findOrFail(AdminController::getId());
         $lang = $currentAdmin->lang;
-        $questions = $currentAdmin->unansweredQuestions()->simplePaginate(20);
+        $questions = $currentAdmin->unansweredQuestions()->paginate(25);
 
         return view("control-panel.$lang.respondent.index")->with([
             "questions" => $questions
@@ -142,17 +142,46 @@ class RespondentController extends Controller
 
         if (is_null($exception))
             return redirect("/control-panel/respondent")->with([
-                "ArAnswerQuestionMessage" => "تمت الأجابة على السؤال.",
-                "EnAnswerQuestionMessage" => "The question has been answered.",
-                "FrAnswerQuestionMessage" => "La question a été répondue."
+                "ArAnswerQuestionMessage" => "تمت الأجابة على السؤال",
+                "EnAnswerQuestionMessage" => "The question has been answered",
+                "FrAnswerQuestionMessage" => "La question a été répondue"
             ]);
         else
-            return redirect("/control-panel/respondent")->with([
-                "ArAnswerQuestionMessage" => "لم يتم الأجابة على السؤال.",
-                "EnAnswerQuestionMessage" => "The question has been not answered.",
-                "FrAnswerQuestionMessage" => "La question n'a pas été répondu.",
-                "TypeMessage" => "Error"
+            return redirect("/control-panel/respondent/$question->id/edit")->with([
+                "ArAnswerQuestionMessage" => "لم يتم الأجابة على السؤال",
+                "EnAnswerQuestionMessage" => "The question has been not answered",
+                "FrAnswerQuestionMessage" => "La question n'a pas été répondu",
             ]);
+    }
+
+    /**
+     * Remove the question.
+     *
+     * @return array
+     */
+    public function deleteQuestion()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Remove question
+            $question->delete();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم حذف السؤال من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
     }
 
     /**
@@ -177,36 +206,6 @@ class RespondentController extends Controller
             $target = $question->id;
             $type = EventLogType::QUESTION;
             $event = "تم ارجاع السؤال الى الموزع من قبل المجيب " . AdminController::getName();
-            EventLog::create($target, $type, $event);
-        });
-
-        if (is_null($exception))
-            return ["success" => true];
-        else
-            return ["success" => false];
-    }
-
-    /**
-     * Remove the question.
-     *
-     * @return array
-     */
-    public function deleteQuestion()
-    {
-        Auth::check();
-        $question = Question::find(Input::get("question"));
-        if (!$question)
-            return ["question" => "NotFound"];
-
-        //Transaction
-        $exception = DB::transaction(function () use ($question) {
-            //Remove question
-            $question->delete();
-
-            //Store event log
-            $target = $question->id;
-            $type = EventLogType::QUESTION;
-            $event = "تم حذف السؤال من قبل المجيب " . AdminController::getName();
             EventLog::create($target, $type, $event);
         });
 
@@ -253,7 +252,6 @@ class RespondentController extends Controller
             return ["success" => false];
     }
 
-
     /**
      * Display answers for the specific respondent.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -266,20 +264,20 @@ class RespondentController extends Controller
             $questions = Question::where("adminId", AdminController::getId())
                 ->where("status", "!=", QuestionStatus::NO_ANSWER)
                 ->orderBy("id", "DESC")
-                ->simplePaginate(20);
+                ->paginate(25);
         else
             if (Input::get("t") == 1)
                 $questions = Question::where("adminId", AdminController::getId())
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("content", "like", "%".Input::get("q")."%")
                     ->orderBy("id", "DESC")
-                    ->simplePaginate(20);
+                    ->paginate(25);
             else
                 $questions = Question::where("adminId", AdminController::getId())
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("answer", "like", "%".Input::get("q")."%")
                     ->orderBy("id", "DESC")
-                    ->simplePaginate(20);
+                    ->paginate(25);
 
 
         return view("control-panel.$lang.respondent.my-answers")->with([
@@ -410,16 +408,15 @@ class RespondentController extends Controller
 
         if (is_null($exception))
             return redirect("/control-panel/respondent/my-answers")->with([
-                "ArUpdateAnswerMessage" => "تم تعديل الاجابة بنجاح.",
-                "EnUpdateAnswerMessage" => "Your answer has been successfully modified.",
-                "FrUpdateAnswerMessage" => "Votre réponse a été modifiée avec succès."
+                "ArUpdateAnswerMessage" => "تم تعديل الاجابة بنجاح",
+                "EnUpdateAnswerMessage" => "Your answer has been successfully modified",
+                "FrUpdateAnswerMessage" => "Votre réponse a été modifiée avec succès"
             ]);
         else
-            return redirect("/control-panel/respondent/my-answers")->with([
-                "ArUpdateAnswerMessage" => "لم يتم تعديل الاجابة بنجاح.",
-                "EnUpdateAnswerMessage" => "The answer has not been successfully modified.",
-                "FrUpdateAnswerMessage" => "La réponse n'a pas été modifiée avec succès.",
-                "TypeMessage" => "Error"
+            return redirect("/control-panel/respondent/my-answers/$question->id/edit-answer")->with([
+                "ArUpdateAnswerMessage" => "لم يتم تعديل الاجابة بنجاح",
+                "EnUpdateAnswerMessage" => "The answer has not been successfully modified",
+                "FrUpdateAnswerMessage" => "La réponse n'a pas été modifiée avec succès"
             ]);
     }
 
@@ -438,20 +435,20 @@ class RespondentController extends Controller
             $questions = Question::where("lang", $lang)
                 ->where("status", "!=", QuestionStatus::NO_ANSWER)
                 ->orderBy("id", "DESC")
-                ->paginate(20);
+                ->paginate(25);
         else
             if (Input::get("t") == 1)
                 $questions = Question::where("lang", $lang)
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("content", "like", "%".Input::get("q")."%")
                     ->orderBy("id", "DESC")
-                    ->simplePaginate(20);
+                    ->paginate(25);
             else
                 $questions = Question::where("lang", $lang)
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("answer", "like", "%".Input::get("q")."%")
                     ->orderBy("id", "DESC")
-                    ->simplePaginate(20);
+                    ->paginate(25);
 
         return view("control-panel.$lang.respondent.answers")->with([
             "currentAdminId" => $currentAdminId,

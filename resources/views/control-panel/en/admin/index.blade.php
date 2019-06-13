@@ -133,12 +133,6 @@
 
 @section("script")
     <script>
-        $(document).ready(function () {
-            var pagination = $(".pagination");
-            pagination.removeClass("pagination").addClass("ui mini pagination menu");
-            pagination.css("padding","0");
-            pagination.find('li').addClass('item');
-        });
         $('.ui.message').transition({
             animation  : 'flash',
             duration   : '1s'

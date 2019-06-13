@@ -40,48 +40,29 @@
         @endif
 
         <div class="column">
-            <div class="ui placeholder segment">
-                <div class="ui two column stackable center aligned grid">
-                    <div class="ui vertical divider">
-                        <i class="ui search icon"></i>
-                    </div>
-                    <div class="middle aligned row">
-                        <div class="column">
-                            <div class="ui icon header">
-                                <i class="search green icon"></i>
-                                <span>بحث عن طريق السؤال</span>
-                            </div>
-                            <div class="field">
-                                <div class="ui search">
-                                    <div class="ui fluid input">
-                                        <form class="ui right aligned form" method="get" action="" style="width: 100%;">
-                                            <input name="t" type="hidden" value="1">
-                                            <input name="q" type="text" value="" placeholder="اكتب السؤال الذي تبحث عنه...">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+            <form class="ui big form" method="get" action="" dir="rtl">
+                <div class="ui left icon input" style="width: 100%; text-align: right;">
+                    <input type="text" name="q" placeholder="بحث..." value="@if(isset($_GET["q"])){{$_GET["q"]}}@endif"  style="text-align: right;">
+                    <i class="search icon"></i>
+                </div>
+                <div class="inline fields" style="margin-top: 10px;">
+                    <label for="t">في</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="t" value="1" tabindex="0" class="hidden">
+                            <label>الاسئلة</label>
                         </div>
-                        <div class="column">
-                            <div class="ui icon header">
-                                <i class="search green icon"></i>
-                                <span>بحث عن طريق الجواب</span>
-                            </div>
-                            <div class="field">
-                                <div class="ui search">
-                                    <div class="ui fluid input">
-                                        <form class="ui right aligned form" method="get" action="" style="width: 100%;">
-                                            <input name="t" type="hidden" value="2">
-                                            <input name="q" type="text" value="" placeholder="اكتب الجواب الذي تبحث عنه...">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="t" value="2" tabindex="0" class="hidden">
+                            <label>الاجوبة</label>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
+
         <div class="column">
             <div class="ui right aligned segments">
                 @forelse($questions as $question)
@@ -221,12 +202,7 @@
 
 @section("script")
     <script>
-        // $(document).ready(function () {
-        //     var pagination = $(".pagination");
-        //     pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
-        //     pagination.css("padding","0");
-        //     pagination.find('li').addClass('item');
-        // });
+        $('.ui.radio.checkbox').checkbox();
         $('.ui.accordion').accordion();
         $('.ui.embed').embed();
         $('.ui.message').transition({

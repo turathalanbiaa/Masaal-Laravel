@@ -28,7 +28,7 @@ class DistributorController extends Controller
         $questions = Question::where('type', $type)
             ->where('adminId', null)
             ->where('lang', $lang)
-            ->simplePaginate(20);
+            ->paginate(25);
         $respondents = Admin::where('type', $type)
             ->where('lang', $lang)
             ->get()

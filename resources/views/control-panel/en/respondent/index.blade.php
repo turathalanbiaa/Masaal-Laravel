@@ -1,40 +1,40 @@
-@extends("control-panel.ar.layout.main_layout")
+@extends("control-panel.en.layout.main_layout")
 
 @section("title")
-<title>اسئلتي</title>
+<title>My Questions</title>
 @endsection
 
 @section("content")
 <div class="ui one column grid">
     <div class="column">
-        @include("control-panel.ar.layout.welcome")
+        @include("control-panel.en.layout.welcome")
     </div>
 
     <div class="column">
         <div class="ui four item teal big menu" id="special-menu">
             <a class="item" href="/control-panel">
                 <i class="home big icon" style="margin: 0;"></i>&nbsp;
-                <span>الرئيسية</span>
+                <span>Home</span>
             </a>
             <a class="item active" href="/control-panel/respondent">
                 <i class="bars big icon" style="margin: 0;"></i>&nbsp;
-                <span>اسئلتي</span>
+                <span>My Questions</span>
             </a>
             <a class="item" href="/control-panel/respondent/my-answers">
                 <i class="folder open big icon" style="margin: 0;"></i>&nbsp;
-                <span>اجوبتي</span>
+                <span>My Answers</span>
             </a>
             <a class="item" href="/control-panel/respondent/answers">
                 <i class="history big icon" style="margin: 0;"></i>&nbsp;
-                <span>ارشيف الاسئلة</span>
+                <span>Archive of Questions</span>
             </a>
         </div>
     </div>
 
-    @if(session("ArAnswerQuestionMessage"))
+    @if(session("EnAnswerQuestionMessage"))
         <div class="column">
             <div class="ui success message">
-                <h2 class="ui center aligned header">{{session("ArAnswerQuestionMessage")}}</h2>
+                <h2 class="ui center aligned header">{{session("EnAnswerQuestionMessage")}}</h2>
             </div>
         </div>
     @endif
@@ -44,30 +44,30 @@
             @forelse($questions as $question)
                 <div class="ui teal segment">
                     <div class="ui dimmer">
-                        <div class="ui text loader">جاري التحميل...</div>
+                        <div class="ui text loader">Loading...</div>
                     </div>
 
                     <p style="font-weight: bold;">
-                        <span>السائل</span>
+                        <span>user</span>
                         <span> :- </span>
                         <span style="color: #00b5ad;">{{$question->User["name"]}}</span>
                     </p>
 
                     <p>
-                        <span style="color: #21ba45;">السؤال :- </span>
+                        <span style="color: #21ba45;">Question :- </span>
                         <span>{{$question->content}}</span>
                     </p>
 
                     <div class="ui divider"></div>
 
-                    <a class="ui inverted green button" href="/control-panel/respondent/{{$question->id}}/edit">اجابة</a>
-                    <button class="ui inverted red button" data-action="delete-question" data-content="{{$question->id}}">حذف</button>
-                    <button class="ui inverted orange button" data-action="return-question" data-content="{{$question->id}}">ارجاع للموزع</button>
+                    <a class="ui inverted green button" href="/control-panel/respondent/{{$question->id}}/edit">Answer</a>
+                    <button class="ui inverted red button" data-action="delete-question" data-content="{{$question->id}}">Delete</button>
+                    <button class="ui inverted orange button" data-action="return-question" data-content="{{$question->id}}">Return to distributor</button>
                     <button class="ui inverted blue button" data-action="change-type-question" data-content="{{$question->id}}">
                         @if($question->type == \App\Enums\QuestionType::FEQHI)
-                            <span>تحويل الى العقائد</span>
+                            <span>Convert To Jurisprudence</span>
                         @elseif($question->type == \App\Enums\QuestionType::AKAEDI)
-                            <span>تحويل الى الفقه</span>
+                            {{"Convert To Ideology"}}
                         @endif
                     </button>
                 </div>
@@ -78,7 +78,7 @@
                         <div class="ui hidden divider"></div>
                         <div class="ui hidden divider"></div>
                         <div class="ui hidden divider"></div>
-                        <div class="ui center aligned header">لاتوجد اسئلة جديدة</div>
+                        <div class="ui center aligned header">There are no new questions</div>
                         <div class="ui hidden divider"></div>
                         <div class="ui hidden divider"></div>
                         <div class="ui hidden divider"></div>
@@ -100,39 +100,39 @@
 @section("extra-content")
     <div class="ui mini modal" id="modal-delete-question">
         <h3 class="ui center aligned top attached inverted header">
-            <span style="color: white;">هل انت متأكد من حذف السؤال؟</span>
+            <span style="color: white;">Are you sure you want to delete the question?</span>
         </h3>
         <div class="content">
             <input type="hidden" name="question">
             <div class="actions" style="text-align: center;">
-                <button class="ui positive button">نعم</button>
-                <button class="ui negative button">لا</button>
+                <button class="ui positive button">Yes</button>
+                <button class="ui negative button">No</button>
             </div>
         </div>
     </div>
 
     <div class="ui mini modal" id="modal-return-question">
         <h3 class="ui center aligned top attached inverted header">
-            <span style="color: white;">هل انت متأكد من ارجاع السؤال الى الموزع؟</span>
+            <span style="color: white;">Are you sure you will return the question to the distributor?</span>
         </h3>
         <div class="content">
             <input type="hidden" name="question">
             <div class="actions" style="text-align: center;">
-                <button class="ui positive button">نعم</button>
-                <button class="ui negative button">لا</button>
+                <button class="ui positive button">Yes</button>
+                <button class="ui negative button">No</button>
             </div>
         </div>
     </div>
 
     <div class="ui mini modal" id="modal-change-type-question">
         <h3 class="ui center aligned top attached inverted header">
-            <span style="color: white;">هل انت متأكد من تغيير نوع السؤال؟</span>
+            <span style="color: white;">Are you sure you want to change the type of question?</span>
         </h3>
         <div class="content">
             <input type="hidden" name="question">
             <div class="actions" style="text-align: center;">
-                <button class="ui positive button">نعم</button>
-                <button class="ui negative button">لا</button>
+                <button class="ui positive button">Yes</button>
+                <button class="ui negative button">No</button>
             </div>
         </div>
     </div>
@@ -176,19 +176,19 @@
             datatype: 'json',
             success: function(result) {
                 if (result["question"] === "NotFound")
-                    snackbar("لايوجد مثل هذا السؤال" , 3000 , "warning");
+                    snackbar("There is no such question" , 3000 , "warning");
 
                 else if (result["success"] === false)
-                    snackbar("لم يتم حذف السؤال، حاول مرة اخرى" , 3000 , "error");
+                    snackbar("The question has not been deleted, try again" , 3000 , "error");
 
                 else if (result["success"] === true)
                 {
-                    snackbar("تم حذف السؤال بنجاح" , 3000 , "success");
+                    snackbar("Question successfully deleted" , 3000 , "success");
                     success = true;
                 }
             },
             error: function() {
-                snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                snackbar("Check internet connection" , 3000 , "error");
             } ,
             complete : function() {
                 var segment = $("#current-segment");
@@ -238,19 +238,19 @@
             datatype: 'json',
             success: function(result) {
                 if (result["question"] === "NotFound")
-                    snackbar("لايوجد مثل هذا السؤال" , 3000 , "warning");
+                    snackbar("There is no such question" , 3000 , "warning");
 
                 else if (result["success"] === false)
-                    snackbar("لم يتم ارجاع السؤال الى الموزع، حاول مرة اخرى" , 3000 , "error");
+                    snackbar("The question has not been returned to the distributor, please try again" , 3000 , "error");
 
                 else if (result["success"] === true)
                 {
-                    snackbar("تم ارجاع السؤال الى الموزع بنجاح" , 3000 , "success");
+                    snackbar("The question has been successfully returned to the distributor" , 3000 , "success");
                     success = true;
                 }
             },
             error: function() {
-                snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                snackbar("Check internet connection" , 3000 , "error");
             } ,
             complete : function() {
                 var segment = $("#current-segment");
@@ -300,19 +300,19 @@
             datatype: 'json',
             success: function(result) {
                 if (result["question"] === "NotFound")
-                    snackbar("لايوجد مثل هذا السؤال" , 3000 , "warning");
+                    snackbar("There is no such question" , 3000 , "warning");
 
                 else if (result["success"] === false)
-                    snackbar("لم يتم تغيير نوع السؤال، حاول مرة اخرى" , 3000 , "error");
+                    snackbar("The question type is not changed, try again" , 3000 , "error");
 
                 else if (result["success"] === true)
                 {
-                    snackbar("تم تغيير نوع السؤال بنجاح" , 3000 , "success");
+                    snackbar("Question type changed successfully" , 3000 , "success");
                     success = true;
                 }
             },
             error: function() {
-                snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                snackbar("Check internet connection" , 3000 , "error");
             } ,
             complete : function() {
                 var segment = $("#current-segment");
