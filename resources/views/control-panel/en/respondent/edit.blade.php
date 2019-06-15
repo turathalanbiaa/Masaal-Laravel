@@ -63,9 +63,9 @@
                     </div>
 
                     <div class="field">
-                        <label for="category_Id">Select Category</label>
+                        <label for="category">Select Category</label>
                         <div class="ui fluid search selection dropdown" id="categories">
-                            <input type="hidden" name="categoryId" id="category_Id">
+                            <input type="hidden" name="category" id="category">
                             <i class="dropdown icon"></i>
                             <input class="search">
                             <div class="default text">Search categories...</div>
@@ -122,7 +122,7 @@
             animation  : 'flash',
             duration   : '1s'
         });
-        $('.ui.selection.dropdown#categories').dropdown("set selected", "{{old("categoryId")}}");
+        $('.ui.selection.dropdown#categories').dropdown("set selected", "{{old("category")}}");
         $('.ui.selection.dropdown#tags').dropdown("set selected", [
             @foreach(explode(",", old("tags")) as $tag)
                 '{{$tag}}',

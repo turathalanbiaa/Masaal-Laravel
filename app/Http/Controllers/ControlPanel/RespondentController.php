@@ -71,19 +71,20 @@ class RespondentController extends Controller
      */
     public function answerQuestion(Request $request, $question)
     {
+//        dd(Input::all());
         Auth::check();
         $lang = AdminController::getLang();
         $question = Question::findOrFail($question);
         $rules = [
             "answer" => 'required',
-            "categoryId" => "required|numeric",
+            "category" => "required|numeric",
             "tags" => "required",
             "image" => 'file|image|min:50|max:500',
         ];
         $rulesMessage = [
             "ar"=>[
                 "answer.required" => "لاتوجد اجابة !!!",
-                "categoryId.required" => "لم تقم بأختيار صنف السؤال.",
+                "category.required" => "لم تقم بأختيار صنف السؤال.",
                 "tags.required" => "لم تقم بأختيار الموضوع التابع له السؤال.",
                 "image.file" => "انت تحاول رفع ملف ليس بصورة.",
                 "image.image" => "انت تحاول رفع ملف ليس بصورة.",
@@ -92,7 +93,7 @@ class RespondentController extends Controller
             ],
             "fr"=>[
                 "answer.required" => "Il n'y a pas de réponse !!!",
-                "categoryId.required" => "Vous n'avez pas sélectionné la catégorie de question.",
+                "category.required" => "Vous n'avez pas sélectionné la catégorie de question.",
                 "tags.required" => "Vous n'avez pas sélectionné l'objet de la question.",
                 "image.file" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
                 "image.image" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
