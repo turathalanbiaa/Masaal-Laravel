@@ -67,7 +67,7 @@
                         @if($question->type == \App\Enums\QuestionType::FEQHI)
                             <span>Convert To Jurisprudence</span>
                         @elseif($question->type == \App\Enums\QuestionType::AKAEDI)
-                            {{"Convert To Ideology"}}
+                            <span>Convert To Ideology</span>
                         @endif
                     </button>
                 </div>

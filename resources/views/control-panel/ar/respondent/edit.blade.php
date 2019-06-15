@@ -59,12 +59,12 @@
 
                     <div class="field">
                         <label for="answer">الجواب</label>
-                        <textarea name="answer" id="answer" placeholder="اكتب الاجابة هنا..."></textarea>
+                        <textarea name="answer" id="answer" placeholder="اكتب الاجابة هنا...">{{old("answer")}}</textarea>
                     </div>
 
                     <div class="field">
                         <label for="category_Id">اختر الصنف</label>
-                        <div class="ui fluid search selection dropdown">
+                        <div class="ui fluid search selection dropdown" id="categories">
                             <input type="hidden" name="categoryId" id="category_Id">
                             <i class="dropdown icon"></i>
                             <input class="search">
@@ -79,7 +79,7 @@
 
                     <div class="field">
                         <label for="tags">اختر الموضوع (المواضيع)</label>
-                        <div class="ui fluid multiple search selection dropdown">
+                        <div class="ui fluid multiple search selection dropdown" id="tags">
                             <input type="hidden" name="tags" id="tags">
                             <i class="dropdown icon"></i>
                             <input class="search">
@@ -99,12 +99,12 @@
 
                     <div class="field">
                         <label for="video-link">رابط الفديو (YouTube Video ID)</label>
-                        <input type="text" name="videoLink" id="video-link" placeholder="اكتب رابط الفديو هنا... اختياري">
+                        <input type="text" name="videoLink" value="{{old("videoLink")}}" id="video-link" placeholder="اكتب youtube video id هنا... اختياري">
                     </div>
 
                     <div class="field">
                         <label for="external-link">رابط المصدر</label>
-                        <input type="text" name="externalLink" id="external-link" placeholder="اكتب رابط المصدر هنا... اختياري">
+                        <input type="text" name="externalLink" value="{{old("externalLink")}}" id="external-link" placeholder="اكتب رابط المصدر هنا... اختياري">
                     </div>
 
                     <div class="field" style="text-align: center;">
@@ -122,6 +122,11 @@
             animation  : 'flash',
             duration   : '1s'
         });
-        $('.ui.selection.dropdown').dropdown();
+        $('.ui.selection.dropdown#categories').dropdown("set selected", "{{old("categoryId")}}");
+        $('.ui.selection.dropdown#tags').dropdown("set selected", [
+            @foreach(explode(",", old("tags")) as $tag)
+                '{{$tag}}',
+            @endforeach
+        ]);
     </script>
 @endsection

@@ -31,14 +31,6 @@
             </div>
         </div>
 
-        @if(session("ArUpdateAnswerMessage"))
-            <div class="column">
-                <div class="ui {{(session('TypeMessage')=="Error")?"error":"success"}} message">
-                    <h2 class="ui center aligned header">{{session("ArUpdateAnswerMessage")}}</h2>
-                </div>
-            </div>
-        @endif
-
         <div class="column">
             <form class="ui big form" method="get" action="" dir="rtl">
                 <div class="ui left icon input" style="width: 100%; text-align: right;">
@@ -46,16 +38,16 @@
                     <i class="search icon"></i>
                 </div>
                 <div class="inline fields" style="margin-top: 10px;">
-                    <label for="t">في</label>
+                    <label style="margin: 0;">في</label>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="t" value="1" tabindex="0" class="hidden">
+                            <input type="radio" name="t" value="1" tabindex="0" class="hidden" @if(isset($_GET["t"]) && $_GET["t"] == 1) checked @endif>
                             <label>الاسئلة</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="t" value="2" tabindex="0" class="hidden">
+                            <input type="radio" name="t" value="2" tabindex="0" class="hidden" @if(isset($_GET["t"]) && $_GET["t"] == 2) checked @endif>
                             <label>الاجوبة</label>
                         </div>
                     </div>
@@ -72,7 +64,7 @@
                         </div>
 
                         <p style="font-weight: bold;">
-                            <span>اسم السائل</span>
+                            <span>السائل</span>
                             <span> :- </span>
                             <span style="color: #00b5ad;">{{$question->User["name"]}}</span>
                         </p>
@@ -108,10 +100,10 @@
                                 </p>
 
                                 <p>
-                                    <span>صنف السؤال</span>
+                                    <span>الصنق</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->Category))
-                                        <span>لا يوجد صنف للسؤال.</span>
+                                        <span>لا يوجد</span>
                                     @else
                                         <span>{{$question->Category->category}}</span>
                                     @endif
@@ -121,9 +113,13 @@
                                     <span>الكلمات الدلالية</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @forelse($question->QuestionTags as $questionTag)
-                                        <span>{{$questionTag->Tag->tag . "،"}}</span>
+                                        @if($loop->last)
+                                            <span>{{$questionTag->Tag->tag}}</span>
+                                            @break
+                                        @endif
+                                        <span>{{$questionTag->Tag->tag . " *** "}}</span>
                                     @empty
-                                        <span>لا توجد كلمات دلالية.</span>
+                                        <span>لا توجد</span>
                                     @endforelse
                                 </p>
 
@@ -131,7 +127,7 @@
                                     <span>رابط الفديو</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->videoLink))
-                                        <span>لايوجد فديو مرفق</span>
+                                        <span>لا يوجد</span>
                                     @else
                                         <a target="_blank" href="https://www.youtube.com/watch?v={{$question->videoLink}}">https://www.youtube.com/watch?v={{$question->videoLink}}</a>
                                     @endif
@@ -141,14 +137,14 @@
                                     <span>رابط المصدر</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->externalLink))
-                                        <span>لايوجد رابط مصدر مرفق</span>
+                                        <span>لا يوجد</span>
                                     @else
                                         <a target="_blank" href="{{$question->externalLink}}">{{$question->externalLink}}</a>
                                     @endif
                                 </p>
 
                                 <div>
-                                    <span>الصورة المرفقه</span>
+                                    <span>الصورة</span>
                                     @if(!is_null($question->image))
                                         <i class="long arrow down icon" style="font-size: medium; font-weight: bold;"></i><br>
                                         <div class="ui medium bordered rounded image">
@@ -156,7 +152,7 @@
                                         </div>
                                     @else
                                         <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
-                                        <span>لاتوجد صورة مرفقه</span>
+                                        <span>لاتوجد</span>
                                     @endif
                                 </div>
 
@@ -167,7 +163,7 @@
                         <div class="ui hidden divider"></div>
 
                         @if(($permission["manager"] == 1) || ($question->adminId == $currentAdminId))
-                            <a class="ui inverted blue button" href="/control-panel/respondent/my-answers/{{$question->id}}/edit-answer">تعديل الاجابة</a>
+                            <a class="ui inverted blue button" href="/control-panel/respondent/my-answers/{{$question->id}}/edit-answer">تحرير الاجابة</a>
                         @endif
                     </div>
                 @empty
@@ -204,7 +200,6 @@
     <script>
         $('.ui.radio.checkbox').checkbox();
         $('.ui.accordion').accordion();
-        $('.ui.embed').embed();
         $('.ui.message').transition({
             animation  : 'flash',
             duration   : '1s'

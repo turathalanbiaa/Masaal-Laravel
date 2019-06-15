@@ -47,16 +47,16 @@
                         <i class="search icon"></i>
                     </div>
                     <div class="inline fields" style="margin-top: 10px;">
-                        <label for="t">In</label>
+                        <label>In</label>
                         <div class="field">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="t" value="1" tabindex="0" class="hidden">
+                                <input type="radio" name="t" value="1" tabindex="0" class="hidden" @if(isset($_GET["t"]) && $_GET["t"] == 1) checked @endif>
                                 <label>Questions</label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="t" value="2" tabindex="0" class="hidden">
+                                <input type="radio" name="t" value="2" tabindex="0" class="hidden" @if(isset($_GET["t"]) && $_GET["t"] == 2) checked @endif>
                                 <label>Answers</label>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                 </p>
 
                                 <p>
-                                    <span>Video Link (YouTube Video ID)</span>
+                                    <span>Video Link</span>
                                     <i class="long arrow right icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->videoLink))
                                         <span>Not found</span>
@@ -202,7 +202,6 @@
     <script>
         $('.ui.radio.checkbox').checkbox();
         $('.ui.accordion').accordion();
-        $('.ui.embed').embed();
         $('.ui.message').transition({
             animation  : 'flash',
             duration   : '1s'

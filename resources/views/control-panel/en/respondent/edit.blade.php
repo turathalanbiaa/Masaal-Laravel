@@ -59,12 +59,12 @@
 
                     <div class="field">
                         <label for="answer">Answer</label>
-                        <textarea name="answer" id="answer" placeholder="Type answer here..."></textarea>
+                        <textarea name="answer" id="answer" placeholder="Type answer here...">{{old("answer")}}</textarea>
                     </div>
 
                     <div class="field">
                         <label for="category_Id">Select Category</label>
-                        <div class="ui fluid search selection dropdown">
+                        <div class="ui fluid search selection dropdown" id="categories">
                             <input type="hidden" name="categoryId" id="category_Id">
                             <i class="dropdown icon"></i>
                             <input class="search">
@@ -79,7 +79,7 @@
 
                     <div class="field">
                         <label for="tags">Select tag (tags)</label>
-                        <div class="ui fluid multiple search selection dropdown">
+                        <div class="ui fluid multiple search selection dropdown" id="tags">
                             <input type="hidden" name="tags" id="tags">
                             <i class="dropdown icon"></i>
                             <input class="search">
@@ -99,12 +99,12 @@
 
                     <div class="field">
                         <label for="video-link">Video link (YouTube Video ID)</label>
-                        <input type="text" name="videoLink" id="video-link" placeholder="Type video link here ... Optional">
+                        <input type="text" name="videoLink" value="{{old("videoLink")}}" id="video-link" placeholder="Type youtube video id here ... Optional">
                     </div>
 
                     <div class="field">
                         <label for="external-link">External link</label>
-                        <input type="text" name="externalLink" id="external-link" placeholder="Type external link here ... Optional">
+                        <input type="text" name="externalLink" value="{{old("externalLink")}}" id="external-link" placeholder="Type external link here ... Optional">
                     </div>
 
                     <div class="field" style="text-align: center;">
@@ -122,6 +122,11 @@
             animation  : 'flash',
             duration   : '1s'
         });
-        $('.ui.selection.dropdown').dropdown();
+        $('.ui.selection.dropdown#categories').dropdown("set selected", "{{old("categoryId")}}");
+        $('.ui.selection.dropdown#tags').dropdown("set selected", [
+            @foreach(explode(",", old("tags")) as $tag)
+                '{{$tag}}',
+            @endforeach
+        ]);
     </script>
 @endsection

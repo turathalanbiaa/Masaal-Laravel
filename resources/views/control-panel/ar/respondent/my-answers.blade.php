@@ -46,16 +46,16 @@
                     <i class="search icon"></i>
                 </div>
                 <div class="inline fields" style="margin-top: 10px;">
-                    <label for="t">في</label>
+                    <label style="margin: 0;">في</label>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="t" value="1" tabindex="0" class="hidden">
+                            <input type="radio" name="t" value="1" tabindex="0" class="hidden" @if(isset($_GET["t"]) && $_GET["t"] == 1) checked @endif>
                             <label>الاسئلة</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="t" value="2" tabindex="0" class="hidden">
+                            <input type="radio" name="t" value="2" tabindex="0" class="hidden" @if(isset($_GET["t"]) && $_GET["t"] == 2) checked @endif>
                             <label>الاجوبة</label>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                                 </p>
 
                                 <p>
-                                    <span>رابط الفديو (YouTube Video ID)</span>
+                                    <span>رابط الفديو</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->videoLink))
                                         <span>لا يوجد</span>
@@ -200,7 +200,6 @@
     <script>
         $('.ui.radio.checkbox').checkbox();
         $('.ui.accordion').accordion();
-        $('.ui.embed').embed();
         $('.ui.message').transition({
             animation  : 'flash',
             duration   : '1s'

@@ -266,7 +266,7 @@ class RespondentController extends Controller
                 ->orderBy("id", "DESC")
                 ->paginate(25);
         else
-            if (Input::get("t") == 1)
+            if (is_null(Input::get("t")) || Input::get("t") == 1)
                 $questions = Question::where("adminId", AdminController::getId())
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("content", "like", "%".Input::get("q")."%")
@@ -278,6 +278,7 @@ class RespondentController extends Controller
                     ->where("answer", "like", "%".Input::get("q")."%")
                     ->orderBy("id", "DESC")
                     ->paginate(25);
+
 
 
         return view("control-panel.$lang.respondent.my-answers")->with([
@@ -437,7 +438,7 @@ class RespondentController extends Controller
                 ->orderBy("id", "DESC")
                 ->paginate(25);
         else
-            if (Input::get("t") == 1)
+            if (is_null(Input::get("t")) || Input::get("t") == 1)
                 $questions = Question::where("lang", $lang)
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("content", "like", "%".Input::get("q")."%")

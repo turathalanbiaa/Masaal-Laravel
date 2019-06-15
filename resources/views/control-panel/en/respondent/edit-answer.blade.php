@@ -122,12 +122,12 @@
 
                     <div class="field">
                         <label for="video-link">Video link (YouTube Video ID)</label>
-                        <input type="text" name="videoLink" id="video-link" placeholder="Type video link here... Optional">
+                        <input type="text" name="videoLink" value="{{$question->videoLink}}" id="video-link" placeholder="Type youtube video id here... Optional">
                     </div>
 
                     <div class="field">
                         <label for="external-link">External link</label>
-                        <input type="text" name="externalLink" id="external-link" placeholder="Type external link here... Optional">
+                        <input type="text" name="externalLink" value="{{$question->externalLink}}" id="external-link" placeholder="Type external link here... Optional">
                     </div>
 
                     <div class="field" style="text-align: center;">

@@ -121,12 +121,12 @@
 
                     <div class="field">
                         <label for="video-link">رابط الفديو (YouTube Video ID)</label>
-                        <input type="text" name="videoLink" id="video-link" placeholder="اكتب رابط الفديو هنا... اختياري" value="{{$question->externalLink}}">
+                        <input type="text" name="videoLink" value="{{$question->videoLink}}" id="video-link" placeholder="اكتب youtube video id هنا... اختياري">
                     </div>
 
                     <div class="field">
                         <label for="external-link">رابط المصدر</label>
-                        <input type="text" name="externalLink" id="external-link" placeholder="اكتب رابط المصدر هنا... اختياري" value="{{$question->videoLink}}">
+                        <input type="text" name="externalLink" value="{{$question->externalLink}}" id="external-link" placeholder="اكتب رابط المصدر هنا... اختياري">
                     </div>
 
                     <div class="field" style="text-align: center;">
