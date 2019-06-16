@@ -1,7 +1,7 @@
 @extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>مراجعة الأسئلة</title>
+    <title>تدقيق الاجوبة</title>
 @endsection
 
 @section("content")
@@ -18,7 +18,7 @@
                 </a>
                 <a class="item active" href="/control-panel/reviewer">
                     <i class="eye big icon" style="margin: 0;"></i>&nbsp;
-                    <span>مراجعة الاسئلة</span>
+                    <span>تدقيق الاجوبة</span>
                 </a>
             </div>
         </div>
@@ -40,9 +40,9 @@
                         </div>
 
                         <p style="font-weight: bold;">
-                            <span>اسم السائل</span>
+                            <span>السائل</span>
                             <span> :- </span>
-                            <span style="color: #00b5ad;">{{$question->User["name"]}}</span>
+                            <span style="color: #00b5ad;">{{$question->User->name}}</span>
                         </p>
 
                         <p>
@@ -64,14 +64,14 @@
                                 <p>
                                     <span>المجيب</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
-                                    <span>{{$question->Admin["name"]}}</span>
+                                    <span>{{$question->Admin->name}}</span>
                                 </p>
 
                                 <p>
-                                    <span>صنف السؤال</span>
+                                    <span>الصنق</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->Category))
-                                        <span>لا يوجد صنف للسؤال.</span>
+                                        <span>لا يوجد</span>
                                     @else
                                         <span>{{$question->Category->category}}</span>
                                     @endif
@@ -81,9 +81,13 @@
                                     <span>الكلمات الدلالية</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @forelse($question->QuestionTags as $questionTag)
-                                        <span>{{$questionTag->Tag->tag . "،"}}</span>
+                                        @if($loop->last)
+                                            <span>{{$questionTag->Tag->tag}}</span>
+                                            @break
+                                        @endif
+                                        <span>{{$questionTag->Tag->tag . " *** "}}</span>
                                     @empty
-                                        <span>لا توجد كلمات دلالية.</span>
+                                        <span>لا توجد</span>
                                     @endforelse
                                 </p>
 
@@ -91,7 +95,7 @@
                                     <span>رابط الفديو</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->videoLink))
-                                        <span>لايوجد فديو مرفق</span>
+                                        <span>لا يوجد</span>
                                     @else
                                         <a target="_blank" href="https://www.youtube.com/watch?v={{$question->videoLink}}">https://www.youtube.com/watch?v={{$question->videoLink}}</a>
                                     @endif
@@ -101,14 +105,14 @@
                                     <span>رابط المصدر</span>
                                     <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(is_null($question->externalLink))
-                                        <span>لايوجد رابط مصدر مرفق</span>
+                                        <span>لا يوجد</span>
                                     @else
                                         <a target="_blank" href="{{$question->externalLink}}">{{$question->externalLink}}</a>
                                     @endif
                                 </p>
 
                                 <div>
-                                    <span>الصورة المرفقه</span>
+                                    <span>الصورة</span>
                                     @if(!is_null($question->image))
                                         <i class="long arrow down icon" style="font-size: medium; font-weight: bold;"></i><br>
                                         <div class="ui medium bordered rounded image">
@@ -116,7 +120,7 @@
                                         </div>
                                     @else
                                         <i class="long arrow left icon" style="font-size: medium; font-weight: bold;"></i>
-                                        <span>لاتوجد صورة مرفقه</span>
+                                        <span>لاتوجد</span>
                                     @endif
                                 </div>
 
@@ -126,10 +130,10 @@
 
                         <div class="ui hidden divider"></div>
 
-                        <button class="ui inverted green button" data-action="accept-answer" data-content="{{$question->id}}">قبول الاجابة</button>
-                        <button class="ui inverted orange button" data-action="reject-answer" data-content="{{$question->id}}">رفض الاجابة</button>
-                        <a class="ui inverted blue button" href="/control-panel/reviewer/{{$question->id}}/edit">تعديل الاجابة</a>
-                        <button class="ui inverted red button" data-action="delete-question" data-content="{{$question->id}}">حذف السؤال</button>
+                        <button class="ui inverted green button" data-action="accept-answer" data-content="{{$question->id}}">قبول</button>
+                        <button class="ui inverted orange button" data-action="reject-answer" data-content="{{$question->id}}">رفض</button>
+                        <a class="ui inverted blue button" href="/control-panel/reviewer/{{$question->id}}/edit">تعديل</a>
+                        <button class="ui inverted red button" data-action="delete-question" data-content="{{$question->id}}">حذف</button>
                     </div>
                 @empty
                     <div class="ui segment">
@@ -138,7 +142,7 @@
                             <div class="ui hidden divider"></div>
                             <div class="ui hidden divider"></div>
                             <div class="ui hidden divider"></div>
-                            <div class="ui center aligned header">لاتوجد اسئلة جديدة لمراجعتها</div>
+                            <div class="ui center aligned header">لاتوجد اجوبة</div>
                             <div class="ui hidden divider"></div>
                             <div class="ui hidden divider"></div>
                             <div class="ui hidden divider"></div>
@@ -148,8 +152,8 @@
                 @endforelse
 
                 @if($questions->hasPages())
-                    <div class="ui bottom teal center aligned inverted segment">
-                        {{$questions->links()}}
+                    <div class="ui center aligned segment">
+                        {{$questions->links("pagination::semantic-ui")}}
                     </div>
                 @endif
             </div>
@@ -200,14 +204,7 @@
 
 @section("script")
     <script>
-        $(document).ready(function () {
-            var pagination = $(".pagination");
-            pagination.removeClass("pagination").addClass("ui right aligned pagination teal menu");
-            pagination.css("padding","0");
-            pagination.find('li').addClass('item');
-        });
         $('.ui.accordion').accordion();
-        $('.ui.embed').embed();
         $('.ui.message').transition({
             animation  : 'flash',
             duration   : '1s'

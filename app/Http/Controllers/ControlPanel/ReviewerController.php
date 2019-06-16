@@ -31,7 +31,7 @@ class ReviewerController extends Controller
         $questions = Question::where('type', $type)
             ->where('lang', $lang)
             ->where("status", QuestionStatus::TEMP_ANSWER)
-            ->simplePaginate(20);
+            ->paginate(25);
 
         return view("control-panel.$lang.reviewer.index")->with([
             "questions" => $questions

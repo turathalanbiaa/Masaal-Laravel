@@ -1,7 +1,7 @@
 @extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>تحرير السؤال</title>
+    <title>تحرير الاجابة</title>
 @endsection
 
 @section("content")
@@ -18,7 +18,7 @@
                 </a>
                 <a class="item active" href="/control-panel/reviewer">
                     <i class="eye big icon" style="margin: 0;"></i>&nbsp;
-                    <span>مراجعة الاسئلة</span>
+                    <span>تدقيق الاجوبة</span>
                 </a>
             </div>
         </div>
@@ -47,12 +47,12 @@
                     </div>
 
                     <div class="field">
-                        <label for="category_Id">صنف السؤال</label>
+                        <label for="category">اختر الصنف</label>
                         <div class="ui fluid search selection dropdown" id="categories">
-                            <input type="hidden" name="categoryId" id="category_Id">
+                            <input type="hidden" name="category" id="category">
                             <i class="dropdown icon"></i>
                             <input class="search">
-                            <div class="default text">بحث عن صنف السؤال ... </div>
+                            <div class="default text">بحث في الاصناف...</div>
                             <div class="menu">
                                 @foreach($categories as $category)
                                     <div class="item" data-value="{{$category->id}}">{{$category->category}}</div>
@@ -62,12 +62,12 @@
                     </div>
 
                     <div class="field">
-                        <label for="tags">اختر الموضوع</label>
+                        <label for="tags">اختر الموضوع (المواضيع)</label>
                         <div class="ui fluid multiple search selection dropdown" id="tags">
                             <input type="hidden" name="tags" id="tags">
                             <i class="dropdown icon"></i>
                             <input class="search">
-                            <div class="default text">بحث عن الموضوع ... </div>
+                            <div class="default text">بحث في المواضيع...</div>
                             <div class="menu">
                                 @foreach($tags as $tag)
                                     <div class="item" data-value="{{$tag->id}}">{{$tag->tag}}</div>

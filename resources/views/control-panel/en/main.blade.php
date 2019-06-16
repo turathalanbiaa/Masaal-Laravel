@@ -78,7 +78,7 @@
                                 <i class="eye special purple icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/reviewer">المدقق</a>
+                                <a class="ui center aligned header" href="/control-panel/reviewer">Reviewer</a>
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                                 <i class="newspaper special pink icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/posts">المنشورات</a>
+                                <a class="ui center aligned header" href="/control-panel/posts">Posts</a>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                 <i class="bullhorn special red icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/announcements">الاعلانات</a>
+                                <a class="ui center aligned header" href="/control-panel/announcements">Announcements</a>
                             </div>
                         </div>
                     </div>
@@ -108,10 +108,10 @@
                     <div class="five wide computer five wide tablet eight wide mobile column">
                         <div class="ui fluid card">
                             <div class="image">
-                                <i class="clipboard list special orange flipped icon"></i>
+                                <i class="clipboard list special orange icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/categories">الاصناف</a>
+                                <a class="ui center aligned header" href="/control-panel/categories">Categories</a>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                                 <i class="language special brown icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" href="/control-panel/translator">الترجمة</a>
+                                <a class="ui center aligned header" href="/control-panel/translator">Translator</a>
                             </div>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                                 <i class="shutdown special black icon"></i>
                             </div>
                             <div class="content">
-                                <a class="ui center aligned header" data-action="logout">تسجيل الخروج</a>
+                                <a class="ui center aligned header" data-action="logout">Logout</a>
                             </div>
                         </div>
                     </div>
