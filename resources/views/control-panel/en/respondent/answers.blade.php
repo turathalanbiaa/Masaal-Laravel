@@ -68,7 +68,7 @@
                         <p style="font-weight: bold;">
                             <span>User</span>
                             <span> :- </span>
-                            <span style="color: #00b5ad;">{{$question->User["name"]}}</span>
+                            <span style="color: #00b5ad;">{{$question->User->name}}</span>
                         </p>
 
                         <p>
