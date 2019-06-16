@@ -69,24 +69,24 @@ class AdminController extends Controller
         ];
         $rulesMessage = [
             "ar"=>[
-                "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
-                "username.required" => "اسم المستخدم فارغ.",
-                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
-                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
-                "password.required" => "كلمة المرور فارغة.",
-                "password.min" => "يجب ان تكون كلمة المرور لاتقل عن 6 حروف.",
-                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
+                "name.required" => "حقل الاسم مطلوب.",
+                "name.min" => "يجب أن يكون الاسم من 6 احرف على الأقل.",
+                "username.required" => "حقل اسم المستخدم مطلوب.",
+                "username.min" => "يجب أن يكون اسم المستخدم من 6 أحرف على الأقل.",
+                "username.unique" => "اسم المستخدم مأخوذ بالفعل.",
+                "password.required" => "حقل كلمة المرور مطلوب.",
+                "password.min" => "يجب أن تكون كلمة المرور من 6 أحرف على الأقل.",
+                'password.confirmed' => "تأكيد كلمة المرور غير متطابق."
             ],
             "fr"=>[
-                "name.required" => "Le vrai nom est vide.",
-                "name.min" => "Le vrai nom doit comporter au moins 6 caractères.",
-                "username.required" => "Le nom d'utilisateur est vide.",
+                "name.required" => "Le champ Nom est obligatoire.",
+                "name.min" => "Le nom doit comporter au moins 6 caractères.",
+                "username.required" => "Le champ Nom d'utilisateur est obligatoire.",
                 "username.min" => "Le nom d'utilisateur doit comporter au moins 6 caractères.",
-                "username.unique" => "Un autre utilisateur portant le même nom, veuillez utiliser un nouveau nom d'utilisateur.",
-                "password.required" => "Le mot de passe est vide.",
+                "username.unique" => "Le nom d'utilisateur est déjà pris.",
+                "password.required" => "Le champ mot de passe est obligatoire.",
                 "password.min" => "Le mot de passe doit comporter au moins 6 caractères.",
-                'password.confirmed' => 'Les deux mots de passe ne correspondent pas.'
+                'password.confirmed' => "La confirmation du mot de passe ne correspond pas."
             ]
         ];
 
@@ -190,22 +190,18 @@ class AdminController extends Controller
         ];
         $rulesMessage = [
             "ar"=>[
-                "name.required" => "الاسم الحقيقي فارغ.",
-                "name.min" => "يجب ان يكون الاسم الحقيقي لايقل عن 6 حروف.",
-                "username.required" => "اسم المستخدم فارغ.",
-                "username.min" => "يجب ان يكون اسم المستخدم لايقل عن 6 حروف.",
-                "username.unique" => "يوجد مستخدم أخر بنفس الاسم، يرجى استخدام اسم مستخدم جديد.",
-                'password.min' => 'يجب ان تكون كلمة المرور لا تقل عن 6 حروف.',
-                'password.confirmed' => 'كلمتا المرور غير متطابقتين.'
+                "name.required" => "حقل الاسم مطلوب.",
+                "name.min" => "يجب أن يكون الاسم من 6 احرف على الأقل.",
+                "username.required" => "حقل اسم المستخدم مطلوب.",
+                "username.min" => "يجب أن يكون اسم المستخدم من 6 أحرف على الأقل.",
+                "username.unique" => "اسم المستخدم مأخوذ بالفعل."
             ],
             "fr"=>[
-                "name.required" => "Le vrai nom est vide.",
-                "name.min" => "Le vrai nom doit comporter au moins 6 caractères.",
-                "username.required" => "Le nom d'utilisateur est vide.",
+                "name.required" => "Le champ Nom est obligatoire.",
+                "name.min" => "Le nom doit comporter au moins 6 caractères.",
+                "username.required" => "Le champ Nom d'utilisateur est obligatoire.",
                 "username.min" => "Le nom d'utilisateur doit comporter au moins 6 caractères.",
-                "username.unique" => "Un autre utilisateur portant le même nom, veuillez utiliser un nouveau nom d'utilisateur.",
-                'password.min' => 'Le mot de passe doit comporter au moins 6 caractères.',
-                'password.confirmed' => 'Les deux mots de passe ne correspondent pas.'
+                "username.unique" => "Le nom d'utilisateur est déjà pris."
             ]
         ];
 

@@ -121,7 +121,6 @@ class DistributorController extends Controller
         //Transaction
         $exception = DB::transaction(function () use ($question) {
             //Update question
-            $question->adminId = null;
             switch ($question->type)
             {
                 case QuestionType::FEQHI: $question->type = QuestionType::AKAEDI; break;

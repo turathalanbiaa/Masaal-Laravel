@@ -96,6 +96,12 @@
                             </div>
                             <div class="content">
                                 <p>
+                                    <span>Respondent</span>
+                                    <i class="long arrow right icon" style="font-size: medium; font-weight: bold;"></i>
+                                    <span>{{$question->Admin->name}}</span>
+                                </p>
+
+                                <p>
                                     <span>Category</span>
                                     <i class="long arrow right icon" style="font-size: medium; font-weight: bold;"></i>
                                     @if(!is_null($question->Category))

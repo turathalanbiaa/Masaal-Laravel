@@ -71,7 +71,7 @@ class RespondentController extends Controller
      */
     public function answerQuestion(Request $request, $question)
     {
-//        dd(Input::all());
+        dd(Input::all());
         Auth::check();
         $lang = AdminController::getLang();
         $question = Question::findOrFail($question);
@@ -83,22 +83,24 @@ class RespondentController extends Controller
         ];
         $rulesMessage = [
             "ar"=>[
-                "answer.required" => "لاتوجد اجابة !!!",
-                "category.required" => "لم تقم بأختيار صنف السؤال.",
-                "tags.required" => "لم تقم بأختيار الموضوع التابع له السؤال.",
-                "image.file" => "انت تحاول رفع ملف ليس بصورة.",
-                "image.image" => "انت تحاول رفع ملف ليس بصورة.",
-                "image.min" => "انت تقوم برفع صورة صغيرة جداً.",
-                "image.max" => "حجم الصورة يجب ان لايتعدى 500KB."
+                "answer.required" => "حقل الإجابة مطلوب.",
+                "category.required" => "حقل الصنف مطلوب.",
+                "tags.required" => "حقل الموضوع(المواضيع) مطلوب.",
+                "image.file" => "يجب أن تكون الصورة صورة.",
+                "image.image" => "يجب أن تكون الصورة صورة.",
+                "image.min" => "يجب أن تكون الصورة لا تقل عن 50 كيلو بايت.",
+                "image.max" => "يجب أن لا تكون الصورة أكبر من 500 كيلو بايت."
+
+
             ],
             "fr"=>[
-                "answer.required" => "Il n'y a pas de réponse !!!",
-                "category.required" => "Vous n'avez pas sélectionné la catégorie de question.",
-                "tags.required" => "Vous n'avez pas sélectionné l'objet de la question.",
-                "image.file" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
-                "image.image" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
-                "image.min" => "Vous soulevez une très petite image.",
-                "image.max" => "La taille de l'image ne doit pas dépasser 500 Ko."
+                "answer.required" => "Le champ de réponse est obligatoire.",
+                "category.required" => "Le champ catégorie est obligatoire.",
+                "tags.required" => "Le champ balises est obligatoire.",
+                "image.file" => "L'image doit être une image.",
+                "image.image" => "L'image doit être une image.",
+                "image.min" => "L'image doit faire au moins 50 kilo-octets.",
+                "image.max" => "L'image ne doit pas dépasser 500 kilo-octets."
             ]
         ];
 
@@ -115,7 +117,7 @@ class RespondentController extends Controller
         $exception = DB::transaction(function () use ($question) {
             //Store answer
             $question->answer = Input::get("answer");
-            $question->categoryId = Input::get("categoryId");
+            $question->categoryId = Input::get("category");
             $question->status = QuestionStatus::TEMP_ANSWER;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
@@ -328,28 +330,30 @@ class RespondentController extends Controller
         $lang = AdminController::getLang();
         $rules = [
             "answer" => 'required',
-            "categoryId" => "required|numeric",
+            "category" => "required|numeric",
             "tags" => "required",
-            'image' => 'file|image|min:50|max:500',
+            "image" => 'file|image|min:50|max:500',
         ];
         $rulesMessage = [
             "ar"=>[
-                "answer.required" => "لاتوجد اجابة !!!",
-                "categoryId.required" => "لم تقم بأختيار صنف السؤال.",
-                "tags.required" => "لم تقم بأختيار الموضوع التابع له السؤال.",
-                "image.file" => "انت تحاول رفع ملف ليس بصورة.",
-                "image.image" => "انت تحاول رفع ملف ليس بصورة.",
-                "image.min" => "انت تقوم برفع صورة صغيرة جداً.",
-                "image.max" => "حجم الصورة يجب ان لايتعدى 500KB."
+                "answer.required" => "حقل الإجابة مطلوب.",
+                "category.required" => "حقل الصنف مطلوب.",
+                "tags.required" => "حقل الموضوع(المواضيع) مطلوب.",
+                "image.file" => "يجب أن تكون الصورة صورة.",
+                "image.image" => "يجب أن تكون الصورة صورة.",
+                "image.min" => "يجب أن تكون الصورة لا تقل عن 50 كيلو بايت.",
+                "image.max" => "يجب أن لا تكون الصورة أكبر من 500 كيلو بايت."
+
+
             ],
             "fr"=>[
-                "answer.required" => "Il n'y a pas de réponse !!!",
-                "categoryId.required" => "Vous n'avez pas sélectionné la catégorie de question.",
-                "tags.required" => "Vous n'avez pas sélectionné l'objet de la question.",
-                "image.file" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
-                "image.image" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
-                "image.min" => "Vous soulevez une très petite image.",
-                "image.max" => "La taille de l'image ne doit pas dépasser 500 Ko."
+                "answer.required" => "Le champ de réponse est obligatoire.",
+                "category.required" => "Le champ catégorie est obligatoire.",
+                "tags.required" => "Le champ balises est obligatoire.",
+                "image.file" => "L'image doit être une image.",
+                "image.image" => "L'image doit être une image.",
+                "image.min" => "L'image doit faire au moins 50 kilo-octets.",
+                "image.max" => "L'image ne doit pas dépasser 500 kilo-octets."
             ]
         ];
 
