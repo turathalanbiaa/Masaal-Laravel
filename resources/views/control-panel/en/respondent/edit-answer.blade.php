@@ -158,7 +158,7 @@
             on: 'hover'
         });
         $("button[data-action='delete-image']").click(function () {
-            var h3 = "<h3 class='ui center aligned green header' width='100%'>Photo deleted</h3>";
+            var h3 = "<h3 class='ui center aligned green header' width='100%'>Image deleted</h3>";
             var input = "<input type='hidden' name='delete' value='1'>";
             var filedCard = $("#filed-card").html(h3 + input);
         });

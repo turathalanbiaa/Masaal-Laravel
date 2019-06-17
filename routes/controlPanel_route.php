@@ -43,7 +43,7 @@ Route::get("/control-panel/respondent/answers", "ControlPanel\\RespondentControl
 
 /*routes for reviewer*/
 Route::get("/control-panel/reviewer", "ControlPanel\\ReviewerController@index");
-Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editQuestion");
+Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editAnswer");
 Route::post("/control-panel/reviewer/{question}", "ControlPanel\\ReviewerController@updateAnswer");
 Route::post("/control-panel/reviewer/accept-answer/ajax", "ControlPanel\\ReviewerController@acceptAnswer");
 Route::post("/control-panel/reviewer/reject-answer/ajax", "ControlPanel\\ReviewerController@rejectAnswer");

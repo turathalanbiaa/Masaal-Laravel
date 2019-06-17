@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="field" style="margin-top: 10px;">
-                        <label for="image">Photo</label>
+                        <label for="image">Image</label>
                         <input type="file" name="image" id="image" placeholder="Attach an image with the answer ... Optional">
                     </div>
 

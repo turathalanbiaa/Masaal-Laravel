@@ -39,12 +39,12 @@ class ReviewerController extends Controller
     }
 
     /**
-     * Show the form for editing the question.
+     * Show the form for editing the answer.
      *
      * @param $question
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function editQuestion($question)
+    public function editAnswer($question)
     {
         Auth::check();
         $question = Question::findOrFail($question);
@@ -79,28 +79,30 @@ class ReviewerController extends Controller
         $lang = AdminController::getLang();
         $rules = [
             "answer" => 'required',
-            "categoryId" => "required|numeric",
+            "category" => "required|numeric",
             "tags" => "required",
             'image' => 'file|image|min:50|max:500',
         ];
         $rulesMessage = [
             "ar"=>[
-                "answer.required" => "لاتوجد اجابة !!!",
-                "categoryId.required" => "لم تقم بأختيار صنف السؤال.",
-                "tags.required" => "لم تقم بأختيار الموضوع التابع له السؤال.",
-                "image.file" => "انت تحاول رفع ملف ليس بصورة.",
-                "image.image" => "انت تحاول رفع ملف ليس بصورة.",
-                "image.min" => "انت تقوم برفع صورة صغيرة جداً.",
-                "image.max" => "حجم الصورة يجب ان لايتعدى 500KB."
+                "answer.required" => "حقل الإجابة مطلوب.",
+                "category.required" => "حقل الصنف مطلوب.",
+                "tags.required" => "حقل الموضوع(المواضيع) مطلوب.",
+                "image.file" => "يجب أن تكون الصورة صورة.",
+                "image.image" => "يجب أن تكون الصورة صورة.",
+                "image.min" => "يجب أن تكون الصورة لا تقل عن 50 كيلو بايت.",
+                "image.max" => "يجب أن لا تكون الصورة أكبر من 500 كيلو بايت."
+
+
             ],
             "fr"=>[
-                "answer.required" => "Il n'y a pas de réponse !!!",
-                "categoryId.required" => "Vous n'avez pas sélectionné la catégorie de question.",
-                "tags.required" => "Vous n'avez pas sélectionné l'objet de la question.",
-                "image.file" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
-                "image.image" => "Vous essayez de télécharger un fichier qui n'est pas dans un format.",
-                "image.min" => "Vous soulevez une très petite image.",
-                "image.max" => "La taille de l'image ne doit pas dépasser 500 Ko."
+                "answer.required" => "Le champ de réponse est obligatoire.",
+                "category.required" => "Le champ catégorie est obligatoire.",
+                "tags.required" => "Le champ balises est obligatoire.",
+                "image.file" => "L'image doit être une image.",
+                "image.image" => "L'image doit être une image.",
+                "image.min" => "L'image doit faire au moins 50 kilo-octets.",
+                "image.max" => "L'image ne doit pas dépasser 500 kilo-octets."
             ]
         ];
 

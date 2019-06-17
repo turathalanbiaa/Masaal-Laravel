@@ -148,7 +148,7 @@
                                 </p>
 
                                 <div>
-                                    <span>Photo</span>
+                                    <span>Image</span>
                                     @if(!is_null($question->image))
                                         <i class="long arrow down icon" style="font-size: medium; font-weight: bold;"></i><br>
                                         <div class="ui medium bordered rounded image">

@@ -1,24 +1,24 @@
-@extends("control-panel.ar.layout.main_layout")
+@extends("control-panel.en.layout.main_layout")
 
 @section("title")
-    <title>تحرير الاجابة</title>
+    <title>Edit Answer</title>
 @endsection
 
 @section("content")
     <div class="ui one column grid">
         <div class="column">
-            @include("control-panel.ar.layout.welcome")
+            @include("control-panel.en.layout.welcome")
         </div>
 
         <div class="column">
             <div class="ui two item teal big menu" id="special-menu">
                 <a class="item" href="/control-panel">
                     <i class="home big icon" style="margin: 0;"></i>&nbsp;
-                    <span>الرئيسية</span>
+                    <span>Home</span>
                 </a>
                 <a class="item active" href="/control-panel/reviewer">
                     <i class="eye big icon" style="margin: 0;"></i>&nbsp;
-                    <span>تدقيق الاجوبة</span>
+                    <span>Checking Answers</span>
                 </a>
             </div>
         </div>
@@ -36,23 +36,23 @@
         @endif
 
         <div class="column">
-            <div class="ui right aligned teal segment">
-                <h3><span style="color: #21ba45;">السؤال:- </span> {{$question->content}}</h3>
+            <div class="ui left aligned teal segment">
+                <h3><span style="color: #21ba45;">Question:- </span> {{$question->content}}</h3>
                 <form class="ui form" method="post" action="/control-panel/reviewer/{{$question->id}}" enctype="multipart/form-data">
                     @csrf()
 
                     <div class="field">
-                        <label for="answer">الجواب</label>
-                        <textarea name="answer" id="answer" placeholder="اكتب الاجابة هنا ...">{{$question->answer}}</textarea>
+                        <label for="answer">Answer</label>
+                        <textarea name="answer" id="answer" placeholder="Type the answer here...">{{$question->answer}}</textarea>
                     </div>
 
                     <div class="field">
-                        <label for="category">اختر الصنف</label>
+                        <label for="category">Select Category</label>
                         <div class="ui fluid search selection dropdown" id="categories">
                             <input type="hidden" name="category" id="category">
                             <i class="dropdown icon"></i>
                             <input class="search">
-                            <div class="default text">بحث في الاصناف...</div>
+                            <div class="default text">Search categories</div>
                             <div class="menu">
                                 @foreach($categories as $category)
                                     <div class="item" data-value="{{$category->id}}">{{$category->category}}</div>
@@ -62,12 +62,12 @@
                     </div>
 
                     <div class="field">
-                        <label for="tags">اختر الموضوع (المواضيع)</label>
+                        <label for="tags">Select tag (tags)</label>
                         <div class="ui fluid multiple search selection dropdown" id="tags">
                             <input type="hidden" name="tags" id="tags">
                             <i class="dropdown icon"></i>
                             <input class="search">
-                            <div class="default text">بحث في المواضيع...</div>
+                            <div class="default text">Search tags</div>
                             <div class="menu">
                                 @foreach($tags as $tag)
                                     <div class="item" data-value="{{$tag->id}}">{{$tag->tag}}</div>
@@ -78,8 +78,8 @@
 
                     <div class="inline fields">
                         <div class="ten wide field" style="padding: 0;">
-                            <label for="image">صورة</label>
-                            <input type="file" name="image" id="image" placeholder="ارفق صورة مع الأجابة... اختياري">
+                            <label for="image">Image</label>
+                            <input type="file" name="image" id="image" placeholder="Attach an image with the answer ... Optional">
                         </div>
                         
                         <div class="six wide field" id="filed-card">
@@ -89,7 +89,7 @@
                                         <div class="ui dimmer">
                                             <div class="content">
                                                 <div class="center">
-                                                    <button class="ui inverted red button" data-action="delete-image">حذف الصورة</button>
+                                                    <button class="ui inverted red button" data-action="delete-image">Delete Image</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -104,17 +104,17 @@
                     </div>
 
                     <div class="field">
-                        <label for="video-link">رابط الفديو (YouTube Video ID)</label>
-                        <input type="text" name="videoLink" value="{{$question->videoLink}}" id="video-link" placeholder="اكتب youtube video id هنا... اختياري">
+                        <label for="video-link">Video link (YouTube Video ID)</label>
+                        <input type="text" name="videoLink" value="{{$question->videoLink}}" id="video-link" placeholder="Type youtube video id here ... Optional">
                     </div>
 
                     <div class="field">
-                        <label for="external-link">رابط المصدر</label>
-                        <input type="text" name="externalLink" value="{{$question->externalLink}}" id="external-link" placeholder="اكتب رابط المصدر هنا... اختياري">
+                        <label for="external-link">External Link</label>
+                        <input type="text" name="externalLink" value="{{$question->externalLink}}" id="external-link" placeholder="Type external link here ... Optional">
                     </div>
 
                     <div class="field" style="text-align: center;">
-                        <button type="submit" class="ui green button">حفظ التعديلات</button>
+                        <button type="submit" class="ui green button">Save</button>
                     </div>
                 </form>
             </div>
@@ -137,7 +137,7 @@
             on: 'hover'
         });
         $("button[data-action='delete-image']").click(function () {
-            var h3 = "<h3 class='ui center aligned green header'>تم حذف الصورة بنجاح</h3>";
+            var h3 = "<h3 class='ui center aligned green header'>Image deleted</h3>";
             var input = "<input type='hidden' name='delete' value='1'>";
             var filedCard = $("#filed-card").html(h3 + input);
         });
