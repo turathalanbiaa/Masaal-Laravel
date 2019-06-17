@@ -435,23 +435,27 @@ class RespondentController extends Controller
         Auth::check();
         $currentAdminId = AdminController::getId();
         $lang = AdminController::getLang();
+        $type = AdminController::getType();
         $permission = AdminController::getPermission();
 
         if (is_null(Input::get("t")) && is_null(Input::get("q")))
             $questions = Question::where("lang", $lang)
                 ->where("status", "!=", QuestionStatus::NO_ANSWER)
+                ->where("type", $type)
                 ->orderBy("id", "DESC")
                 ->paginate(25);
         else
             if (is_null(Input::get("t")) || Input::get("t") == 1)
                 $questions = Question::where("lang", $lang)
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
+                    ->where("type", $type)
                     ->where("content", "like", "%".Input::get("q")."%")
                     ->orderBy("id", "DESC")
                     ->paginate(25);
             else
                 $questions = Question::where("lang", $lang)
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
+                    ->where("type", $type)
                     ->where("answer", "like", "%".Input::get("q")."%")
                     ->orderBy("id", "DESC")
                     ->paginate(25);
