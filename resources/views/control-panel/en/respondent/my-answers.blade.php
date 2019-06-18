@@ -106,7 +106,7 @@
                                 <p>
                                     <span>Category</span>
                                     <i class="long arrow right icon" style="font-size: medium; font-weight: bold;"></i>
-                                    @if(!is_null($question->Category))
+                                    @if(is_null($question->Category))
                                         <span>Not found</span>
                                     @else
                                         <span>{{$question->Category->category}}</span>
