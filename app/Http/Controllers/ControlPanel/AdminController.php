@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\EventLogType;
+use App\Enums\QuestionType;
 use App\Models\Admin;
 use App\Models\EventLog;
 use App\Models\Permission;
@@ -266,8 +267,9 @@ class AdminController extends Controller
         //Transaction
         $exception = DB::transaction(function () use ($admin){
             //Change specific respondent to default respondent
-//            self::changeRespondent($admin->questions);
+            self::changeRespondent($admin);
 
+            dd("Stop");
             //Remove permission
             $admin->permission->delete();
 
@@ -296,9 +298,31 @@ class AdminController extends Controller
             ]);
     }
 
-    public static function changeRespondent($question)
+    public static function changeRespondent($admin)
     {
-        dd($question);
+        $lang = AdminController::getLang();
+        $type = AdminController::getType();
+
+       switch ($lang)
+       {
+           case "en":
+               switch ($type)
+               {
+                   case QuestionType::FEQHI:
+                       //Change questions unanswered.
+                       $questions = $admin->questionsUnanswered()->get();
+                       if (!is_null($questions))
+                           self::changeRespondentQuestionsUnanswered($questions);
+               }
+       }
+    }
+
+    public static function changeRespondentQuestionsUnanswered($questions)
+    {
+        foreach ($questions as $question)
+        {
+
+        }
     }
 
     /**

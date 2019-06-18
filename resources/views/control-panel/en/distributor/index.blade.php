@@ -54,7 +54,7 @@
                                             <div class="item" data-value="{{$respondent->id}}">
                                                 {{$respondent->name}}
                                                 <div class="ui label">
-                                                    <div class="detail" style="margin: 0;">{{$respondent->unansweredQuestions()->count()}}</div>
+                                                    <div class="detail" style="margin: 0;">{{$respondent->questionsUnanswered()->count()}}</div>
                                                 </div>
                                             </div>
                                         @endforeach

@@ -91,9 +91,9 @@
 
                         <p>
                             @if($question->status == \App\Enums\QuestionStatus::TEMP_ANSWER)
-                                <span style="color: red;">The question under review</span>
+                                <span style="color: red;">Question under review</span>
                             @else
-                                <span style="color: red;">Question posted</span>
+                                <span style="color: red;">Question is published</span>
                             @endif
                         </p>
 

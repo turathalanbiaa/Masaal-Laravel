@@ -21,23 +21,35 @@ class Admin extends Model
     }
 
     /**
-     * Get questions.
+     * Get questions unanswered.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function questions()
-    {
-        return $this->hasMany("App\Models\Question", "adminId", "id");
-    }
-
-    /**
-     * Get unanswered questions.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function unansweredQuestions()
+    public function questionsUnanswered()
     {
         return $this->hasMany("App\Models\Question", "adminId", "id")
             ->where("status", QuestionStatus::NO_ANSWER);
+    }
+
+    /**
+     * Get questions under review.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function questionsUnderReview()
+    {
+        return $this->hasMany("App\Models\Question", "adminId", "id")
+            ->where("status", QuestionStatus::TEMP_ANSWER);
+    }
+
+    /**
+     * Get questions published.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function questionsPublished()
+    {
+        return $this->hasMany("App\Models\Question", "adminId", "id")
+            ->where("status", QuestionStatus::APPROVED);
     }
 }

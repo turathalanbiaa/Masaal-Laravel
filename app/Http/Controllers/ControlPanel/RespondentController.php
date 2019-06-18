@@ -29,7 +29,7 @@ class RespondentController extends Controller
         Auth::check();
         $currentAdmin = Admin::findOrFail(AdminController::getId());
         $lang = $currentAdmin->lang;
-        $questions = $currentAdmin->unansweredQuestions()->paginate(25);
+        $questions = $currentAdmin->questionsUnanswered()->paginate(25);
 
         return view("control-panel.$lang.respondent.index")->with([
             "questions" => $questions
@@ -380,7 +380,7 @@ class RespondentController extends Controller
 
             //Update answer
             $question->answer = Input::get("answer");
-            $question->categoryId = Input::get("categoryId");
+            $question->categoryId = Input::get("category");
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
 
