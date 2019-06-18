@@ -21,6 +21,16 @@ class Admin extends Model
     }
 
     /**
+     * Get questions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function questions()
+    {
+        return $this->hasMany("App\Models\Question", "adminId", "id");
+    }
+
+    /**
      * Get unanswered questions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -265,6 +265,9 @@ class AdminController extends Controller
         Auth::check();
         //Transaction
         $exception = DB::transaction(function () use ($admin){
+            //Change specific respondent to default respondent
+//            self::changeRespondent($admin->questions);
+
             //Remove permission
             $admin->permission->delete();
 
@@ -291,6 +294,11 @@ class AdminController extends Controller
                 "FrDeleteAdminMessage" => "Le compte n'a pas été supprimé avec succès",
                 "TypeMessage" => "Error"
             ]);
+    }
+
+    public static function changeRespondent($question)
+    {
+        dd($question);
     }
 
     /**

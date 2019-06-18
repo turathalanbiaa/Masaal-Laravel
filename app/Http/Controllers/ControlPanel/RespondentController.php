@@ -71,7 +71,6 @@ class RespondentController extends Controller
      */
     public function answerQuestion(Request $request, $question)
     {
-        dd(Input::all());
         Auth::check();
         $lang = AdminController::getLang();
         $question = Question::findOrFail($question);
