@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
@@ -300,28 +301,84 @@ class AdminController extends Controller
 
     public static function changeRespondent($admin)
     {
+        self::changeRespondentQuestionsUnanswered($admin);
+        self::changeRespondentQuestionsUnderReview($admin);
+        self::changeRespondentQuestionsPublished($admin);
+    }
+
+    public static function changeRespondentQuestionsUnanswered($currentAdmin)
+    {
+        $questions = $currentAdmin->questionsUnanswered()->get();
+        if (!is_null($questions))
+            foreach ($questions as $question)
+            {
+                $question->adminId = null;
+                $question->save();
+            }
+    }
+
+    public static function changeRespondentQuestionsUnderReview($currentAdmin)
+    {
+        $questions = $currentAdmin->questionsUnanswered()->get();
+        if (!is_null($questions))
+            foreach ($questions as $question)
+            {
+                //Remove tags
+                foreach ($question->QuestionTags as $tag)
+                    $tag->delete();
+
+                //Remove image
+                Storage::disk('public')->delete($question->image);
+
+                //Remove answer
+                $question->image = null;
+                $question->answer = null;
+                $question->categoryId = null;
+                $question->status = QuestionStatus::NO_ANSWER;
+                $question->videoLink = null;
+                $question->externalLink = null;
+                $question->adminId = null;
+                $question->save();
+            }
+    }
+
+    public static function changeRespondentQuestionsPublished($currentAdmin)
+    {
+        $experimentalAdminId = self::getExperimentalAdminId();
+        $questions = $currentAdmin->questionsPublished()->get();
+        if (!is_null($questions))
+            foreach ($questions as $question)
+            {
+                $question->adminId = $experimentalAdminId;
+                $question->save();
+            }
+    }
+
+    public static function getExperimentalAdminId()
+    {
         $lang = AdminController::getLang();
         $type = AdminController::getType();
 
-       switch ($lang)
-       {
-           case "en":
-               switch ($type)
-               {
-                   case QuestionType::FEQHI:
-                       //Change questions unanswered.
-                       $questions = $admin->questionsUnanswered()->get();
-                       if (!is_null($questions))
-                           self::changeRespondentQuestionsUnanswered($questions);
-               }
-       }
-    }
-
-    public static function changeRespondentQuestionsUnanswered($questions)
-    {
-        foreach ($questions as $question)
+        switch ($lang)
         {
-
+            case "ar":
+                switch ($type)
+                {
+                    case QuestionType::FEQHI: return 16; break;
+                    case QuestionType::AKAEDI: return 17; break;
+                } break;
+            case "en":
+                switch ($type)
+                {
+                    case QuestionType::FEQHI: return 18; break;
+                    case QuestionType::AKAEDI: return 19; break;
+                } break;
+            case "fr":
+                switch ($type)
+                {
+                    case QuestionType::FEQHI: return 20; break;
+                    case QuestionType::AKAEDI: return 21; break;
+                } break;
         }
     }
 
