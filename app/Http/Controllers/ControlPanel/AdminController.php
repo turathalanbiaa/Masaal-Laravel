@@ -270,7 +270,6 @@ class AdminController extends Controller
             //Change specific respondent to default respondent
             self::changeRespondent($admin);
 
-            dd("Stop");
             //Remove permission
             $admin->permission->delete();
 

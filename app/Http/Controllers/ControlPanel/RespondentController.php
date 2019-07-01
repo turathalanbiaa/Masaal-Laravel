@@ -89,8 +89,6 @@ class RespondentController extends Controller
                 "image.image" => "يجب أن تكون الصورة صورة.",
                 "image.min" => "يجب أن تكون الصورة لا تقل عن 50 كيلو بايت.",
                 "image.max" => "يجب أن لا تكون الصورة أكبر من 500 كيلو بايت."
-
-
             ],
             "fr"=>[
                 "answer.required" => "Le champ de réponse est obligatoire.",
@@ -342,8 +340,6 @@ class RespondentController extends Controller
                 "image.image" => "يجب أن تكون الصورة صورة.",
                 "image.min" => "يجب أن تكون الصورة لا تقل عن 50 كيلو بايت.",
                 "image.max" => "يجب أن لا تكون الصورة أكبر من 500 كيلو بايت."
-
-
             ],
             "fr"=>[
                 "answer.required" => "Le champ de réponse est obligatoire.",

@@ -130,7 +130,7 @@ class ReviewerController extends Controller
 
             //Update answer
             $question->answer = Input::get("answer");
-            $question->categoryId = Input::get("categoryId");
+            $question->categoryId = Input::get("category");
             $question->status = QuestionStatus::APPROVED;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");

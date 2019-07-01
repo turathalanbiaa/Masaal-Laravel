@@ -6,14 +6,14 @@
  * Time: 2:12 PM
  */
 
-/*routes for main*/
+//Routes for main
 Route::get("control-panel", "ControlPanel\\MainController@index");
 Route::get("control-panel/login", "ControlPanel\\LoginController@login");
 Route::post("control-panel/login", "ControlPanel\\LoginController@loginValidation");
 Route::get("control-panel/logout", "ControlPanel\\MainController@logout");
 
 
-/*routes for admin*/
+//Routes for admin
 Route::resource("control-panel/admins", "ControlPanel\\AdminController");
 
 
@@ -24,7 +24,7 @@ Route::post("/control-panel/distributor/delete-question/ajax", "ControlPanel\\Di
 Route::post("/control-panel/distributor/change-type-question/ajax", "ControlPanel\\DistributorController@changeTypeQuestion");
 
 
-/*routes for respondent*/
+//Routes for respondent
 Route::get("/control-panel/respondent", "ControlPanel\\RespondentController@index");
 
 Route::get("/control-panel/respondent/{question}/edit", "ControlPanel\\RespondentController@editQuestion");
@@ -41,7 +41,7 @@ Route::post("/control-panel/respondent/my-answers/{question}/update-answer", "Co
 Route::get("/control-panel/respondent/answers", "ControlPanel\\RespondentController@answers");
 
 
-/*routes for reviewer*/
+//Routes for reviewer
 Route::get("/control-panel/reviewer", "ControlPanel\\ReviewerController@index");
 Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editAnswer");
 Route::post("/control-panel/reviewer/{question}", "ControlPanel\\ReviewerController@updateAnswer");
@@ -50,19 +50,22 @@ Route::post("/control-panel/reviewer/reject-answer/ajax", "ControlPanel\\Reviewe
 Route::post("/control-panel/reviewer/delete-question/ajax", "ControlPanel\\ReviewerController@deleteQuestion");
 
 
-/*routes of post*/
+//Routes of post
 Route::resource("/control-panel/posts", "ControlPanel\\PostController");
 
 
-/*routes of announcement*/
+//Routes of announcement
 Route::resource("/control-panel/announcements", "ControlPanel\\AnnouncementController");
 
-/*routes of category*/
+//Routes of category
 Route::resource("/control-panel/categories", "ControlPanel\\CategoryController");
 
-/*routes of translator*/
+//Routes of translator
 Route::get("/control-panel/translator", function (){
     echo "<h1 style='text-align: center; margin-top: 300px;'>قريبا</h1>";
     return "";
 });
 
+//Routes for reports
+Route::get("/control-panel/report", "ControlPanel\\ReportController@index");
+Route::get("/control-panel/report/{type}/{privacy}/{category}", "ControlPanel\\ReportController@report");
