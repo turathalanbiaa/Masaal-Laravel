@@ -11,49 +11,49 @@
             مشاركة المسألة على
 
 
-            <div class="centered column row">
+            <div class=" row">
 
+                <div class=" column">
+                    <a href="https://www.facebook.com/sharer.php?u=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
+                            rel="nofollow" target="_blank">
+
+                        <i class="big centered facebook icon"></i></a>
+
+
+                </div>
                 <div class="column">
 
                     <a href="https://www.instagram.com/?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
                        target="_blank" rel="nofollow">
 
-                        <i class="big instagram icon"></i>instagram</a>
+                        <i class="big instagram icon"></i></a>
 
                 </div>
+
                 <div class="column">
 
                     <a href="https://telegram.me/share/url?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
                        target="_blank" rel="nofollow">
 
-                        <i class="big telegram icon"></i>telegram</a>
+                        <i class="big telegram icon"></i></a>
 
                 </div>
-                <div class="column">
-                    <a
-
-                            href="https://www.facebook.com/sharer.php?u=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
+                <div class=" column">
+                    <a href="https://twitter.com/share?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
                             rel="nofollow" target="_blank">
-
-                        <i class="big centered facebook icon"></i>facebook</a>
-
+                        <i class="big centered twitter icon"></i></a>
 
                 </div>
                 <div class="column">
-                    <a
-                            href="https://twitter.com/share?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
-                            rel="nofollow" target="_blank">
-                        <i class="big centered twitter icon"></i>Twitter</a>
-
-                </div>
-                <div class="column">
-                    <a
-                            href="https://plus.google.com/u/0/share?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
+                    <a href="https://plus.google.com/u/0/share?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
                             rel="nofollow"
                             target="_blank">
-                        <i class="big centered google icon"></i>g-puls</a>
+                        <i class="big centered google icon"></i></a>
 
                 </div>
+
+
+
 
             </div>
 
