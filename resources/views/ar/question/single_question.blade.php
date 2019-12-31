@@ -11,20 +11,40 @@
             مشاركة المسألة على
 
 
-            <div class="three centered column row">
+            <div class="centered column row">
+
+                <div class="column">
+
+                    <a href="https://www.instagram.com/?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
+                       target="_blank" rel="nofollow">
+
+                        <i class="big instagram icon"></i>instagram</a>
+
+                </div>
+                <div class="column">
+
+                    <a href="https://telegram.me/share/url?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
+                       target="_blank" rel="nofollow">
+
+                        <i class="big telegram icon"></i>telegram</a>
+
+                </div>
                 <div class="column">
                     <a
 
                             href="https://www.facebook.com/sharer.php?u=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
-                            rel="nofollow" target="_blank"><i class="big centered facebook icon"></i>facebook</a>
+                            rel="nofollow" target="_blank">
 
-                    <br>
+                        <i class="big centered facebook icon"></i>facebook</a>
+
+
                 </div>
                 <div class="column">
                     <a
                             href="https://twitter.com/share?url=masael.turathalanbiaa.com/ar/single-question/{{$question->id}}"
-                            rel="nofollow" target="_blank"><i class="big centered twitter icon"></i>Twitter</a>
-                    <br>
+                            rel="nofollow" target="_blank">
+                        <i class="big centered twitter icon"></i>Twitter</a>
+
                 </div>
                 <div class="column">
                     <a
@@ -34,6 +54,7 @@
                         <i class="big centered google icon"></i>g-puls</a>
 
                 </div>
+
             </div>
 
         </div>
