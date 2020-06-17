@@ -18,10 +18,33 @@
                 <i class="search link icon"></i>
             </form>
         </div>
-        <a class="item" href="/ar/index/1">الفقه الميسر</a>
-        <a class="item" href="/ar/index/2">العقائد الميسر</a>
+        <div class="ui horizontal inverted divider">
+
+            الاسئلة
+
+
+        </div>
+        <div>
+            <a class="item" href="/ar/index/0">جميع الاسئلة</a>
+            <a class="item" href="/ar/index/1">الفقه</a>
+            <a class="item" href="/ar/index/2">العقائد</a>
+            <a class="item" href="/ar/index/3">القرآن الكريم</a>
+            <a class="item" href="/ar/index/4">اجتماعية</a>
+
+
+
+
+        </div>
+        <div class="ui horizontal inverted divider">
+
+            المنشورات
+
+
+        </div>
         <a class="item" href="/ar/posts/1">منشورات فقهية</a>
         <a class="item" href="/ar/posts/2">منشورات عقائديه</a>
+        <a class="item" href="/ar/posts/3">منشورات القرآن الكريم</a>
+        <a class="item" href="/ar/posts/4">منشورات اجتماعية</a>
 
         <div class="ui horizontal inverted divider">
             فرز حسب

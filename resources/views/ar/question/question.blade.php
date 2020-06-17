@@ -14,26 +14,108 @@
         color: black;
     }
 </style>
+
+    <a class="ui right teal  label">
+
+تصفح اسئلة
+
+    @if($my_type == 2)
+        العقائد
+
+        @elseif($my_type == 1)
+
+            الفقه
+
+
+        @elseif($my_type == 0)
+
+            جميع الاسئلة
+
+
+        @elseif($my_type == 3)
+
+        القرآن الكريم
+
+
+    @elseif($my_type == 4)
+
+        اجتماعي
+
+
+    @endif
+
+
+
+</a>
+
+
 @foreach($questions as $one_question)
 
 
     <div class="ui  segment">
 
+            @if($my_type == 0)
+
+
+            <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
+
+
+
+                @if($one_question->type == 2)
+                    العقائد
+
+                @elseif($one_question->type == 1)
+
+                    الفقه
+
+
+                @elseif($one_question->type == 3)
+
+                    القرآن الكريم
+
+
+                @elseif($one_question->type == 4)
+
+                    اجتماعي
+
+
+                @endif
+
+            </a>
+                              @endif
+
+                <a class="ui right  tag label"
+                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+                    @if($one_question->category!=null)
+                        {{$one_question->category}}
+                    @else
+                        غير مصنف
+                    @endif
+                </a>
+            <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">س \ {{$one_question->id}}</a>
+
+
+
 
         <h3 class="ui header">
-            <img src="/img/man.jpg">
+            <img  src="/img/man.jpg">
             <div class="content ">
 
 
                 <div class="sub header">{{$one_question->userDisplayName}}</div>
                 <div class="sub header">{{$one_question->x}}</div>
+
+
+
             </div>
 
 
         </h3>
+
         <a class="ui large left corner label" data-action="share_question" data-id="{{$one_question->id}}">
             <i style="color: #00b5ad" class="share icon"></i>
         </a>
+
         @if(isset($searchtext))
             <?php
             $questionContent = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->content);
@@ -114,38 +196,16 @@
         @endif
 
 
-        <div class="ui hidden divider">
 
-        </div>
-
-        <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
-            @if($one_question->type == 2)
-                العقائد
-                <a class="ui right teal tag label"
-                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-                    @if($one_question->category!=null)
-                        {{$one_question->category}}
-                    @else
-                        غير مصنف
-                    @endif
-
-                </a>
-            @elseif($one_question->type == 1)
-
-                الفقه
-
-                <a class="ui right teal tag label"
-                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-                    @if($one_question->category!=null)
-                        {{$one_question->category}}
-                    @else
-                        غير مصنف
-                    @endif
-                </a>
-            @endif
+        <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">
+            <i  class=" comment icon">    </i>
+            التعليقات
+            <i style="font-size: 14px" class=" circle green icon">           </i>
 
         </a>
-        <a href="/ar/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
+
+
+
     </div>
     <script>
         $('.ui.embed').embed();

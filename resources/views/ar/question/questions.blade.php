@@ -9,6 +9,8 @@
     @endif
 
     <div id="questions">
+
+     
         @include("ar.question.question" , ["questions" => $questions])
         <div style="margin-top: 30px" class="ui center aligned stackable grid">
 
@@ -85,4 +87,5 @@
             $(".ui.modal").modal("show");
         });
     </script>
+
 @endsection

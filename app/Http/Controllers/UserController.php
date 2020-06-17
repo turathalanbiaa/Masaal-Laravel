@@ -39,7 +39,7 @@ class UserController extends Controller
             $session = md5(uniqid());
             $user->session = $session;
             $user->save();
-            return redirect("/$lang/1")->withCookie(cookie('SESSION' , $session));
+            return redirect("/$lang/1")->withCookie(cookie('SESSION' , $session))->withCookie(cookie('USER_ID' , $user->id));
         }
         else
         {
@@ -50,7 +50,7 @@ class UserController extends Controller
     public function logout(Request $request , $lang)
     {
         $request->session()->remove('USER_ID');
-        return redirect("/$lang/login")->withCookie(cookie('SESSION' , null , -1));
+        return redirect("/$lang/login")->withCookie(cookie('SESSION' , null , -1))->withCookie(cookie('USER_ID' , null , -1));
     }
 
 
