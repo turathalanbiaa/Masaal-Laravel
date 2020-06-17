@@ -14,13 +14,13 @@
         color: black;
     }
 </style>
+تصفح
+<a class="ui right teal  label">
 
-    <a class="ui right teal  label">
 
-تصفح اسئلة
-
-    @if($my_type == 2)
-        العقائد
+    @if(isset($my_type))
+        @if($my_type == 2)
+            العقائد
 
         @elseif($my_type == 1)
 
@@ -34,16 +34,33 @@
 
         @elseif($my_type == 3)
 
-        القرآن الكريم
+            القرآن الكريم
 
 
-    @elseif($my_type == 4)
+        @elseif($my_type == 4)
 
-        اجتماعي
+            اجتماعي
+
+        @elseif($my_type == 30)
+
+            اسئلتي
+
+        @elseif($my_type == 31)
+
+            نتائج البحث
+
+        @elseif($my_type == 32)
+
+            بواسطة المواضيع
+
+        @elseif($my_type == 33)
+
+            بواسطة الاقسام
 
 
+
+        @endif
     @endif
-
 
 
 </a>
@@ -54,11 +71,10 @@
 
     <div class="ui  segment">
 
-            @if($my_type == 0)
+        @if($my_type == 0)
 
 
             <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
-
 
 
                 @if($one_question->type == 2)
@@ -82,29 +98,32 @@
                 @endif
 
             </a>
-                              @endif
+        @endif
 
-                <a class="ui right  tag label"
-                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-                    @if($one_question->category!=null)
-                        {{$one_question->category}}
-                    @else
-                        غير مصنف
-                    @endif
-                </a>
-            <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">س \ {{$one_question->id}}</a>
-
-
+        <a class="ui right  tag label"
+           href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+            @if($one_question->category!=null)
+                {{$one_question->category}}
+            @else
+                غير مصنف
+            @endif
+        </a>
+        <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">س \ {{$one_question->id}}</a>
 
 
         <h3 class="ui header">
-            <img  src="/img/man.jpg">
+            <img src="/img/man.jpg">
             <div class="content ">
 
 
                 <div class="sub header">{{$one_question->userDisplayName}}</div>
-                <div class="sub header">{{$one_question->x}}</div>
+                @if(isset($one_question->x))
+                    <div class="sub header">{{$one_question->x}}</div>
 
+                @elseif(isset($one_question->time))
+                    <div class="sub header">{{$one_question->time}}</div>
+
+                @endif
 
 
             </div>
@@ -196,14 +215,12 @@
         @endif
 
 
-
         <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">
-            <i  class=" comment icon">    </i>
+            <i class=" comment icon"> </i>
             التعليقات
-            <i style="font-size: 14px" class=" circle green icon">           </i>
+            <i style="font-size: 14px" class=" circle green icon"> </i>
 
         </a>
-
 
 
     </div>

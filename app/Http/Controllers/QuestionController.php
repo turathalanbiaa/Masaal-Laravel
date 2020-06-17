@@ -88,8 +88,8 @@ if($type == "0")
             ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
             ->where("question.lang", $lang)->where("question.userId", $userId)->orderBy('question.id', 'desc')->paginate(20);
 
-
-        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions]);
+$my_type = 30;
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions , "my_type"=>$my_type]);
     }
 
     public function search($lang)
@@ -116,8 +116,8 @@ if($type == "0")
             ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
             ->where("question.lang", $lang)->where("content", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orwhere("answer", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(100);
 
-
-        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions, "searchtext" => $searchtext0 ,"unlink" => $unlink]);
+        $my_type = 31;
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions, "searchtext" => $searchtext0 ,"unlink" => $unlink ,"my_type"=>$my_type]);
 
     }
 
@@ -143,11 +143,11 @@ if($type == "0")
         $questions = DB::table('question')
             ->leftJoin('category', 'question.categoryId', '=', 'category.id')
             ->leftJoin('user', 'question.userId', '=', 'user.id')
-            ->select(  'comment.id as commentid','question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
+            ->select(  'question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
             ->where("question.lang", $lang)->where("question.type", $type)->where("categoryId", $id)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(200);
 
-
-        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions , "unlink" =>$unlink]);
+        $my_type = $type;
+        return view("$lang.question.questions", ["page_title" => "My Questions", "questions" => $questions , "unlink" =>$unlink , "my_type"=>$my_type]);
 
     }
 
@@ -193,7 +193,7 @@ if($type == "0")
         $third_category = Category::where("lang", $lang)->where("type", 3)->get();
         $fourth_categorys = Category::where("lang", $lang)->where("type", 4)->get();
 
-        return view("$lang.question.categories", ["first_categorys" => $first_categorys, "second_categorys" => $second_categorys, "third_categorys" => $third_category, "fourth_categorys" => $fourth_categorys],);
+        return view("$lang.question.categories", ["first_categorys" => $first_categorys, "second_categorys" => $second_categorys, "third_categorys" => $third_category, "fourth_categorys" => $fourth_categorys]);
     }
 
     public function showQuestion($lang, $id)
@@ -317,23 +317,24 @@ if($type == "0")
 
     public function tagQuestion($lang, $tag)
     {
-//
+
 //        $SQL = "SELECT question.id ,question.type AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink
 //                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
 //                WHERE question.lang = ? AND question.`type` = ? AND categoryId = ?
 //                ORDER BY ID DESC";
-
-
+//
+//
 //        $questions = DB::table('question')
 //            ->join('question_tag', 'question.id', '=', 'question_tag.question_id')
 //            ->join('tag', 'tag.id', '=', 'question_tag.tag_id')
 //            ->select('question.*', 'tag.tag')->where("tag.tag", $tag)
 //            ->get();
-//
 
-        $questions = QuestionRepository::searchByTag($tag);
+
+       $questions = QuestionRepository::searchByTag($tag);
         $unlink = 0;
+        $my_type = 32;
 
-        return view("$lang.question.questions", ["page_title" => "Home", "questions" => $questions, "announcements" => null, "unlink" => $unlink]);
+        return view("$lang.question.questions", ["page_title" => "Home", "questions" => $questions, "announcements" => null, "unlink" => $unlink, "my_type"=>$my_type]);
     }
 }
