@@ -174,31 +174,21 @@
                 سوف تتم الاجابة قريبا
 
             </div>
-            ً
+          
         @endif
-
         @if($one_question->image !="")
-
-
             <img class="ui right bordered large image"
                  src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
-
         @endif
-
-
         @if($one_question->videoLink !="")
             <div>
                 <br>
                 <i class="video icon"></i>
                 <label>الفيديو : </label>
                 <a href="{{$one_question->videoLink}}"> اضغظ هنا لمشاهدة الفيديو</a>
-
-
                 {{--<div class="ui embed" data-url="{{$one_question->videoLink}}" data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
                 {{--<div class="ui embed" data-source="youtube" data-id="{{$one_question->videoLink}}" data-icon="play"--}}
                 {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
-
-
             </div>
         @endif
 
@@ -214,15 +204,48 @@
             </div>
         @endif
 
+{{--            <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">--}}
+{{--                <i class=" comment icon"> </i>--}}
+{{--                التعليقات--}}
+{{--                <i style="font-size: 14px" class=" circle green icon"> </i>--}}
+{{--            </a>--}}
 
-        <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">
-            <i class=" comment icon"> </i>
-            التعليقات
-            <i style="font-size: 14px" class=" circle green icon"> </i>
+{{--            <div  style="height: 30px" class="ui left labeled button" tabindex="0">--}}
 
-        </a>
+{{--                <div   style="height: 30px" class="ui button">--}}
+{{--                    <i style="height: 30px" class="medium green  thumbs up icon"></i> مفيد--}}
+{{--                </div>--}}
+{{--                <a class="ui basic right pointing label">--}}
+{{--                    66--}}
+{{--                </a>--}}
+{{--            </div>--}}
+            <div class="ui compact menu">
+                <a href="/ar/single-question/{{$one_question->id}}" class="item">
+                    <i class=" comment icon"> </i> التعليقات
+                    @if(isset($one_question->Comment))
+                        @if($one_question->Comment->count() > 0 )
+
+                        <div class="floating ui red label">{{$one_question->Comment->count()}}</div>
+
+                    @endif
+
+   @endif
 
 
+                   </a>
+
+            </div>
+
+            <div class="ui compact menu">
+
+
+
+                <a  onclick=" this.style.background = '#64d97c'"  class="item">
+                    <i  class="medium green  thumbs up icon"></i> مفيد
+
+{{--                    <div class="floating ui teal label">{{$one_question->likes_count}}</div>--}}
+                </a>
+            </div>
     </div>
     <script>
         $('.ui.embed').embed();

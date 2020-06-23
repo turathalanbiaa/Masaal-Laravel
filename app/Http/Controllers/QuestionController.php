@@ -40,8 +40,8 @@ class QuestionController extends Controller
 
 if($type == "0")
 {
-    $questions = DB::table('question')
-        ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+    $questions =Question::
+    leftJoin('category', 'question.categoryId', '=', 'category.id')
         ->leftJoin('user', 'question.userId', '=', 'user.id')
         ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
         ->where("question.lang", $lang)->where("question.privacy", "2")->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(20);
@@ -49,8 +49,8 @@ if($type == "0")
 }else
 {
 
-    $questions = DB::table('question')
-        ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+    $questions =Question::
+    leftJoin('category', 'question.categoryId', '=', 'category.id')
         ->leftJoin('user', 'question.userId', '=', 'user.id')
         ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
         ->where("question.lang", $lang)->where("question.type", $type)->where("question.privacy", "2")->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(20);
@@ -82,8 +82,8 @@ if($type == "0")
 //
 
 
-        $questions = DB::table('question')
-            ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+        $questions = Question::
+            leftJoin('category', 'question.categoryId', '=', 'category.id')
             ->leftJoin('user', 'question.userId', '=', 'user.id')
             ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
             ->where("question.lang", $lang)->where("question.userId", $userId)->orderBy('question.id', 'desc')->paginate(20);
@@ -110,8 +110,8 @@ $my_type = 30;
 //
         $unlink = 0;
 
-        $questions = DB::table('question')
-            ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+        $questions = Question::
+        leftJoin('category', 'question.categoryId', '=', 'category.id')
             ->leftJoin('user', 'question.userId', '=', 'user.id')
             ->select('question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
             ->where("question.lang", $lang)->where("content", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orwhere("answer", "LIKE", $searchtext)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(100);
@@ -140,8 +140,8 @@ $my_type = 30;
 //
         $unlink = 0;
 
-        $questions = DB::table('question')
-            ->leftJoin('category', 'question.categoryId', '=', 'category.id')
+        $questions = Question::
+        leftJoin('category', 'question.categoryId', '=', 'category.id')
             ->leftJoin('user', 'question.userId', '=', 'user.id')
             ->select(  'question.id', 'question.type as type', 'question.categoryId as categoryId', 'content', 'user.name as userDisplayName', 'category.category as category', 'time as x', 'answer', 'image', 'status', 'videoLink', 'externalLink')
             ->where("question.lang", $lang)->where("question.type", $type)->where("categoryId", $id)->where("question.status", QuestionStatus::APPROVED)->orderBy('question.id', 'desc')->paginate(200);

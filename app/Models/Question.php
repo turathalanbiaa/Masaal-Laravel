@@ -44,4 +44,8 @@ class Question extends Model
     {
         return $this->hasMany('App\Models\QuestionTag','questionId','id');
     }
+    public function Comment()
+    {
+        return $this->hasMany('App\Models\Comment','question_id','id');
+    }
 }

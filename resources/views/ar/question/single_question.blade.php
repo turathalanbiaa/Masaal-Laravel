@@ -113,7 +113,6 @@
             {{--            <img src="/img/man.jpg">--}}
             <div class="content ">
 
-
                 <div class="sub header">{{$question->userDisplayName}}</div>
                 <div class="sub header">{{$question->time}}</div>
 
@@ -129,6 +128,13 @@
         <p>{{$question->answer}}</p>
 
 
+        <div class="ui compact menu">
+
+            <a onclick=" this.style.background = '#64d97c'" class="item">
+                <i  class="medium green  thumbs up icon"></i> مفيد
+
+            </a>
+        </div>
         <div class="ui hidden divider"></div>
 
         @if($question->image !="")
@@ -177,15 +183,11 @@
             <h3 class="ui dividing header"><a href="/ar/refresh/{{$question->id }}">
                     <i class="icon refresh"></i>
                 </a>التعليقات</h3>
-
             @foreach($comments as $comment)
-
                 @if($comment->type == 2)
                     <div class="comment ">
-
                         <div class="content">
                             <i class="green small circle icon">
-
                             </i>
                             <a class="author green">الادارة</a>
                             <div class="metadata">
@@ -194,14 +196,10 @@
                             <div class="text">
                                 <p>{{$comment->content}}</p>
                             </div>
-
                         </div>
-
                     </div>
-
                 @else
                     <div class="comment">
-
                         <div class="content">
                             <a class="author">{{$comment->username}}</a>
                             <div class="metadata">
@@ -212,45 +210,27 @@
                                 @if ( Cookie::get('USER_ID') == $comment->user_id)
                                     <a class="ui label" href="/ar/delete_comment/{{$question->id}}/{{$comment->comment_id}}">حذف
                                         <i class="delete icon"></i>
-
                                     </a>
-
                                 @endif
-
                             </div>
-
-
                         </div>
                     </div>
-
                 @endif
-
-
-
-
-
-
             @endforeach
-
-
             @if (Cookie::get('SESSION'))
                 <form method="post" action="/ar/insert_comment/{{$question->id }}" class="ui form">
                     {!! csrf_field() !!}
-
                     <div class="field">
-                        <textarea name="content" style="max-height: 30px"></textarea>
+                        <textarea name="content" required  style="max-height: 30px"></textarea>
                     </div>
                     <button type="submit" class="ui blue labeled submit icon button">
                         <i class="icon edit"></i> اضافة تعليق
-
                     </button>
                 </form>
             @else
                 <p>لاضافة تعليق يرجى تسجيل الدخول او انشاء حساب <a href="/ar/login">اضفط هنا</a>
                 </p>
             @endif
-
-
         </div>
 
     </div>
@@ -264,6 +244,24 @@
         $(document).ready(function () {
             $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
         })
+        document.getElementById('liked_btn').onclick = changeColor;
 
+        function changeColor() {
+            document.body.style.color = "purple";
+            return false;
+        }
+        $('.ui.form')
+            .form({
+                fields: {
+                    name     : 'empty',
+                    gender   : 'empty',
+                    username : 'empty',
+                    password : ['minLength[6]', 'empty'],
+                    skills   : ['minCount[2]', 'empty'],
+                    terms    : 'checked'
+                }
+            })
+        ;
     </script>
+
 @endsection
