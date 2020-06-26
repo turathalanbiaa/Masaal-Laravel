@@ -174,7 +174,7 @@
                 سوف تتم الاجابة قريبا
 
             </div>
-          
+
         @endif
         @if($one_question->image !="")
             <img class="ui right bordered large image"
@@ -204,48 +204,40 @@
             </div>
         @endif
 
-{{--            <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">--}}
-{{--                <i class=" comment icon"> </i>--}}
-{{--                التعليقات--}}
-{{--                <i style="font-size: 14px" class=" circle green icon"> </i>--}}
-{{--            </a>--}}
+        {{--            <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">--}}
+        {{--                <i class=" comment icon"> </i>--}}
+        {{--                التعليقات--}}
+        {{--                <i style="font-size: 14px" class=" circle green icon"> </i>--}}
+        {{--            </a>--}}
 
-{{--            <div  style="height: 30px" class="ui left labeled button" tabindex="0">--}}
+        {{--            <div  style="height: 30px" class="ui left labeled button" tabindex="0">--}}
 
-{{--                <div   style="height: 30px" class="ui button">--}}
-{{--                    <i style="height: 30px" class="medium green  thumbs up icon"></i> مفيد--}}
-{{--                </div>--}}
-{{--                <a class="ui basic right pointing label">--}}
-{{--                    66--}}
-{{--                </a>--}}
-{{--            </div>--}}
-            <div class="ui compact menu">
-                <a href="/ar/single-question/{{$one_question->id}}" class="item">
-                    <i class=" comment icon"> </i> التعليقات
-                    @if(isset($one_question->Comment))
-                        @if($one_question->Comment->count() > 0 )
+        {{--                <div   style="height: 30px" class="ui button">--}}
+        {{--                    <i style="height: 30px" class="medium green  thumbs up icon"></i> مفيد--}}
+        {{--                </div>--}}
+        {{--                <a class="ui basic right pointing label">--}}
+        {{--                    66--}}
+        {{--                </a>--}}
+        {{--            </div>--}}
+        <div class="ui compact menu">
+            <a href="/ar/single-question/{{$one_question->id}}" class="item">
+                <i class=" comment icon"> </i> التعليقات
+                @if(isset($one_question->Comment))
+                    @if($one_question->Comment->count() > 0 )
 
                         <div class="floating ui red label">{{$one_question->Comment->count()}}</div>
-
                     @endif
+                @endif
+            </a>
 
-   @endif
+        </div>
 
-
-                   </a>
-
-            </div>
-
-            <div class="ui compact menu">
-
-
-
-                <a  onclick=" this.style.background = '#64d97c'"  class="item">
-                    <i  class="medium green  thumbs up icon"></i> مفيد
-
-{{--                    <div class="floating ui teal label">{{$one_question->likes_count}}</div>--}}
-                </a>
-            </div>
+        <div class="ui compact menu">
+            <a onclick=" this.style.background = '#64d97c'" class="item">
+                <i class="medium green  thumbs up icon"></i> مفيد
+                {{--                    <div class="floating ui teal label">{{$one_question->likes_count}}</div>--}}
+            </a>
+        </div>
     </div>
     <script>
         $('.ui.embed').embed();

@@ -285,6 +285,41 @@ class RespondentController extends Controller
             "questions" => $questions
         ]);
     }
+    public function myComments()
+    {
+
+            Auth::check();
+            $lang = AdminController::getLang();
+            if (is_null(Input::get("t")) && is_null(Input::get("q")))
+
+                $questions = Question::RightJoin('comment', 'question.id', '=', 'comment.question_id')
+                    ->where("adminId", AdminController::getId())
+                    ->where("question.status", "!=", QuestionStatus::NO_ANSWER)
+                    ->select('*','question.id', 'question.type as type', 'question.categoryId as categoryId', 'comment.content as comment_content', 'question.content as question_content')
+                    ->orderBy("comment.id", "DESC")
+                    ->paginate(25);
+
+
+        else
+            if (is_null(Input::get("t")) || Input::get("t") == 1)
+                $questions = Question::where("adminId", AdminController::getId())
+                    ->where("status", "!=", QuestionStatus::NO_ANSWER)
+                    ->where("content", "like", "%".Input::get("q")."%")
+                    ->orderBy("id", "DESC")
+                    ->paginate(25);
+            else
+                $questions = Question::where("adminId", AdminController::getId())
+                    ->where("status", "!=", QuestionStatus::NO_ANSWER)
+                    ->where("answer", "like", "%".Input::get("q")."%")
+                    ->orderBy("id", "DESC")
+                    ->paginate(25);
+
+
+
+        return view("control-panel.$lang.respondent.my-comments")->with([
+            "questions" => $questions
+        ]);
+    }
 
     /**
      * Show the form for editing the question.

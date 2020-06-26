@@ -1,7 +1,7 @@
 @extends("control-panel.ar.layout.main_layout")
 
 @section("title")
-    <title>اجوبتي</title>
+    <title>تعليقات</title>
 @endsection
 
 @section("content")
@@ -20,11 +20,11 @@
                     <i class="bars big icon" style="margin: 0;"></i>&nbsp;
                     <span>اسئلتي</span>
                 </a>
-                <a class="item active" href="/control-panel/respondent/my-answers">
+                <a class="item " href="/control-panel/respondent/my-answers">
                     <i class="folder open big icon" style="margin: 0;"></i>&nbsp;
                     <span>اجوبتي</span>
                 </a>
-                <a class="item" href="/control-panel/respondent/my-comments">
+                <a class="item active" href="/control-panel/respondent/my-comments">
                     <i class="comments big icon" style="margin: 0;"></i>&nbsp;
                     <span>التعليقات</span>
                 </a>
@@ -82,14 +82,21 @@
                         </p>
 
                         <p>
-                            <span style="color: #21ba45;">السؤال :- </span>
-                            <span>{{$question->content}}</span>
+                            <span style="color: #21ba45;">السؤال:- </span>
+                            <span>{{$question->question_content}}</span>
                         </p>
 
+
                         <p>
-                            <span style="color: #b5cc18;">الجواب :- </span>
+                            <span style="color: #21ba45;">الاجابة:- </span>
                             <span>{{$question->answer}}</span>
                         </p>
+<div class="divider"></div>
+                        <p>
+                            <span style="color: #21ba45;">التعليق:- </span>
+                            <span>{{$question->comment_content}}</span>
+                        </p>
+
 
                         <p>
                             @if($question->status == \App\Enums\QuestionStatus::TEMP_ANSWER)

@@ -11,7 +11,7 @@
     </div>
 
     <div class="column">
-        <div class="ui four item teal big menu" id="special-menu">
+        <div class="ui five item teal big menu" id="special-menu">
             <a class="item" href="/control-panel">
                 <i class="home big icon" style="margin: 0;"></i>&nbsp;
                 <span>الرئيسية</span>
@@ -23,6 +23,10 @@
             <a class="item" href="/control-panel/respondent/my-answers">
                 <i class="folder open big icon" style="margin: 0;"></i>&nbsp;
                 <span>اجوبتي</span>
+            </a>
+            <a class="item" href="/control-panel/respondent/my-comments">
+                <i class="comments big icon" style="margin: 0;"></i>&nbsp;
+                <span>التعليقات</span>
             </a>
             <a class="item" href="/control-panel/respondent/answers">
                 <i class="history big icon" style="margin: 0;"></i>&nbsp;

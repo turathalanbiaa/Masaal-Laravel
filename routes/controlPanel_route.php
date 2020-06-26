@@ -40,6 +40,7 @@ Route::post("/control-panel/respondent/my-answers/{question}/update-answer", "Co
 
 Route::get("/control-panel/respondent/answers", "ControlPanel\\RespondentController@answers");
 
+Route::get("/control-panel/respondent/my-comments", "ControlPanel\\RespondentController@myComments");
 
 //Routes for reviewer
 Route::get("/control-panel/reviewer", "ControlPanel\\ReviewerController@index");
