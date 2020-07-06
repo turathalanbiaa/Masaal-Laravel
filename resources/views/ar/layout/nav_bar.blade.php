@@ -1,24 +1,13 @@
-<div class="ui  two column centered grid ">
 
-    <div style="margin-top: 20px" class="equal width row">
 
-        <div class="center aligned column">
-
-            <a href="/ar/index/2">
-                <img style="width: 150px ; color: #ffffff" src="/img/d2.png">
-            </a>
-
-        </div>
-        <div class="center aligned column">
-            <a href="/ar/index/1">
-                <img style="width: 150px ; color: #ffffff" src="/img/d1.png">
-
-            </a>
-
-        </div>
+    <div class="ui five item menu">
+        <a class=" item" href="/ar/index/0">جميع الاسئلة</a>
+        <a class="item" href="/ar/index/1">الفقه</a>
+        <a class="item" href="/ar/index/2">العقائد </a>
+        <a class="item" href="/ar/index/3">القرآن الكريم </a>
+        <a class="item" href="/ar/index/4"> اجتماعية</a>
     </div>
 
-</div>
 <br>
 
 <div id="nav" class="ui  small menu">
@@ -32,14 +21,16 @@
     </a>
 
 
-    <div  style="direction: ltr" class="ui dropdown item">
-        <i  class="large browser icon"></i>
-       المنشورات
+    <div style="direction: ltr" class="ui dropdown item">
+        <i class="large browser icon"></i>
+        المنشورات
         <div class="ui vertical menu">
             <div class="container">
-            <a style="text-align: center"  class="item" href="/ar/posts/1">منشورات فقهيه</a>
-            <a style="text-align: center"   class="item" href="/ar/posts/2">منشورات عقائديه</a>
-        </div>
+                <a style="text-align: center" class="item" href="/ar/posts/1">منشورات فقهيه</a>
+                <a style="text-align: center" class="item" href="/ar/posts/2">منشورات عقائديه</a>
+                <a style="text-align: center" class="item" href="/ar/posts/3">منشورات قرآنيه</a>
+                <a style="text-align: center" class="item" href="/ar/posts/4">منشورات اجتماعيه</a>
+            </div>
         </div>
     </div>
 
@@ -51,9 +42,9 @@
         <div class="ui vertical menu">
 
             <div class="container">
-            <a style="text-align: center"  class="item" href="/ar/tags">المواضيع</a>
+                <a style="text-align: center" class="item" href="/ar/tags">المواضيع</a>
 
-            <a style="text-align: center"  class="item" href="/ar/categories">الاقسام</a>
+                <a style="text-align: center" class="item" href="/ar/categories">الاقسام</a>
             </div>
         </div>
 
@@ -94,12 +85,12 @@
             <i class="large list layout icon"></i>
             <div class="ui vertical menu">
 
-                <a style=" margin: 20px;text-align: center" href="http://turathalanbiaa.com/"  class="ui primary basic button">
+                <a style=" margin: 20px;text-align: center" href="http://turathalanbiaa.com/"
+                   class="ui primary basic button">
                     <i class="right arrow icon"></i>
                     معهد تراث الانبياء
                 </a>
                 <div class="container">
-
 
 
                     <a style="text-align: center" class="item" href="/ar/app">

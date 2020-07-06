@@ -4,9 +4,7 @@
 
     @include("ar.layout.head")
 
-    @if(isset($page_title))
-        <title>{{$page_title}}</title>
-    @endif
+    <title>الأجوبة الميسرة</title>
 
 </head>
 <body class="pushable">
@@ -18,7 +16,8 @@
 
     <div class="ui container">
 
-        @include("ar.layout.page_header")
+        
+            @include("ar.layout.page_header")
 
         @include("ar.layout.nav_bar")
 

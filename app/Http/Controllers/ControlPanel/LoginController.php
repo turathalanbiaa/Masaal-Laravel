@@ -5,55 +5,125 @@ namespace App\Http\Controllers\ControlPanel;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Input;
 
 class LoginController extends Controller
 {
-    public function login($lang)
+    /**
+     * Login
+     *
+     * @param $lang
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function login()
     {
-        return view("cPanel.$lang.main.login")->with(["lang"=>$lang]);
+        //Redirect to main page
+        if (session()->has("MASAEL_CP_ADMIN_REMEMBER_TOKEN"))
+            return redirect("/control-panel");
+
+        //Auto login
+        if (Cookie::has("MASAEL_CP_ADMIN_REMEMBER_TOKEN"))
+        {
+            //Find admin
+            $admin = Admin::where("remember_token", Cookie::get("MASAEL_CP_ADMIN_REMEMBER_TOKEN"))->first();
+
+            //Admin is not found
+            if (!$admin)
+            {
+                //Remove cookies
+                Cookie::queue(cookie()->forget("MASAEL_CP_ADMIN_REMEMBER_TOKEN"));
+
+                return view("control-panel.login");
+            }
+
+            //Store last login date
+            $admin->last_login_date = date("Y-m-d");
+            $admin->save();
+
+            //Make sessions
+            session()->put('MASAEL_CP_ADMIN_ID', $admin->id);
+            session()->put('MASAEL_CP_ADMIN_NAME', $admin->name);
+            session()->put('MASAEL_CP_ADMIN_USERNAME', $admin->username);
+            session()->put('MASAEL_CP_ADMIN_TYPE', $admin->type);
+            session()->put('MASAEL_CP_ADMIN_LANG', $admin->lang);
+            session()->put('MASAEL_CP_ADMIN_LAST_LOGIN_DATE', $admin->last_login_date);
+            session()->put('MASAEL_CP_ADMIN_REMEMBER_TOKEN', $admin->remember_token);
+            session()->put('MASAEL_CP_PERMISSION', array(
+                    "manager"      => $admin->permission->manager,
+                    "distributor"  => $admin->permission->distributor,
+                    "respondent"   => $admin->permission->respondent,
+                    "reviewer"     => $admin->permission->reviewer,
+                    "post"         => $admin->permission->post,
+                    "announcement" => $admin->permission->announcement,
+                    "translator"   => $admin->permission->translator)
+            );
+            session()->save();
+
+            return redirect("/control-panel");
+        }
+
+        return view("control-panel.login");
     }
 
-    public function loginValidation(Request $request ,$lang)
+    /**
+     * Login Validation
+     *
+     * @param Request $request
+     * @param $lang
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function loginValidation(Request $request)
     {
-        $rules = [
+        //Validation
+        $this->validate($request, [
             "username" => "required",
             "password" => "required"
-        ];
+        ], []);
 
-        $rulesMessage = [
-            "ar"=>[
-                "username.required" => "يرجى ادخال اسم المستخدم.",
-                "password.required" => "يرجى ادخال كلمة المرور."
-            ],
-            "fr"=>[
-                "username.required" => "اسم المستخدم فارغ.",
-                "password.required" => "كلمة المرور غير موجودة."
-            ]
-        ];
-
-        if ($lang == "en")
-            $this->validate($request, $rules, []);
-
-        if ($lang == "ar")
-            $this->validate($request, $rules, $rulesMessage["ar"]);
-
-        if ($lang == "fr")
-            $this->validate($request, $rules, $rulesMessage["fr"]);
-
-        $username = Input::get("username");
-        $password = md5(Input::get("password"));
-
-        $admin = Admin::where("username","=",$username)->where("password","=",$password)->first();
+        //Find admin
+        $admin = Admin::where("username", Input::get("username"))
+            ->where("password", md5(Input::get("password")))
+            ->first();
 
         if (!$admin)
-            return redirect("/control-panel/$lang/login")->with('ErrorRegisterMessage', "فشل تسجيل الدخول !!! أعد المحاولة مرة أخرى.");
+            return redirect("/control-panel/login")->with([
+                'ErrorLoginMessage' => "login failed, Try again."
+            ]);
 
-        $session = md5(uniqid());
-        $admin->session = $session;
+        //Store login for multi devises
+        if (is_null($admin->remember_token))
+            $admin->remember_token = md5(uniqid());
+
+        //Store last login date
+        $admin->last_login_date = date("Y-m-d");
+
         $admin->save();
-        $request->session()->put('ADMIN_SESSION' , $admin->session);
 
-        return redirect("/control-panel/$lang/main")->withCookie(cookie('ADMIN_SESSION' , $admin->session , 1000000000));
+        //Make sessions
+        session()->put('MASAEL_CP_ADMIN_ID', $admin->id);
+        session()->put('MASAEL_CP_ADMIN_NAME', $admin->name);
+        session()->put('MASAEL_CP_ADMIN_USERNAME', $admin->username);
+        session()->put('MASAEL_CP_ADMIN_TYPE', $admin->type);
+        session()->put('MASAEL_CP_ADMIN_LANG', $admin->lang);
+        session()->put('MASAEL_CP_ADMIN_LAST_LOGIN_DATE', $admin->last_login_date);
+        session()->put('MASAEL_CP_ADMIN_REMEMBER_TOKEN', $admin->remember_token);
+        session()->put('MASAEL_CP_PERMISSION', array(
+            "manager"      => $admin->permission->manager,
+            "distributor"  => $admin->permission->distributor,
+            "respondent"   => $admin->permission->respondent,
+            "reviewer"     => $admin->permission->reviewer,
+            "post"         => $admin->permission->post,
+            "announcement" => $admin->permission->announcement,
+            "translator"   => $admin->permission->translator)
+        );
+        session()->save();
+
+        //Make cookies
+        Cookie::queue(cookie()->forever("MASAEL_CP_ADMIN_REMEMBER_TOKEN", $admin->remember_token));
+
+        //Redirect to main page
+        return redirect("/control-panel");
     }
 }

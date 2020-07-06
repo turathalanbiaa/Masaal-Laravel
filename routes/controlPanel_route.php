@@ -6,49 +6,67 @@
  * Time: 2:12 PM
  */
 
-/*route of main*/
-Route::get("/control-panel/{lang}/", "ControlPanel\\MainController@index")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie");
-Route::get("/control-panel/{lang}/main", "ControlPanel\\MainController@index")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie");
-Route::get("/control-panel/{lang}/login", "ControlPanel\\LoginController@login")->where("lang" , "en|ar|fr");
-Route::post("/control-panel/{lang}/login", "ControlPanel\\LoginController@loginValidation")->where("lang" , "en|ar|fr");
-Route::get("/control-panel/{lang}/logout", "ControlPanel\\MainController@logout")->where("lang" , "en|ar|fr");
-
-/*route of manager*/
-Route::get("/control-panel/{lang}/managers", "ControlPanel\\ManagerController@managers")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::post("/control-panel/admin/delete", "ControlPanel\\ManagerController@delete")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::get("/control-panel/{lang}/admin/info", "ControlPanel\\ManagerController@info")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::post("/control-panel/{lang}/admin/update", "ControlPanel\\ManagerController@update")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::get("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@create")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-Route::post("/control-panel/{lang}/admin/create", "ControlPanel\\ManagerController@createValidation")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:manager");
-
-/*route of distributor*/
-Route::get("/control-panel/{lang}/distribution-questions", "ControlPanel\\DistributorController@distributeQuestionsToRespondents")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
-Route::post("/control-panel/distribution", "ControlPanel\\DistributorController@distribution")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
-Route::post("/control-panel/change-question-type", "ControlPanel\\DistributorController@changeQuestionType")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:distributor");
-
-/*route of respondent*/
-Route::get("/control-panel/{lang}/my-questions", "ControlPanel\\RespondentController@questions")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:respondent");
-Route::get("/control-panel/{lang}/question", "ControlPanel\\RespondentController@question")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:respondent");
-Route::post("/control-panel/{lang}/question-answer", "ControlPanel\\RespondentController@answer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:respondent");
-
-/*route of reviewer*/
-Route::get("/control-panel/{lang}/reviewed-questions", "ControlPanel\\ReviewerController@questions")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
-Route::post("/control-panel/acceptAnswer", "ControlPanel\\ReviewerController@acceptAnswer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
-Route::post("/control-panel/rejectAnswer", "ControlPanel\\ReviewerController@rejectAnswer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
-Route::get("/control-panel/{lang}/info-question", "ControlPanel\\ReviewerController@infoQuestion")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
-Route::post("/control-panel/{lang}/update-answer", "ControlPanel\\ReviewerController@updateAnswer")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:reviewer");
+//Routes for main
+Route::get("control-panel", "ControlPanel\\MainController@index");
+Route::get("control-panel/login", "ControlPanel\\LoginController@login");
+Route::post("control-panel/login", "ControlPanel\\LoginController@loginValidation");
+Route::get("control-panel/logout", "ControlPanel\\MainController@logout");
 
 
-/*route of post*/
-Route::get("/control-panel/{lang}/posts", "ControlPanel\\PostController@posts")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:post");
-Route::post("/control-panel/post/delete", "ControlPanel\\PostController@delete")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:post");
-Route::get("/control-panel/{lang}/post/create", "ControlPanel\\PostController@create")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:post");
-Route::post("/control-panel/{lang}/post/create", "ControlPanel\\PostController@createValidation")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:post");
+//Routes for admin
+Route::resource("control-panel/admins", "ControlPanel\\AdminController");
 
 
-/*route of announcement*/
-Route::get("/control-panel/{lang}/announcements", "ControlPanel\\AnnouncementController@announcements")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::post("/control-panel/announcement/delete", "ControlPanel\\AnnouncementController@delete")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::post("/control-panel/announcement/active", "ControlPanel\\AnnouncementController@active")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::get("/control-panel/{lang}/announcement/create", "ControlPanel\\AnnouncementController@create")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
-Route::post("/control-panel/{lang}/announcement/create", "ControlPanel\\AnnouncementController@createValidation")->where("lang" , "en|ar|fr")->middleware("loginAdminFromCookie", "permission:announcement");
+/*routes for distributor*/
+Route::get("/control-panel/distributor", "ControlPanel\\DistributorController@index");
+Route::post("/control-panel/distributor/distribute-question/ajax", "ControlPanel\\DistributorController@distributeQuestion");
+Route::post("/control-panel/distributor/delete-question/ajax", "ControlPanel\\DistributorController@deleteQuestion");
+Route::post("/control-panel/distributor/change-type-question/ajax", "ControlPanel\\DistributorController@changeTypeQuestion");
+
+
+//Routes for respondent
+Route::get("/control-panel/respondent", "ControlPanel\\RespondentController@index");
+
+Route::get("/control-panel/respondent/{question}/edit", "ControlPanel\\RespondentController@editQuestion");
+Route::post("/control-panel/respondent/{question}", "ControlPanel\\RespondentController@answerQuestion");
+
+Route::post("/control-panel/respondent/delete-question/ajax", "ControlPanel\\RespondentController@deleteQuestion");
+Route::post("/control-panel/respondent/return-question/ajax", "ControlPanel\\RespondentController@returnQuestion");
+Route::post("/control-panel/respondent/change-type-question/ajax", "ControlPanel\\RespondentController@changeTypeQuestion");
+
+Route::get("/control-panel/respondent/my-answers", "ControlPanel\\RespondentController@myAnswers");
+Route::get("/control-panel/respondent/my-answers/{question}/edit-answer", "ControlPanel\\RespondentController@editMyAnswer");
+Route::post("/control-panel/respondent/my-answers/{question}/update-answer", "ControlPanel\\RespondentController@updateMyAnswer");
+
+Route::get("/control-panel/respondent/answers", "ControlPanel\\RespondentController@answers");
+
+Route::get("/control-panel/respondent/my-comments", "ControlPanel\\RespondentController@myComments");
+
+//Routes for reviewer
+Route::get("/control-panel/reviewer", "ControlPanel\\ReviewerController@index");
+Route::get("/control-panel/reviewer/{question}/edit", "ControlPanel\\ReviewerController@editAnswer");
+Route::post("/control-panel/reviewer/{question}", "ControlPanel\\ReviewerController@updateAnswer");
+Route::post("/control-panel/reviewer/accept-answer/ajax", "ControlPanel\\ReviewerController@acceptAnswer");
+Route::post("/control-panel/reviewer/reject-answer/ajax", "ControlPanel\\ReviewerController@rejectAnswer");
+Route::post("/control-panel/reviewer/delete-question/ajax", "ControlPanel\\ReviewerController@deleteQuestion");
+
+
+//Routes of post
+Route::resource("/control-panel/posts", "ControlPanel\\PostController");
+
+
+//Routes of announcement
+Route::resource("/control-panel/announcements", "ControlPanel\\AnnouncementController");
+
+//Routes of category
+Route::resource("/control-panel/categories", "ControlPanel\\CategoryController");
+
+//Routes of translator
+Route::get("/control-panel/translator", function (){
+    echo "<h1 style='text-align: center; margin-top: 300px;'>قريبا</h1>";
+    return "";
+});
+
+//Routes for reports
+Route::get("/control-panel/report", "ControlPanel\\ReportController@index");
+Route::get("/control-panel/report/{type}/{privacy}/{category}", "ControlPanel\\ReportController@report");

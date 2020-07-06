@@ -25,6 +25,11 @@ class Question extends Model
     protected $table = "question";
     public $timestamps = false;
 
+    public function User()
+    {
+        return $this->hasOne('App\Models\User','id','userId');
+    }
+
     public function Admin()
     {
         return $this->hasOne('App\Models\Admin','id','adminId');
@@ -38,5 +43,9 @@ class Question extends Model
     public function QuestionTags()
     {
         return $this->hasMany('App\Models\QuestionTag','questionId','id');
+    }
+    public function Comment()
+    {
+        return $this->hasMany('App\Models\Comment','question_id','id');
     }
 }

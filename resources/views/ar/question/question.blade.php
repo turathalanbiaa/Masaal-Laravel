@@ -14,10 +14,101 @@
         color: black;
     }
 </style>
+تصفح
+<a class="ui right teal  label">
+
+
+    @if(isset($my_type))
+        @if($my_type == 2)
+            العقائد
+
+        @elseif($my_type == 1)
+
+            الفقه
+
+
+        @elseif($my_type == 0)
+
+            جميع الاسئلة
+
+
+        @elseif($my_type == 3)
+
+            القرآن الكريم
+
+
+        @elseif($my_type == 4)
+
+            اجتماعي
+
+        @elseif($my_type == 30)
+
+            اسئلتي
+
+        @elseif($my_type == 31)
+
+            نتائج البحث
+
+        @elseif($my_type == 32)
+
+            بواسطة المواضيع
+
+        @elseif($my_type == 33)
+
+            بواسطة الاقسام
+
+
+
+        @endif
+    @endif
+
+
+</a>
+
+
 @foreach($questions as $one_question)
 
 
     <div class="ui  segment">
+
+        @if($my_type == 0)
+
+
+            <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
+
+
+                @if($one_question->type == 2)
+                    العقائد
+
+                @elseif($one_question->type == 1)
+
+                    الفقه
+
+
+                @elseif($one_question->type == 3)
+
+                    القرآن الكريم
+
+
+                @elseif($one_question->type == 4)
+
+                    اجتماعي
+
+
+                @endif
+
+            </a>
+        @endif
+
+        <a class="ui right  tag label"
+           href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
+            @if($one_question->category!=null)
+                {{$one_question->category}}
+            @else
+                غير مصنف
+            @endif
+        </a>
+        <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">س \ {{$one_question->id}}</a>
 
 
         <h3 class="ui header">
@@ -26,14 +117,24 @@
 
 
                 <div class="sub header">{{$one_question->userDisplayName}}</div>
-                <div class="sub header">{{$one_question->x}}</div>
+                @if(isset($one_question->x))
+                    <div class="sub header">{{$one_question->x}}</div>
+
+                @elseif(isset($one_question->time))
+                    <div class="sub header">{{$one_question->time}}</div>
+
+                @endif
+
+
             </div>
 
 
         </h3>
+
         <a class="ui large left corner label" data-action="share_question" data-id="{{$one_question->id}}">
             <i style="color: #00b5ad" class="share icon"></i>
         </a>
+
         @if(isset($searchtext))
             <?php
             $questionContent = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->content);
@@ -41,12 +142,10 @@
 
             {!! $questionContent !!}
         @else
-            <p class="ellipsis"
-               style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;">{{$one_question->content}}</p>
+            <p style="height:60px; line-height:20px;  overflow:hidden;">{{$one_question->content}}</p>
 
         @endif
         <div class="ui divider"></div>
-        <p>الجواب :</p>
 
         @if($one_question->answer != null)
 
@@ -56,11 +155,14 @@
                 <?php
                 $questionAnswer = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->answer);
                 ?>
-
                 {!! $questionAnswer !!}
             @else
-                <p class="ellipsis"
-                   style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;"> {{$one_question->answer}}</p>
+                <div style="height: auto">
+                    <p style="height: 4em; white-space: normal; overflow: hidden;  text-overflow: ellipsis;"> {{$one_question->answer}}</p>
+                </div>
+
+                <p>
+                    ... <a href="/ar/single-question/{{$one_question->id}}" class="ui right ">اكمال القراءة</a></p>
 
             @endif
 
@@ -72,24 +174,19 @@
                 سوف تتم الاجابة قريبا
 
             </div>
-            ً
+
         @endif
-
         @if($one_question->image !="")
-
-
             <img class="ui right bordered large image"
                  src="{{\App\Enums\ImagePath::path_answer . $one_question->image}}">
-
         @endif
-
-
         @if($one_question->videoLink !="")
             <div>
                 <br>
                 <i class="video icon"></i>
                 <label>الفيديو : </label>
                 <a href="{{$one_question->videoLink}}"> اضغظ هنا لمشاهدة الفيديو</a>
+<<<<<<< HEAD
 
 
                 {{--<div class="ui embed" data-url="{{$one_question->videoLink}}" data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
@@ -97,6 +194,11 @@
                 {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
 
 
+=======
+                {{--<div class="ui embed" data-url="{{$one_question->videoLink}}" data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
+                {{--<div class="ui embed" data-source="youtube" data-id="{{$one_question->videoLink}}" data-icon="play"--}}
+                {{--data-placeholder="{{\App\Enums\ImagePath::path_post . "green.png"}}"></div>--}}
+>>>>>>> 5d6d99f382cd6d91ac6fd729bcefdb1929970ef3
             </div>
         @endif
 
@@ -112,42 +214,47 @@
             </div>
         @endif
 
+        {{--            <a href="/ar/single-question/{{$one_question->id}}" class="ui right  label">--}}
+        {{--                <i class=" comment icon"> </i>--}}
+        {{--                التعليقات--}}
+        {{--                <i style="font-size: 14px" class=" circle green icon"> </i>--}}
+        {{--            </a>--}}
 
-        <div class="ui hidden divider">
+        {{--            <div  style="height: 30px" class="ui left labeled button" tabindex="0">--}}
+
+        {{--                <div   style="height: 30px" class="ui button">--}}
+        {{--                    <i style="height: 30px" class="medium green  thumbs up icon"></i> مفيد--}}
+        {{--                </div>--}}
+        {{--                <a class="ui basic right pointing label">--}}
+        {{--                    66--}}
+        {{--                </a>--}}
+        {{--            </div>--}}
+        <div class="ui compact menu">
+            <a href="/ar/single-question/{{$one_question->id}}" class="item">
+                <i class=" comment icon"> </i> التعليقات
+                @if(isset($one_question->Comment))
+                    @if($one_question->Comment->count() > 0 )
+
+                        <div class="floating ui red label">{{$one_question->Comment->count()}}</div>
+                    @endif
+                @endif
+            </a>
 
         </div>
 
-        <a class="ui right teal tag label" href="/ar/index/{{$one_question->type}}">
-            @if($one_question->type == 2)
-                العقائد
-                <a class="ui right teal tag label"
-                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-                    @if($one_question->category!=null)
-                        {{$one_question->category}}
-                    @else
-                        غير مصنف
-                    @endif
-
-                </a>
-            @elseif($one_question->type == 1)
-
-                الفقه
-
-                <a class="ui right teal tag label"
-                   href="/ar/search?type={{$one_question->type}}&id={{$one_question->categoryId}}">
-                    @if($one_question->category!=null)
-                        {{$one_question->category}}
-                    @else
-                        غير مصنف
-                    @endif
-                </a>
-            @endif
-
-        </a>
-        <a href="/ar/single-question/{{$one_question->id}}" class="ui right teal label">س \ {{$one_question->id}}</a>
+        <div class="ui compact menu">
+            <a onclick=" this.style.background = '#64d97c'" class="item">
+                <i class="medium green  thumbs up icon"></i> مفيد
+                {{--                    <div class="floating ui teal label">{{$one_question->likes_count}}</div>--}}
+            </a>
+        </div>
     </div>
     <script>
         $('.ui.embed').embed();
         $('.url.example .ui.embed').embed();
+        $('.ui.accordion')
+            .accordion()
+        ;
     </script>
+
 @endforeach

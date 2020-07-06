@@ -14,7 +14,16 @@ Route::post("tag/all" , "API\\TagController@all");
 
 Route::post("settings/change/name" , "API\\SettingsController@changeName");
 
+
 Route::get("notification/send-to-device" , "API\\NotificationController@sendToDevice");
 Route::post("notification/set-firebase-token" , "API\\NotificationController@registerToken");
 
 Route::post("setup" , "API\\SettingsController@setup");
+
+
+
+Route::get("aqaed/getSubject/{root_id}" , "API\\AqaedController@getSubject");
+Route::get("aqaed/getContent/{id}" , "API\\AqaedController@getContent");
+
+Route::get("aqaed/cp/{root_id}" , "AqaedController@showRoots");
+Route::get("aqaed/cp/{root_id}/{level}" , "AqaedController@showSubjects");

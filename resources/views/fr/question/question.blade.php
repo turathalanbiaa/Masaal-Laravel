@@ -36,18 +36,21 @@
         </a>
         @if(isset($searchtext))
             <?php
-            $questionContent = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->content);
+            $questionAnswer = str_replace($searchtext, ' <mark>' . $searchtext . '</mark>', $one_question->answer);
             ?>
-
-            {!! $questionContent !!}
+            {!! $questionAnswer !!}
         @else
-            <p class="ellipsis"
-               style="line-height: 1.5em;height: 4.5em;overflow: hidden;text-overflow: ellipsis;">{{$one_question->content}}</p>
+            <div style="height: auto">
+                <p style="height: 4em; white-space: normal; overflow: hidden;  text-overflow: ellipsis;"> {{$one_question->answer}}</p>
+            </div>
+
+            <p>
+                ... <a href="/ar/single-question/{{$one_question->id}}" class="ui right ">اكمال القراءة</a></p>
 
         @endif
         <div class="ui divider"></div>
         <p>La réponse :</p>
-        <p class="ellipsis">
+        <p>
             @if($one_question->answer != null)
 
                 {{$one_question->answer}}</p>

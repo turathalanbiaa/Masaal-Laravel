@@ -4,39 +4,52 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Enums\QuestionStatus;
 use App\Enums\QuestionType;
-use App\Enums\TargetName;
+use App\Enums\EventLogType;
 use App\Models\Admin;
+use App\Models\EventLog;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class DistributorController extends Controller
 {
-    public function distributeQuestionsToRespondents()
+    /**
+     * Display questions to distribute it's to respondents.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
     {
-        $currentAdmin = Input::get("currentAdmin");
-        $questions = Question::where('type', $currentAdmin->type)
-            ->where('adminId',null)
-            ->where('lang', $currentAdmin->lang)
-            ->orderBy("id")
-            ->simplePaginate(20);
+        Auth::check();
+        $lang = AdminController::getLang();
+        $type = AdminController::getType();
+        $questions = Question::where('type', $type)
+            ->where('adminId', null)
+            ->where('lang', $lang)
+            ->paginate(25);
+        $respondents = Admin::where('type', $type)
+            ->where('lang', $lang)
+            ->get()
+            ->filter(function ($admin){
+            return ($admin->permission->respondent == 1);
+        });
 
-        $respondents = Admin::where('type', $currentAdmin->type)
-            ->where('lang', $currentAdmin->lang)
-            ->where('respondent', 1)
-            ->orderBy("id")
-            ->get();
-
-        return view("cPanel.$currentAdmin->lang.distributor.questions")->with([
-            "lang" => $currentAdmin->lang,
+        return view("control-panel.$lang.distributor.index")->with([
             "questions" => $questions,
             "respondents" => $respondents
         ]);
     }
 
-    public function distribution(Request $request)
+    /**
+     * Distribute the question to the respondent.
+     *
+     * @return array
+     */
+    public function distributeQuestion()
     {
+        Auth::check();
         $questionId = Input::get("questionId");
         $respondentId = Input::get("respondentId");
         $question = Question::find($questionId);
@@ -54,38 +67,78 @@ class DistributorController extends Controller
         if (!$success)
             return ["success" => false];
 
-        EventLogController::add($request, "DISTRIBUTE QUESTION", TargetName::QUESTION, $question->id);
+        //Store event log
+        $target = $question->id;
+        $type = EventLogType::QUESTION;
+        $event = "توزيع السؤال على المجيب " . $respondent->name . "من قبل الموزع " . AdminController::getName();
+        EventLog::create($target, $type, $event);
 
         return ["success" => true];
     }
 
-    public function changeQuestionType(Request $request)
+    /**
+     * Remove the question.
+     *
+     * @return array
+     */
+    public function deleteQuestion()
     {
-        $questionId = Input::get("questionId");
-        $question = Question::find($questionId);
-
+        Auth::check();
+        $question = Question::find(Input::get("question"));
         if (!$question)
             return ["question" => "NotFound"];
 
-        $question->status = QuestionStatus::NO_ANSWER;
-        $question->adminId = null;
-        $question->categoryId = null;
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Remove question
+            $question->delete();
 
-        switch ($question->type)
-        {
-            case QuestionType::FEQHI: $question->type = QuestionType::AKAEDI; break;
-            case QuestionType::AKAEDI: $question->type = QuestionType::FEQHI; break;
-            default: $question->type = QuestionType::FEQHI;
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم حذف السؤال من قبل الموزع " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
 
-        }
-
-        $success = $question->save();
-
-        if (!$success)
+        if (is_null($exception))
+            return ["success" => true];
+        else
             return ["success" => false];
+    }
 
-        EventLogController::add($request, "CHANGE TYPE QUESTION", TargetName::QUESTION, $question->id);
+    /**
+     * Change type the question.
+     *
+     * @return array
+     */
+    public function changeTypeQuestion()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
 
-        return ["success" => true];
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Update question
+            switch ($question->type)
+            {
+                case QuestionType::FEQHI: $question->type = QuestionType::AKAEDI; break;
+                case QuestionType::AKAEDI: $question->type = QuestionType::FEQHI; break;
+                default: $question->type = QuestionType::FEQHI;
+            }
+            $question->save();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم تغيير نوع السؤال من قبل الموزع " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
     }
 }

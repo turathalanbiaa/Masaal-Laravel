@@ -55,7 +55,7 @@
 
 
                 <img class="ui right bordered large image"
-                     src="{{\App\Enums\ImagePath::path_answer . $question->image}}">
+                     src="{{"/storage/" . $question->image}}">
             </div>
         @endif
 

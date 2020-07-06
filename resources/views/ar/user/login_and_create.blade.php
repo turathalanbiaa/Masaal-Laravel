@@ -25,7 +25,7 @@
 
                         <form method="post" action="/ar/login" class="ui form">
                             {{ csrf_field()}}
-                            <h1 class="ui centered medium header">تسجيل الدخول</h1>
+                            <h3 class="ui centered medium header">تسجيل الدخول</h3>
                             <div class="field">
                                 <label>ادخل مٌـعرفك الخاص</label>
                                 <div class="ui right icon input">
@@ -60,9 +60,10 @@
 
 
                     <div class="column">
-                        <h1 class="ui centered medium header">ادخل المعلومات التالية لإنشاء حساب</h1>
+                        <h3 class="ui centered medium header">اذا كنت لا تمتلك حساب</h3>
+                        <h3 class="ui centered small header">ادخل المعلومات التالية لإنشاء حساب</h3>
 
-                        @if(count($errors))
+                    @if(count($errors))
                             <div class="ui error message" id="message">
                                 <ul class="list">
                                     @foreach($errors->all() as $error)
@@ -75,9 +76,9 @@
                         <form method="post" action="/ar/register" class="ui form">
                             {{ csrf_field()}}
                             <div class="field">
-                                <label>الاسم</label>
+                                <label>اسم المستخدم</label>
                                 <div class="ui left icon input">
-                                    <input name="name" type="text" placeholder="الاسم" style="text-align: right">
+                                    <input name="name" type="text" placeholder="اسم المستخدم" style="text-align: right">
                                     <i class="user icon"></i>
                                 </div>
                             </div>
@@ -101,7 +102,7 @@
 
                             {{ csrf_field()}}
 
-                            <button type="submit" class="ui large blue button">حفظ المعلومات</button>
+                            <button type="submit" class="ui large blue button">انشاء حساب</button>
                         </form>
 
                     </div>
