@@ -232,16 +232,95 @@ class RespondentController extends Controller
         $exception = DB::transaction(function () use ($question) {
             //Update question
             $question->adminId = null;
-            switch ($question->type) {
-                case QuestionType::FEQHI:
+
+            $question->type = QuestionType::FEQHI;
+
+            $question->save();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم تغيير نوع السؤال من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
+    }
+   public function changeTypeQuestion2()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Update question
+            $question->adminId = null;
+
+
                     $question->type = QuestionType::AKAEDI;
-                    break;
-                case QuestionType::AKAEDI:
-                    $question->type = QuestionType::FEQHI;
-                    break;
-                default:
-                    $question->type = QuestionType::FEQHI;
-            }
+
+
+            $question->save();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم تغيير نوع السؤال من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
+    }
+   public function changeTypeQuestion3()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Update question
+            $question->adminId = null;
+
+                    $question->type = QuestionType::QURAN;
+
+            $question->save();
+
+            //Store event log
+            $target = $question->id;
+            $type = EventLogType::QUESTION;
+            $event = "تم تغيير نوع السؤال من قبل المجيب " . AdminController::getName();
+            EventLog::create($target, $type, $event);
+        });
+
+        if (is_null($exception))
+            return ["success" => true];
+        else
+            return ["success" => false];
+    }
+   public function changeTypeQuestion4()
+    {
+        Auth::check();
+        $question = Question::find(Input::get("question"));
+        if (!$question)
+            return ["question" => "NotFound"];
+
+        //Transaction
+        $exception = DB::transaction(function () use ($question) {
+            //Update question
+            $question->adminId = null;
+
+                    $question->type = QuestionType::SOCIAL;
+
             $question->save();
 
             //Store event log

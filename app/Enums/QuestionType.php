@@ -13,6 +13,8 @@ class QuestionType
 {
     const FEQHI = 1;
     const AKAEDI = 2;
+    const QURAN = 3;
+    const SOCIAL = 4;
 
     public static function getQuestionTypeName($key)
     {
@@ -20,6 +22,8 @@ class QuestionType
         {
             case QuestionType::FEQHI : return "فقهي";
             case QuestionType::AKAEDI : return "عقائدي";
+            case QuestionType::QURAN : return "قران";
+            case QuestionType::SOCIAL : return "اجتماعي";
             default: return "";
         }
     }

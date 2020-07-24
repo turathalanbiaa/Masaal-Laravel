@@ -23,6 +23,12 @@ Route::post("/control-panel/distributor/distribute-question/ajax", "ControlPanel
 Route::post("/control-panel/distributor/delete-question/ajax", "ControlPanel\\DistributorController@deleteQuestion");
 Route::post("/control-panel/distributor/change-type-question/ajax", "ControlPanel\\DistributorController@changeTypeQuestion");
 
+Route::post("/control-panel/distributor/change-type-question2/ajax", "ControlPanel\\DistributorController@changeTypeQuestion2");
+
+Route::post("/control-panel/distributor/change-type-question3/ajax", "ControlPanel\\DistributorController@changeTypeQuestion3");
+
+Route::post("/control-panel/distributor/change-type-question4/ajax", "ControlPanel\\DistributorController@changeTypeQuestion4");
+
 
 //Routes for respondent
 Route::get("/control-panel/respondent", "ControlPanel\\RespondentController@index");
@@ -33,6 +39,9 @@ Route::post("/control-panel/respondent/{question}", "ControlPanel\\RespondentCon
 Route::post("/control-panel/respondent/delete-question/ajax", "ControlPanel\\RespondentController@deleteQuestion");
 Route::post("/control-panel/respondent/return-question/ajax", "ControlPanel\\RespondentController@returnQuestion");
 Route::post("/control-panel/respondent/change-type-question/ajax", "ControlPanel\\RespondentController@changeTypeQuestion");
+Route::post("/control-panel/respondent/change-type-question2/ajax", "ControlPanel\\RespondentController@changeTypeQuestion2");
+Route::post("/control-panel/respondent/change-type-question3/ajax", "ControlPanel\\RespondentController@changeTypeQuestion3");
+Route::post("/control-panel/respondent/change-type-question4/ajax", "ControlPanel\\RespondentController@changeTypeQuestion4");
 
 Route::get("/control-panel/respondent/my-answers", "ControlPanel\\RespondentController@myAnswers");
 Route::get("/control-panel/respondent/my-answers/{question}/edit-answer", "ControlPanel\\RespondentController@editMyAnswer");

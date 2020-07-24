@@ -64,13 +64,43 @@
                             <div class="sixteen wide field">
                                 <button class="ui inverted green button" data-action="distribute-question">تحويل للمجيب</button>
                                 <button class="ui inverted red button" data-action="delete-question" data-content="{{$question->id}}">حذف</button>
+                                @if($question->type != \App\Enums\QuestionType::FEQHI)
+
                                 <button class="ui inverted blue button" data-action="change-type-question" data-content="{{$question->id}}">
-                                    @if($question->type == \App\Enums\QuestionType::FEQHI)
-                                        <span>تحويل الى العقائد</span>
-                                    @elseif($question->type == \App\Enums\QuestionType::AKAEDI)
+                                    {{--@if($question->type == \App\Enums\QuestionType::FEQHI)--}}
+                                    {{--<span>تحويل الى العقائد</span>--}}
+                                    {{--@elseif($question->type == \App\Enums\QuestionType::AKAEDI)--}}
+                                    {{--<span>تحويل الى الفقه</span>--}}
+                                    {{--@endif--}}
+
                                         <span>تحويل الى الفقه</span>
-                                    @endif
+                                   </button>
+                                @endif
+
+                            @if($question->type != \App\Enums\QuestionType::AKAEDI)
+
+                                <button class="ui inverted blue button" data-action="change-type-question2" data-content="{{$question->id}}">
+
+                                        <span>تحويل الى العقائد</span>
+
                                 </button>
+                                @endif
+                                @if($question->type != \App\Enums\QuestionType::QURAN)
+
+                                <button class="ui inverted blue button" data-action="change-type-question3" data-content="{{$question->id}}">
+
+                                         <span>تحويل الى قران</span>
+
+                                </button>
+                                @endif
+                                @if($question->type != \App\Enums\QuestionType::SOCIAL)
+
+                                <button class="ui inverted blue button" data-action="change-type-question4" data-content="{{$question->id}}">
+
+                                       <span>تحويل الى اجتماعي</span>
+
+                                </button>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -116,7 +146,43 @@
 
     <div class="ui mini modal" id="modal-change-type-question">
         <h3 class="ui center aligned top attached inverted header">
-            <span style="color: white;">هل انت متأكد من تغيير نوع السؤال؟</span>
+            <span style="color: white;">هل انت متأكد من تغيير نوع السؤال الى الفقه؟</span>
+        </h3>
+        <div class="content">
+            <input type="hidden" name="question">
+            <div class="actions" style="text-align: center;">
+                <button class="ui positive button">نعم</button>
+                <button class="ui negative button">لا</button>
+            </div>
+        </div>
+    </div>
+  <div class="ui mini modal" id="modal-change-type-question2">
+        <h3 class="ui center aligned top attached inverted header">
+            <span style="color: white;">هل انت متأكد من تغيير نوع السؤال الى العقائد؟</span>
+        </h3>
+        <div class="content">
+            <input type="hidden" name="question">
+            <div class="actions" style="text-align: center;">
+                <button class="ui positive button">نعم</button>
+                <button class="ui negative button">لا</button>
+            </div>
+        </div>
+    </div>
+  <div class="ui mini modal" id="modal-change-type-question3">
+        <h3 class="ui center aligned top attached inverted header">
+            <span style="color: white;">هل انت متأكد من تغيير نوع السؤال الى القران؟</span>
+        </h3>
+        <div class="content">
+            <input type="hidden" name="question">
+            <div class="actions" style="text-align: center;">
+                <button class="ui positive button">نعم</button>
+                <button class="ui negative button">لا</button>
+            </div>
+        </div>
+    </div>
+  <div class="ui mini modal" id="modal-change-type-question4">
+        <h3 class="ui center aligned top attached inverted header">
+            <span style="color: white;">هل انت متأكد من تغيير نوع السؤال الى اجتماعي؟</span>
         </h3>
         <div class="content">
             <input type="hidden" name="question">
@@ -269,6 +335,43 @@
                 })
                 .modal("show");
         });
+      //Change type the question
+        $("button[data-action='change-type-question2']").click(function () {
+            var button = $(this);
+            button.parent().parent().parent().attr("id", "current-segment");
+            button.addClass("loading");
+            $("#modal-change-type-question2 input[name='question']").val(button.data("content"));
+            $("#modal-change-type-question2")
+                .modal({
+                    'closable' : false,
+                    'transition': 'horizontal flip'
+                })
+                .modal("show");
+        });
+         $("button[data-action='change-type-question3']").click(function () {
+            var button = $(this);
+            button.parent().parent().parent().attr("id", "current-segment");
+            button.addClass("loading");
+            $("#modal-change-type-question3 input[name='question']").val(button.data("content"));
+            $("#modal-change-type-question3")
+                .modal({
+                    'closable' : false,
+                    'transition': 'horizontal flip'
+                })
+                .modal("show");
+        });
+         $("button[data-action='change-type-question4']").click(function () {
+            var button = $(this);
+            button.parent().parent().parent().attr("id", "current-segment");
+            button.addClass("loading");
+            $("#modal-change-type-question4 input[name='question']").val(button.data("content"));
+            $("#modal-change-type-question4")
+                .modal({
+                    'closable' : false,
+                    'transition': 'horizontal flip'
+                })
+                .modal("show");
+        });
         $("#modal-change-type-question button.positive.button").click(function () {
             var dimmer = $("#current-segment .dimmer");
             dimmer.addClass("active");
@@ -317,12 +420,159 @@
                 }
             });
         });
+   $("#modal-change-type-question2 button.positive.button").click(function () {
+            var dimmer = $("#current-segment .dimmer");
+            dimmer.addClass("active");
+
+            var question = $(this).parent().parent().find("input[name='question']").val();
+            var success = false;
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "/control-panel/distributor/change-type-question2/ajax",
+                data: {question: question},
+                datatype: 'json',
+                success: function(result) {
+                    if (result["question"] === "NotFound")
+                        snackbar("لايوجد مثل هذا السؤال" , 3000 , "warning");
+
+                    else if (result["success"] === false)
+                        snackbar("لم يتم تغيير نوع السؤال، حاول مرة اخرى" , 3000 , "error");
+
+                    else if (result["success"] === true)
+                    {
+                        snackbar("تم تغيير نوع السؤال بنجاح" , 3000 , "success");
+                        success = true;
+                    }
+                },
+                error: function() {
+                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                } ,
+                complete : function() {
+                    var segment = $("#current-segment");
+                    segment.removeAttr("id");
+                    segment.find("button[data-action='change-type-question2']").removeClass("loading");
+                    if(success)
+                    {
+                        setTimeout(function () {
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
+                }
+            });
+        });
+$("#modal-change-type-question3 button.positive.button").click(function () {
+            var dimmer = $("#current-segment .dimmer");
+            dimmer.addClass("active");
+
+            var question = $(this).parent().parent().find("input[name='question']").val();
+            var success = false;
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "/control-panel/distributor/change-type-question3/ajax",
+                data: {question: question},
+                datatype: 'json',
+                success: function(result) {
+                    if (result["question"] === "NotFound")
+                        snackbar("لايوجد مثل هذا السؤال" , 3000 , "warning");
+
+                    else if (result["success"] === false)
+                        snackbar("لم يتم تغيير نوع السؤال، حاول مرة اخرى" , 3000 , "error");
+
+                    else if (result["success"] === true)
+                    {
+                        snackbar("تم تغيير نوع السؤال بنجاح" , 3000 , "success");
+                        success = true;
+                    }
+                },
+                error: function() {
+                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                } ,
+                complete : function() {
+                    var segment = $("#current-segment");
+                    segment.removeAttr("id");
+                    segment.find("button[data-action='change-type-question3']").removeClass("loading");
+                    if(success)
+                    {
+                        setTimeout(function () {
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
+                }
+            });
+        });
+$("#modal-change-type-question4 button.positive.button").click(function () {
+            var dimmer = $("#current-segment .dimmer");
+            dimmer.addClass("active");
+
+            var question = $(this).parent().parent().find("input[name='question']").val();
+            var success = false;
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "/control-panel/distributor/change-type-question4/ajax",
+                data: {question: question},
+                datatype: 'json',
+                success: function(result) {
+                    if (result["question"] === "NotFound")
+                        snackbar("لايوجد مثل هذا السؤال" , 3000 , "warning");
+
+                    else if (result["success"] === false)
+                        snackbar("لم يتم تغيير نوع السؤال، حاول مرة اخرى" , 3000 , "error");
+
+                    else if (result["success"] === true)
+                    {
+                        snackbar("تم تغيير نوع السؤال بنجاح" , 3000 , "success");
+                        success = true;
+                    }
+                },
+                error: function() {
+                    snackbar("تحقق من الاتصال بالانترنت" , 3000 , "error");
+                } ,
+                complete : function() {
+                    var segment = $("#current-segment");
+                    segment.removeAttr("id");
+                    segment.find("button[data-action='change-type-question4']").removeClass("loading");
+                    if(success)
+                    {
+                        setTimeout(function () {
+                            segment.addClass("scale");
+                            segment.transition({
+                                animation  : 'scale',
+                                duration   : '1s'
+                            });
+                        }, 250);
+                    }
+                }
+            });
+        });
 
         $("button.negative.button").click(function () {
             var segment = $("#current-segment");
             segment.removeAttr("id");
             segment.find("button[data-action='delete-question']").removeClass("loading");
             segment.find("button[data-action='change-type-question']").removeClass("loading");
+           segment.find("button[data-action='change-type-question2']").removeClass("loading");
+           segment.find("button[data-action='change-type-question3']").removeClass("loading");
+           segment.find("button[data-action='change-type-question4']").removeClass("loading");
         });
     </script>
 @endsection
