@@ -7,12 +7,14 @@ use App\Enums\EventLogType;
 use App\Enums\QuestionType;
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\EventLog;
 use App\Models\Question;
 use App\Models\QuestionTag;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
@@ -81,7 +83,7 @@ class RespondentController extends Controller
             "image" => 'file|image|min:50|max:500',
         ];
         $rulesMessage = [
-            "ar"=>[
+            "ar" => [
                 "answer.required" => "حقل الإجابة مطلوب.",
                 "category.required" => "حقل الصنف مطلوب.",
                 "tags.required" => "حقل الموضوع(المواضيع) مطلوب.",
@@ -90,7 +92,7 @@ class RespondentController extends Controller
                 "image.min" => "يجب أن تكون الصورة لا تقل عن 50 كيلو بايت.",
                 "image.max" => "يجب أن لا تكون الصورة أكبر من 500 كيلو بايت."
             ],
-            "fr"=>[
+            "fr" => [
                 "answer.required" => "Le champ de réponse est obligatoire.",
                 "category.required" => "Le champ catégorie est obligatoire.",
                 "tags.required" => "Le champ balises est obligatoire.",
@@ -118,15 +120,14 @@ class RespondentController extends Controller
             $question->status = QuestionStatus::TEMP_ANSWER;
             $question->videoLink = Input::get("videoLink");
             $question->externalLink = Input::get("externalLink");
-            $question->image = is_null(request()->file("image"))?
-                null:
+            $question->image = is_null(request()->file("image")) ?
+                null :
                 Storage::disk('public')->put('', request()->file("image"));
             $question->save();
 
             //Store tags
             $tags = explode(',', Input::get("tags"));
-            foreach ($tags as $tag)
-            {
+            foreach ($tags as $tag) {
                 $questionTag = new QuestionTag();
                 $questionTag->questionId = $question->id;
                 $questionTag->tagId = $tag;
@@ -231,11 +232,15 @@ class RespondentController extends Controller
         $exception = DB::transaction(function () use ($question) {
             //Update question
             $question->adminId = null;
-            switch ($question->type)
-            {
-                case QuestionType::FEQHI: $question->type = QuestionType::AKAEDI; break;
-                case QuestionType::AKAEDI: $question->type = QuestionType::FEQHI; break;
-                default: $question->type = QuestionType::FEQHI;
+            switch ($question->type) {
+                case QuestionType::FEQHI:
+                    $question->type = QuestionType::AKAEDI;
+                    break;
+                case QuestionType::AKAEDI:
+                    $question->type = QuestionType::FEQHI;
+                    break;
+                default:
+                    $question->type = QuestionType::FEQHI;
             }
             $question->save();
 
@@ -256,6 +261,36 @@ class RespondentController extends Controller
      * Display answers for the specific respondent.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+    public function DeleteComment($lang, $id, $comment_id)
+    {
+
+        $comment = Comment::find($comment_id);
+
+        $comment->delete();
+
+
+       return  redirect("/control-panel/respondent/single-comment/$lang/$id");
+
+    }
+
+    public function SingleComment($lang, $id)
+    {
+        $SQL = "SELECT question.id ,question.`type` AS `type` , question.categoryId AS categoryId, content , user.name AS userDisplayName , category.category AS category , `time` , answer , image , status , videoLink , externalLink 
+                FROM question LEFT JOIN category ON categoryId = category.id LEFT JOIN user ON userId = user.id
+                WHERE question.id = ?";
+
+
+        $questions = DB::select($SQL, [$id]);
+        $question = array_values($questions)[0];
+
+
+        $SQL = "SELECT * , comment.id as  comment_id   , user.name as username  FROM comment LEFT JOIN user ON user_id = user.id WHERE comment.question_id = ?  and status = 1  ORDER by comment.id";
+
+        $comments = DB::select($SQL, [$id]);
+
+        return view("control-panel.$lang.respondent.single_question", ["question" => $question, "comments" => $comments]);
+    }
+
     public function myAnswers()
     {
         Auth::check();
@@ -269,51 +304,52 @@ class RespondentController extends Controller
             if (is_null(Input::get("t")) || Input::get("t") == 1)
                 $questions = Question::where("adminId", AdminController::getId())
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
-                    ->where("content", "like", "%".Input::get("q")."%")
+                    ->where("content", "like", "%" . Input::get("q") . "%")
                     ->orderBy("id", "DESC")
                     ->paginate(25);
             else
                 $questions = Question::where("adminId", AdminController::getId())
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
-                    ->where("answer", "like", "%".Input::get("q")."%")
+                    ->where("answer", "like", "%" . Input::get("q") . "%")
                     ->orderBy("id", "DESC")
                     ->paginate(25);
-
 
 
         return view("control-panel.$lang.respondent.my-answers")->with([
             "questions" => $questions
         ]);
     }
+
     public function myComments()
     {
 
-            Auth::check();
-            $lang = AdminController::getLang();
-            if (is_null(Input::get("t")) && is_null(Input::get("q")))
+        Auth::check();
+        $lang = AdminController::getLang();
+        if (is_null(Input::get("t")) && is_null(Input::get("q")))
 
-                $questions = Question::RightJoin('comment', 'question.id', '=', 'comment.question_id')
-                    ->where("adminId", AdminController::getId())
-                    ->where("question.status", "!=", QuestionStatus::NO_ANSWER)
-                    ->select('*','question.id', 'question.type as type', 'question.categoryId as categoryId', 'comment.content as comment_content', 'question.content as question_content')
-                    ->orderBy("comment.id", "DESC")
-                    ->paginate(25);
+            $questions = Question::RightJoin('comment', 'question.id', '=', 'comment.question_id')
+                ->where("adminId", AdminController::getId())
+                ->where("question.status", "!=", QuestionStatus::NO_ANSWER)
+                ->select('*', 'question.id', 'comment.type as comment_type', 'comment.id as comment_id', 'question.type as type', 'question.categoryId as categoryId', 'comment.content as comment_content', 'question.content as question_content')
+                ->orderBy("comment.id", "DESC")
+                ->paginate(25);
 
 
         else
             if (is_null(Input::get("t")) || Input::get("t") == 1)
                 $questions = Question::where("adminId", AdminController::getId())
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
-                    ->where("content", "like", "%".Input::get("q")."%")
+                    ->where("content", "like", "%" . Input::get("q") . "%")
+                    ->select('*', 'question.id', 'comment.type as comment_type', 'comment.id as comment_id', 'question.type as type', 'question.categoryId as categoryId', 'comment.content as comment_content', 'question.content as question_content')
                     ->orderBy("id", "DESC")
                     ->paginate(25);
             else
                 $questions = Question::where("adminId", AdminController::getId())
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
-                    ->where("answer", "like", "%".Input::get("q")."%")
+                    ->where("answer", "like", "%" . Input::get("q") . "%")
+                    ->select('*', 'question.id', 'comment.type as comment_type', 'comment.id as comment_id', 'question.type as type', 'question.categoryId as categoryId', 'comment.content as comment_content', 'question.content as question_content')
                     ->orderBy("id", "DESC")
                     ->paginate(25);
-
 
 
         return view("control-panel.$lang.respondent.my-comments")->with([
@@ -367,7 +403,7 @@ class RespondentController extends Controller
             "image" => 'file|image|min:50|max:500',
         ];
         $rulesMessage = [
-            "ar"=>[
+            "ar" => [
                 "answer.required" => "حقل الإجابة مطلوب.",
                 "category.required" => "حقل الصنف مطلوب.",
                 "tags.required" => "حقل الموضوع(المواضيع) مطلوب.",
@@ -376,7 +412,7 @@ class RespondentController extends Controller
                 "image.min" => "يجب أن تكون الصورة لا تقل عن 50 كيلو بايت.",
                 "image.max" => "يجب أن لا تكون الصورة أكبر من 500 كيلو بايت."
             ],
-            "fr"=>[
+            "fr" => [
                 "answer.required" => "Le champ de réponse est obligatoire.",
                 "category.required" => "Le champ catégorie est obligatoire.",
                 "tags.required" => "Le champ balises est obligatoire.",
@@ -399,8 +435,7 @@ class RespondentController extends Controller
         //Transaction
         $exception = DB::transaction(function () use ($question) {
             //Remove Old Image
-            if (!is_null(Input::get("delete")))
-            {
+            if (!is_null(Input::get("delete"))) {
                 Storage::disk('public')->delete($question->image);
                 $question->image = null;
             }
@@ -416,8 +451,7 @@ class RespondentController extends Controller
             $question->externalLink = Input::get("externalLink");
 
             //Store new image
-            if (!is_null(request()->file("image")))
-            {
+            if (!is_null(request()->file("image"))) {
                 Storage::disk('public')->delete($question->image);
                 $question->image = Storage::disk('public')->put('', request()->file("image"));
             }
@@ -427,8 +461,7 @@ class RespondentController extends Controller
 
             //Store new tags
             $tags = explode(',', Input::get("tags"));
-            foreach ($tags as $tag_id)
-            {
+            foreach ($tags as $tag_id) {
                 $questionTag = new QuestionTag();
                 $questionTag->questionId = $question->id;
                 $questionTag->tagId = $tag_id;
@@ -479,20 +512,20 @@ class RespondentController extends Controller
                 $questions = Question::where("lang", $lang)
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("type", $type)
-                    ->where("content", "like", "%".Input::get("q")."%")
+                    ->where("content", "like", "%" . Input::get("q") . "%")
                     ->orderBy("id", "DESC")
                     ->paginate(25);
             else
                 $questions = Question::where("lang", $lang)
                     ->where("status", "!=", QuestionStatus::NO_ANSWER)
                     ->where("type", $type)
-                    ->where("answer", "like", "%".Input::get("q")."%")
+                    ->where("answer", "like", "%" . Input::get("q") . "%")
                     ->orderBy("id", "DESC")
                     ->paginate(25);
 
         return view("control-panel.$lang.respondent.answers")->with([
             "currentAdminId" => $currentAdminId,
-            "permission" =>$permission,
+            "permission" => $permission,
             "questions" => $questions
         ]);
     }
