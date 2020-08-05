@@ -30,7 +30,7 @@ class DistributorController extends Controller
             ->where('lang', $lang)
             ->paginate(25);
         $respondents = Admin::where('type', $type)
-            ->whereNot("id", 16)
+            ->where("id", "!=", 16)
             ->where('lang', $lang)
             ->get()
             ->filter(function ($admin){
