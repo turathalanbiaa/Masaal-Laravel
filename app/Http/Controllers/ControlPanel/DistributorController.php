@@ -32,6 +32,7 @@ class DistributorController extends Controller
         $respondents = Admin::where('type', $type)
             ->where("id", "!=", 16)
             ->where('lang', $lang)
+            ->dd()
             ->get()
             ->filter(function ($admin){
             return ($admin->permission->respondent == 1);
