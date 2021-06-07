@@ -167,7 +167,12 @@ class QuestionController extends Controller
         if (session("USER_ID") != null) {
             $userId = session("USER_ID");
         } else {
-            $userId = 0;
+            if (app()->getLocale() == "en") 
+                $userId = 2;
+            elseif (app()->getLocale() == "fr")
+                $userId = 3;
+            else
+                $userId = 1;
         }
 
         $status = QuestionStatus::NO_ANSWER;
